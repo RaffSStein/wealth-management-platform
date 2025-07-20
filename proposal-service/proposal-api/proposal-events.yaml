@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Proposal Events
+  version: 1.0.0
+  description: OpenAPI definition for Proposal event payloads (async communication)
+
+paths: {}
+
+components:
+  schemas:
+    ProposalCreatedEvent:
+      type: object
+      properties:
+        proposalId:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        advisorId:
+          type: integer
+          format: int64
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        riskProfile:
+          type: string
+        investmentAmount:
+          type: number
+          format: double
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - proposalId
+        - customerId
+        - advisorId
+        - productIds
+        - riskProfile
+        - investmentAmount
+        - status
+        - createdAt
+    ProposalUpdatedEvent:
+      type: object
+      properties:
+        proposalId:
+          type: integer
+          format: int64
+        status:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - proposalId
+        - status
+        - updatedAt

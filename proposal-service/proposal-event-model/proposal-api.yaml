@@ -1,0 +1,177 @@
+openapi: 3.0.3
+info:
+  title: Proposal API
+  version: 1.0.0
+  description: OpenAPI definition for Proposal API request/response DTOs
+
+paths:
+
+  /api/proposals:
+    get:
+      tags:
+        - Proposal
+      summary: Get all proposals
+      operationId: getAllProposals
+      responses:
+        '200':
+          description: List of proposals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProposalListResponse'
+
+    post:
+      tags:
+        - Proposal
+      summary: Create a new proposal
+      operationId: createProposal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProposalRequest'
+      responses:
+        '200':
+          description: Proposal created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProposalResponse'
+
+  /api/proposals/{id}:
+    get:
+      tags:
+        - Proposal
+      summary: Get proposal by ID
+      operationId: getProposalById
+      parameters:
+        - $ref: '#/components/parameters/ProposalIdParam'
+      responses:
+        '200':
+          description: Proposal found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProposalResponse'
+        '404':
+          description: Proposal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Proposal
+      summary: Delete proposal by ID
+      operationId: deleteProposal
+      parameters:
+        - $ref: '#/components/parameters/ProposalIdParam'
+      responses:
+        '204':
+          description: Proposal deleted
+        '404':
+          description: Proposal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  parameters:
+    ProposalIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    ProposalRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        advisorId:
+          type: integer
+          format: int64
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        riskProfile:
+          type: string
+        investmentAmount:
+          type: number
+          format: double
+        notes:
+          type: string
+      required:
+        - customerId
+        - advisorId
+        - productIds
+        - riskProfile
+        - investmentAmount
+    ProposalResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        advisorId:
+          type: integer
+          format: int64
+        productIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        riskProfile:
+          type: string
+        investmentAmount:
+          type: number
+          format: double
+        notes:
+          type: string
+      required:
+        - id
+        - customerId
+        - advisorId
+        - productIds
+        - status
+        - createdAt
+        - riskProfile
+        - investmentAmount
+    ProposalListResponse:
+      type: object
+      properties:
+        proposals:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProposalResponse'
+      required:
+        - proposals
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
