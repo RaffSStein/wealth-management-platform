@@ -7,7 +7,7 @@
         <artifactId>proposal-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>proposal-api</artifactId>
+    <artifactId>proposal-api-data</artifactId>
     <dependencies>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -29,16 +29,16 @@
                 <version>${openapi.generator.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-async-dto</id>
+                        <id>generate-sync-dto</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/proposal-events.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/proposal-api-data.yaml</inputSpec>
                             <generatorName>spring</generatorName>
-                            <generateApis>false</generateApis>
+                            <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
-                            <modelPackage>raff.stein.proposalservice.dataasync.model</modelPackage>
+                            <modelPackage>raff.stein.proposalservice.datasync.model</modelPackage>
                             <!-- https://openapi-generator.tech/docs/generators/spring-->
                             <configOptions>
                                 <useJakartaEe>true</useJakartaEe>

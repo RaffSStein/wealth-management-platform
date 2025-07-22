@@ -43,8 +43,8 @@
     </dependencies>
 
     <modules>
-        <module>proposal-event-model</module>
-        <module>proposal-api</module>
+        <module>proposal-api-data</module>
+        <module>proposal-event-data</module>
         <module>proposal-core</module>
     </modules>
 </project>

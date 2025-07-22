@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>raff.stein</groupId>
-            <artifactId>proposal-api</artifactId>
+            <artifactId>proposal-event-data</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
