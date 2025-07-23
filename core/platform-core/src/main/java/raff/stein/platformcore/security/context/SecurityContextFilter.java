@@ -2,6 +2,7 @@ package raff.stein.platformcore.security.context;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 import raff.stein.platformcore.security.jwt.JwtProperties;
 import raff.stein.platformcore.security.jwt.JwtTokenParser;
@@ -35,13 +36,22 @@ public class SecurityContextFilter implements Filter {
             if (isTokenPresent(authHeader)) {
                 String token = extractToken(authHeader);
                 Optional<WMPContext> wmpContextOptional = tokenParser.parseTokenAndBuildContext(token, correlationId);
-                wmpContextOptional.ifPresent(SecurityContextHolder::setContext);
+                wmpContextOptional.ifPresent(context -> {
+                    // Set the context in SecurityContextHolder
+                    SecurityContextHolder.setContext(context);
+                    // Set MDC for logging
+                    MDC.put("userId", context.getUserId());
+                    MDC.put("email", context.getEmail());
+                    MDC.put("company", context.getCompany());
+                    MDC.put("correlationId", context.getCorrelationId());
+                });
             }
 
             chain.doFilter(request, response);
 
         } finally {
             SecurityContextHolder.clear();
+            MDC.clear();
         }
     }
 
