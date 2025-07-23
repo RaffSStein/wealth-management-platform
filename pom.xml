@@ -53,6 +53,12 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <version>${openapi.generator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-simple</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -64,6 +70,11 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>3.3.7</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -90,13 +101,14 @@
     </build>
 
     <modules>
-        <module>proposal-service</module>
-        <module>portfolio-service</module>
-        <module>customer-service</module>
-        <module>product-service</module>
-        <module>order-service</module>
-        <module>advisor-service</module>
-        <module>reporting-service</module>
-        <module>notification-service</module>
+        <module>business-modules/proposal-service</module>
+        <module>business-modules/portfolio-service</module>
+        <module>business-modules/customer-service</module>
+        <module>business-modules/product-service</module>
+        <module>business-modules/order-service</module>
+        <module>business-modules/advisor-service</module>
+        <module>business-modules/reporting-service</module>
+        <module>business-modules/notification-service</module>
+        <module>core/platform-core</module>
     </modules>
 </project>
