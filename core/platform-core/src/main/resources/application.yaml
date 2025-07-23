@@ -1,0 +1,5 @@
+security:
+  jwt:
+    public-key-location: classpath:jwt/public_key.pem
+    header: Authorization
+    prefix: Bearer
