@@ -3,6 +3,7 @@ package raff.stein.platformcore.security.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 import raff.stein.platformcore.security.context.SecurityContextHolder;
 import raff.stein.platformcore.security.context.WMPContext;
@@ -29,7 +30,15 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
 
             try {
                 Optional<WMPContext> wmpContextOptional = jwtTokenParser.parseTokenAndBuildContext(token, correlationId);
-                wmpContextOptional.ifPresent(SecurityContextHolder::setContext);
+                wmpContextOptional.ifPresent( context -> {
+                    // Set the context in SecurityContextHolder
+                    SecurityContextHolder.setContext(context);
+                    // Set MDC for logging
+                    MDC.put("userId", context.getUserId());
+                    MDC.put("email", context.getEmail());
+                    MDC.put("company", context.getCompany());
+                    MDC.put("correlationId", context.getCorrelationId());
+                });
 
             } catch (Exception e) {
                 throw new RuntimeException("Invalid JWT token", e);
@@ -41,5 +50,6 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         SecurityContextHolder.clear();
+        MDC.clear();
     }
 }

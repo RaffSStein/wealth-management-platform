@@ -109,6 +109,9 @@
         <module>business-modules/advisor-service</module>
         <module>business-modules/reporting-service</module>
         <module>business-modules/notification-service</module>
+        <module>business-modules/identity-service</module>
         <module>core/platform-core</module>
+        <module>business-modules/identity-service/identity-api-data</module>
+        <module>business-modules/identity-service/identity-core</module>
     </modules>
 </project>
