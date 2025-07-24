@@ -16,6 +16,7 @@ import java.util.Base64;
 public class JwtPublicKeyProvider {
 
     public static PublicKey loadPublicKey(Resource pemResource) {
+        //TODO: populate .bem files
         try (InputStream is = pemResource.getInputStream()) {
             String key = StreamUtils.copyToString(is, StandardCharsets.UTF_8)
                     .replace("-----BEGIN PUBLIC KEY-----", "")

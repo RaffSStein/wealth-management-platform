@@ -3,7 +3,7 @@ package raff.stein.proposalservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import raff.stein.proposalservice.entity.ProposalEntity;
+import raff.stein.proposalservice.model.entity.ProposalEntity;
 import raff.stein.proposalservice.repository.ProposalRepository;
 
 import java.util.List;

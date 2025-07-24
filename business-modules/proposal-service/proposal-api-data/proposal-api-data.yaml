@@ -6,7 +6,7 @@ info:
 
 paths:
 
-  /api/proposals:
+  /proposals:
     get:
       tags:
         - Proposal
@@ -39,7 +39,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProposalResponse'
 
-  /api/proposals/{id}:
+  /proposals/{id}:
     get:
       tags:
         - Proposal

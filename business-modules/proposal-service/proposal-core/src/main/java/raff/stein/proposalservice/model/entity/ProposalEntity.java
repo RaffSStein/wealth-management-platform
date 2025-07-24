@@ -1,4 +1,4 @@
-package raff.stein.proposalservice.entity;
+package raff.stein.proposalservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "proposals")
 @Data
 public class ProposalEntity {
 
@@ -25,6 +26,5 @@ public class ProposalEntity {
     private Double investmentAmount;
     private String notes;
 
-    // Getters and setters
 }
 
