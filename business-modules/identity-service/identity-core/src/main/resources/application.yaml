@@ -1,8 +1,8 @@
 server:
-  port: 8081
+  port: 8082
 spring:
   application:
-    name: proposal-service
+    name: identity-service
   jpa:
     generate-ddl: true
     defer-datasource-initialization: true
@@ -11,10 +11,12 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        # any additional Hibernate properties can be added here
+      # any additional Hibernate properties can be added here
   datasource:
-    url: jdbc:postgresql://localhost:5433/proposaldb
+    url: jdbc:postgresql://localhost:5441/identitydb
     username: test
     password: test
     driver-class-name: org.postgresql.Driver
-
+  config:
+    import:
+      - classpath:platform-shared-properties.yaml
