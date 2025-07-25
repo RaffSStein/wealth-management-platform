@@ -9,11 +9,15 @@ import raff.stein.platformcore.security.context.SecurityContextHolder;
 import raff.stein.platformcore.security.context.WMPContext;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Interceptor to extract JWT from headers, parse it, and populate the UserContext.
  */
 public class JwtAuthenticationInterceptor implements HandlerInterceptor {
+
+    //TODO: move correlation interceptor to another class
+    private static final String CORRELATION_ID_HEADER = "X-Correlation-Id";
 
     private final JwtTokenParser jwtTokenParser;
 
@@ -24,7 +28,12 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("Authorization");
-        String correlationId = request.getHeader("X-Correlation-ID");
+        String correlationId = request.getHeader(CORRELATION_ID_HEADER);
+
+        if (correlationId == null || correlationId.isBlank()) {
+            correlationId = UUID.randomUUID().toString();
+        }
+
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
 

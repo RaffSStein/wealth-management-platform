@@ -27,7 +27,6 @@ public class SecurityContextFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
         try {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             String authHeader = httpRequest.getHeader(jwtProperties.getHeader());
