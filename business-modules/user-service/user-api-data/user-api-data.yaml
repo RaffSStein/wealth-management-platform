@@ -1,54 +1,15 @@
 openapi: 3.1.0
 info:
-  title: Profiler Apis
+  title: User Apis
   version: 1.0.0
-  description: API for managing user identities, roles, authentication and profile information.
+  description: API for managing user information.
 
-servers:
-  - url: https://identity.mycompany.com/api
 
 paths:
-  /auth/login:
-    post:
-      summary: Exchange IDP JWT for a local session
-      operationId: login
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Authenticated user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticatedUser'
-        '401':
-          description: Invalid token
 
-  /auth/me:
-    get:
-      summary: Get the authenticated user
-      operationId: getAuthenticatedUser
-      tags:
-        - Authentication
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Authenticated user details
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticatedUser'
-        '401':
-          description: Unauthorized
+#  TODO: api with /me info
 
-  /users/{id}:
+  /user/{id}:
     get:
       summary: Get user by ID
       operationId: getUserById
@@ -71,7 +32,7 @@ paths:
         '404':
           description: User not found
 
-  /users:
+  /user:
     post:
       summary: Create a new user
       operationId: createUser
@@ -109,31 +70,6 @@ components:
         token:
           type: string
           description: JWT token issued by external Identity Provider
-
-    AuthenticatedUser:
-      type: object
-      properties:
-        userId:
-          type: string
-          format: uuid
-        username:
-          type: string
-        email:
-          type: string
-          format: email
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        firstName:
-          type: string
-        lastName:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        token:
-          type: string
-          description: Access token issued by this service
 
     Role:
       type: object

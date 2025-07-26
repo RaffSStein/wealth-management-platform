@@ -1,0 +1,22 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: user-service
+  jpa:
+    generate-ddl: true
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+      # any additional Hibernate properties can be added here
+  datasource:
+    url: jdbc:postgresql://localhost:5442/userdb
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  config:
+    import:
+      - classpath:platform-shared-properties.yaml

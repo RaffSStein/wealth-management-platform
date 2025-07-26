@@ -1,0 +1,37 @@
+package raff.stein.profiler.model.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+
+/**
+ * Entity representing a feature of the platform, such as a specific functionality or action
+ * (e.g., EXPORT, EDIT_PROFILE). Each feature is associated with a section of the platform.
+ * This entity is used for fine-grained permission management, allowing the platform to control
+ * access to individual features within sections.
+ */
+@Entity
+@Table(name = "features")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FeatureEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @Column(nullable = false)
+    private String featureCode; // e.g.: "EXPORT", "EDIT_PROFILE"
+
+    @Column(nullable = false)
+    private String featureName;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "section_id")
+    private SectionEntity section;
+}

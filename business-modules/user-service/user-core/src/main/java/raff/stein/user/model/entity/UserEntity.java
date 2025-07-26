@@ -1,15 +1,13 @@
-package raff.stein.profiler.model.entity;
+package raff.stein.user.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
- * Entity representing a user of the platform. Each user has a unique email, first and last name,
- * and can have multiple permissions for multiple sections.
+ * Entity representing a user of the platform. Each user has a unique email, first and last name.
  */
 @Entity
 @Table(name = "users")
@@ -30,6 +28,4 @@ public class UserEntity {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserSectionPermissionEntity> userSectionPermissions;
 }
