@@ -1,4 +1,4 @@
-package raff.stein.identity;
+package raff.stein.profiler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
         "raff.stein.identity",
         "raff.stein.platformcore" // Include platform core for shared components like security
 })
-public class IdentityServiceApplication {
+public class ProfilerServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IdentityServiceApplication.class, args);
+        SpringApplication.run(ProfilerServiceApplication.class, args);
     }
 }

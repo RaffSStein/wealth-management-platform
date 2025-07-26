@@ -1,4 +1,4 @@
-package raff.stein.identity.config.web;
+package raff.stein.profiler.config.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -6,11 +6,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import raff.stein.platformcore.security.jwt.JwtAuthenticationInterceptor;
 
 @Configuration
-public class IdentityCoreWebConfig implements WebMvcConfigurer {
+public class ProfilerCoreWebConfig implements WebMvcConfigurer {
 
     private final JwtAuthenticationInterceptor jwtAuthenticationInterceptor;
 
-    public IdentityCoreWebConfig(JwtAuthenticationInterceptor interceptor) {
+    public ProfilerCoreWebConfig(JwtAuthenticationInterceptor interceptor) {
         this.jwtAuthenticationInterceptor = interceptor;
     }
 

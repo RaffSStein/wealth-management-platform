@@ -1,4 +1,4 @@
-package raff.stein.identity.controller;
+package raff.stein.profiler.controller;
 
 import org.openapitools.api.UsersApi;
 import org.openapitools.model.CreateUserRequest;

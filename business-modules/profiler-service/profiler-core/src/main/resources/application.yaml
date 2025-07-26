@@ -2,7 +2,7 @@ server:
   port: 8082
 spring:
   application:
-    name: identity-service
+    name: profiler-service
   jpa:
     generate-ddl: true
     defer-datasource-initialization: true
@@ -13,7 +13,7 @@ spring:
       hibernate:
       # any additional Hibernate properties can be added here
   datasource:
-    url: jdbc:postgresql://localhost:5441/identitydb
+    url: jdbc:postgresql://localhost:5441/profilerdb
     username: test
     password: test
     driver-class-name: org.postgresql.Driver

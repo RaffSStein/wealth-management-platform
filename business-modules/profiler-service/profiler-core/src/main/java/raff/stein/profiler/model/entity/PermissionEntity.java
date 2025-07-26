@@ -1,4 +1,4 @@
-package raff.stein.identity.model.entity;
+package raff.stein.profiler.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -7,12 +7,16 @@ import lombok.Data;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Entity representing a permission that can be assigned to users. Each permission has a unique code and a name, and can be associated with multiple users.
+ */
 @Entity
-@Table(name = "roles")
+@Table(name = "permissions")
 @Data
 @Builder
-public class RoleEntity {
+public class PermissionEntity {
 
+    // p
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -21,9 +25,8 @@ public class RoleEntity {
     private String code;
 
     @Column(nullable = false)
-    private String name;
+    private String permissionName;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "userPermissions")
     private Set<UserEntity> users;
 }
-

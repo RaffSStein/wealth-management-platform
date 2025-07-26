@@ -10,12 +10,12 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>identity-service</artifactId>
+    <artifactId>profiler-service</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>identity-api-data</module>
-        <module>identity-core</module>
+        <module>profiler-api-data</module>
+        <module>profiler-core</module>
     </modules>
 
 </project>

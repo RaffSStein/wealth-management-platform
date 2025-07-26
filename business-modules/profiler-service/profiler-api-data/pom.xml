@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
-    <artifactId>identity-api-data</artifactId>
+    <artifactId>profiler-api-data</artifactId>
 
 
     <dependencies>
@@ -39,12 +39,12 @@
                 <version>${openapi.generator.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-identity-api-data-dto</id>
+                        <id>generate-profiler-api-data-dto</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/identity-api-data.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/profiler-api-data.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <generateApis>true</generateApis>
                             <generateApiTests>false</generateApiTests>

@@ -102,11 +102,11 @@ services:
     ports:
       - 5440:5432
 
-  postgres-identity:
+  postgres-profiler:
     image: postgres:15
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
-      POSTGRES_DB: identitydb
+      POSTGRES_DB: profilerdb
     ports:
       - 5441:5432
