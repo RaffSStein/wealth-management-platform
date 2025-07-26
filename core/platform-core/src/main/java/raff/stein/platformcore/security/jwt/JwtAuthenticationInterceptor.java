@@ -53,6 +53,9 @@ public class JwtAuthenticationInterceptor implements HandlerInterceptor {
                 throw new RuntimeException("Invalid JWT token", e);
             }
         }
+        else {
+            throw new RuntimeException("No JWT token provided in request");
+        }
         return true;
     }
 
