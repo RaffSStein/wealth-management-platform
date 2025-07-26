@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -19,12 +20,16 @@ import java.util.UUID;
 public class SectionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
+    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
     private UUID id;
 
     @Column(nullable = false, unique = true)
-    private Long sectionCode;
+    private String sectionCode;
     @Column(nullable = false, unique = true)
     private String sectionName;
+
+    @OneToMany(mappedBy = "section")
+    private Set<FeatureEntity> features;
 
 }

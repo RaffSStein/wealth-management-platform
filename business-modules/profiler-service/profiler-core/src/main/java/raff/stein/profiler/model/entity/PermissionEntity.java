@@ -18,7 +18,8 @@ import java.util.UUID;
 public class PermissionEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
+    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
     private UUID id;
 
     @Column(nullable = false, unique = true)

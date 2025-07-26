@@ -22,7 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FeatureEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
+    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
     private UUID id;
 
     @Column(nullable = false)
