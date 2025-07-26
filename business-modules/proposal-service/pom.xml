@@ -6,7 +6,9 @@
         <groupId>raff.stein</groupId>
         <artifactId>wealth-management-platform</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
+
     <artifactId>proposal-service</artifactId>
     <packaging>pom</packaging>
 
