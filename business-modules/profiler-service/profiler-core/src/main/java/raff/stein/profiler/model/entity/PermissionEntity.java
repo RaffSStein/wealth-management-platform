@@ -8,7 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Entity representing a permission that can be assigned to users. Each permission has a unique code and a name, and can be associated with multiple users.
+ * Entity representing a permission that can be assigned to users.
+ * Each permission has a unique code and a name, and can be associated with multiple user section permissions.
  */
 @Entity
 @Table(name = "permissions")
@@ -16,7 +17,6 @@ import java.util.UUID;
 @Builder
 public class PermissionEntity {
 
-    // p
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -27,6 +27,6 @@ public class PermissionEntity {
     @Column(nullable = false)
     private String permissionName;
 
-    @ManyToMany(mappedBy = "userPermissions")
-    private Set<UserEntity> users;
+    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserSectionPermissionEntity> userSectionPermissions;
 }

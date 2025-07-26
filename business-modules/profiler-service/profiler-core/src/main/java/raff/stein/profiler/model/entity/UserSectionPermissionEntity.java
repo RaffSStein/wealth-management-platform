@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -33,11 +32,7 @@ public class UserSectionPermissionEntity {
     @JoinColumn(name = "section_id")
     private SectionEntity section;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_section_permission_permissions",
-            joinColumns = @JoinColumn(name = "user_section_permission_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
-    private Set<PermissionEntity> permissions;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "permission_id")
+    private PermissionEntity permission;
 }

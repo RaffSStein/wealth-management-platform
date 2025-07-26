@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 /**
- * Entity representing a user of the platform. Each user has a unique email, first and last name, and can have multiple roles (permissions).
+ * Entity representing a user of the platform. Each user has a unique email, first and last name,
+ * and can have multiple permissions for multiple sections.
  */
 @Entity
 @Table(name = "users")
@@ -30,9 +30,6 @@ public class UserEntity {
     @Column(nullable = false)
     private String lastName;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_permissions",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id"))
-    private Set<PermissionEntity> userPermissions = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserSectionPermissionEntity> userSectionPermissions;
 }
