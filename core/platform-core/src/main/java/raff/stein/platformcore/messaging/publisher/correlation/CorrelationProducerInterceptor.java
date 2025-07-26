@@ -13,7 +13,7 @@ import static raff.stein.platformcore.correlation.utils.CorrelationUtils.CORRELA
 import static raff.stein.platformcore.correlation.utils.CorrelationUtils.getCorrelationId;
 
 @Component
-public class CorrelationInterceptor implements ProducerInterceptor<String, Object> {
+public class CorrelationProducerInterceptor implements ProducerInterceptor<String, Object> {
 
 
     @Override
