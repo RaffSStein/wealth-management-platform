@@ -1,10 +1,8 @@
 package raff.stein.profiler.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +37,9 @@ public class SectionEntity {
 
     @OneToMany(mappedBy = "section", fetch = FetchType.EAGER)
     @OrderBy("featureName ASC")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private List<FeatureEntity> features;
 
 }
