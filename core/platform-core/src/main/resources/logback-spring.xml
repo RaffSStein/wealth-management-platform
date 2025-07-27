@@ -1,42 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="false" debug="true">
 
-    <!-- Common properties -->
-    <property name="LOG_PATH" value="./logs" />
-    <property name="LOG_FILE_NAME" value="application" />
-    <!-- Pattern for log messages with correlationId -->
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{correlationId}] %msg%n"/>
+    <!--
+        LOGBACK CONFIGURATION FOR SPLUNK INTEGRATION
+        - Produces logs in JSON format for easy Splunk ingestion
+        - File name is parameterized by application name (APP_NAME env/property)
+        - Console and file appenders are both available
+        - All key fields are included for traceability
+    -->
 
-    <!-- Console appender with color -->
+    <!-- Application name property (resolved from Spring's spring.application.name) -->
+    <property name="APP_NAME" value="${spring.application.name:-application}"/>
+    <property name="LOG_PATH" value="./logs" />
+    <property name="LOG_FILE_NAME" value="${APP_NAME}" />
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"/>
+
+    <!-- JSON encoder for Splunk compatibility -->
+    <appender name="SPLUNK_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.json</file>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <!--
+                LogstashEncoder produces JSON logs compatible with Splunk
+                You can add custom fields as needed
+            -->
+            <customFields>{"app":"${APP_NAME}"}</customFields>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.json</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- Console appender (plain text, for local dev) -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{correlationId}] [%X{userId}] [%X{company}] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-
-    <!-- Rolling file appender -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
-        <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
-        </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-    </appender>
-
-    <!-- Root logger -->
+    <!-- Root logger: logs to both console and Splunk JSON file -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="SPLUNK_FILE" />
     </root>
 
-    <!-- Specific logging for your codebase -->
+    <!-- Example: Specific logging for your codebase (DEBUG level) -->
     <logger name="raff.stein" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="SPLUNK_FILE" />
     </logger>
 
 </configuration>

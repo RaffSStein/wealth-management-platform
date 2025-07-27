@@ -1,97 +1,43 @@
 openapi: 3.1.0
 info:
-  title: Profiler Apis
+  title: Profiler APIs
   version: 1.0.0
-  description: API for managing user identities, roles, authentication and profile information.
+  description: |
+    API for managing and retrieving the sitemap, sections, features, and permissions for applications and users.
+    
+    The following APIs (capabilities) are exposed by the profiler:
+    - API to retrieve the sitemap of an application
+    - API to retrieve the sitemap, including permissions, for a given user
+    - API to modify the sitemap/permissions for a given user
 
 servers:
-  - url: https://identity.mycompany.com/api
+  - url: https://WIP
 
 paths:
-  /auth/login:
-    post:
-      summary: Exchange IDP JWT for a local session
-      operationId: login
-      tags:
-        - Authentication
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Authenticated user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AuthenticatedUser'
-        '401':
-          description: Invalid token
-
-  /auth/me:
+  /sitemap/{application}:
     get:
-      summary: Get the authenticated user
-      operationId: getAuthenticatedUser
+      summary: Get the complete sitemap for a specific application
+      operationId: getSitemap
       tags:
-        - Authentication
+        - Sitemap
+      parameters:
+        - name: application
+          in: path
+          required: true
+          description: Application identifier (e.g. "b2c", "backoffice")
+          schema:
+            type: string
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: Authenticated user details
+          description: Sitemap for the requested application
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthenticatedUser'
+                $ref: '#/components/schemas/SitemapResponse'
         '401':
           description: Unauthorized
-
-  /users/{id}:
-    get:
-      summary: Get user by ID
-      operationId: getUserById
-      tags:
-        - Users
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: User data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: User not found
-
-  /users:
-    post:
-      summary: Create a new user
-      operationId: createUser
-      tags:
-        - Users
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserRequest'
-      responses:
-        '201':
-          description: User created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid input
 
 components:
   securitySchemes:
@@ -101,97 +47,50 @@ components:
       bearerFormat: JWT
 
   schemas:
-    LoginRequest:
-      type: object
-      required:
-        - token
-      properties:
-        token:
-          type: string
-          description: JWT token issued by external Identity Provider
-
-    AuthenticatedUser:
+    SitemapResponse:
       type: object
       properties:
-        userId:
+        application:
           type: string
-          format: uuid
-        username:
-          type: string
-        email:
-          type: string
-          format: email
-        roles:
+        sections:
           type: array
           items:
-            $ref: '#/components/schemas/Role'
-        firstName:
-          type: string
-        lastName:
-          type: string
-        company:
-          $ref: '#/components/schemas/Company'
-        token:
-          type: string
-          description: Access token issued by this service
+            $ref: '#/components/schemas/Section'
 
-    Role:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-
-    Company:
+    Section:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        name:
+        sectionCode:
           type: string
+        sectionName:
+          type: string
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/Feature'
 
-    User:
+
+    Feature:
       type: object
       properties:
         id:
           type: string
           format: uuid
-        username:
+        featureCode:
           type: string
-        email:
+        featureName:
           type: string
-          format: email
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        company:
-          $ref: '#/components/schemas/Company'
-        isActive:
-          type: boolean
-        createdAt:
-          type: string
-          format: date-time
 
-    CreateUserRequest:
+    Permission:
       type: object
-      required:
-        - username
-        - email
-        - companyId
-        - roles
       properties:
-        username:
-          type: string
-        email:
-          type: string
-          format: email
-        companyId:
+        id:
           type: string
           format: uuid
-        roles:
-          type: array
-          items:
-            type: string
+        permissionCode:
+          type: string
+        permissionName:
+          type: string
