@@ -1,10 +1,12 @@
 package raff.stein.profiler.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -17,6 +19,8 @@ import java.util.UUID;
 @Table(name = "sections")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SectionEntity {
 
     @Id
@@ -24,12 +28,17 @@ public class SectionEntity {
     @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
     private UUID id;
 
+    @Column(nullable = false)
+    private String application;
+
     @Column(nullable = false, unique = true)
     private String sectionCode;
+
     @Column(nullable = false, unique = true)
     private String sectionName;
 
-    @OneToMany(mappedBy = "section")
-    private Set<FeatureEntity> features;
+    @OneToMany(mappedBy = "section", fetch = FetchType.EAGER)
+    @OrderBy("featureName ASC")
+    private List<FeatureEntity> features;
 
 }

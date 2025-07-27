@@ -35,9 +35,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SitemapResponse'
+                $ref: '#/components/schemas/SitemapResponseDTO'
         '401':
           description: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 
 components:
   securitySchemes:
@@ -47,7 +56,7 @@ components:
       bearerFormat: JWT
 
   schemas:
-    SitemapResponse:
+    SitemapResponseDTO:
       type: object
       properties:
         application:
@@ -55,9 +64,9 @@ components:
         sections:
           type: array
           items:
-            $ref: '#/components/schemas/Section'
+            $ref: '#/components/schemas/SectionDTO'
 
-    Section:
+    SectionDTO:
       type: object
       properties:
         id:
@@ -70,10 +79,10 @@ components:
         features:
           type: array
           items:
-            $ref: '#/components/schemas/Feature'
+            $ref: '#/components/schemas/FeatureDTO'
 
 
-    Feature:
+    FeatureDTO:
       type: object
       properties:
         id:
@@ -84,7 +93,7 @@ components:
         featureName:
           type: string
 
-    Permission:
+    PermissionDTO:
       type: object
       properties:
         id:

@@ -1,8 +1,10 @@
 package raff.stein.profiler.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
@@ -15,6 +17,8 @@ import java.util.UUID;
 @Table(name = "permissions")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PermissionEntity {
 
     @Id
