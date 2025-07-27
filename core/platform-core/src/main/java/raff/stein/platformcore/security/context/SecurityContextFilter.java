@@ -2,6 +2,7 @@ package raff.stein.platformcore.security.context;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 import raff.stein.platformcore.security.jwt.JwtProperties;
@@ -13,7 +14,9 @@ import java.util.Optional;
 /**
  * Filter that extracts the JWT from the request, parses it,
  * and stores the authenticated user in the context.
+ * It also sets the user information in the MDC for logging purposes.
  */
+@Slf4j
 public class SecurityContextFilter implements Filter {
 
     private final JwtTokenParser tokenParser;

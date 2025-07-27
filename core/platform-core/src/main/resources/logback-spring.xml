@@ -13,7 +13,7 @@
     <property name="APP_NAME" value="${spring.application.name:-application}"/>
     <property name="LOG_PATH" value="./logs" />
     <property name="LOG_FILE_NAME" value="${APP_NAME}" />
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{correlationId}] %-5level %logger{36} - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{correlationId}] [%X{userId}] [%X{company}] %-5level %logger{36} - %msg%n"/>
 
     <!-- JSON encoder for Splunk compatibility -->
     <appender name="SPLUNK_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -24,6 +24,10 @@
                 You can add custom fields as needed
             -->
             <customFields>{"app":"${APP_NAME}"}</customFields>
+            <includeMdcKeyName>correlationId</includeMdcKeyName>
+            <includeMdcKeyName>userId</includeMdcKeyName>
+            <includeMdcKeyName>company</includeMdcKeyName>
+            <includeMdcKeyName>email</includeMdcKeyName>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.json</fileNamePattern>
@@ -34,7 +38,7 @@
     <!-- Console appender (plain text, for local dev) -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{correlationId}] [%X{userId}] [%X{company}] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
