@@ -102,11 +102,58 @@ services:
     ports:
       - 5440:5432
 
-  postgres-identity:
+  postgres-profiler:
     image: postgres:15
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
-      POSTGRES_DB: identitydb
+      POSTGRES_DB: profilerdb
     ports:
       - 5441:5432
+
+  postgres-user:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: userdb
+    ports:
+      - 5442:5432
+
+  splunk:
+    image: splunk/splunk:latest
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=password
+      - SPLUNK_HEC_TOKEN=12345678-1234-1234-1234-1234567890ab
+      - SPLUNK_HEC_PORT=9090
+      - TZ=Europe/Rome
+    ports:
+      - 8000:8000   # Splunk Web UI
+      - 9090:9090   # HTTP Event Collector (HEC)
+      - 9997:9997   # Splunk Forwarder
+    volumes:
+      - splunk-data:/opt/splunk/var
+      - ./logs/:/logs/
+    restart: unless-stopped
+
+#FIXME: The Splunk Forwarder service is configured to monitor the /logs/ directory but it's not showing up in the Splunk UI.
+  splunk-forwarder:
+    image: splunk/universalforwarder:latest
+    user: root
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=password
+      - SPLUNK_ADD=monitor /logs/ -sourcetype _json  -index main -auth admin:password
+      - SPLUNK_FORWARD_SERVER=splunk:9997
+      - TZ=Europe/Rome
+      - SPLUNK_DEBUG=true
+    volumes:
+      - ./logs/:/logs/
+    depends_on:
+      - splunk
+
+
+volumes:
+  splunk-data:
+    driver: local

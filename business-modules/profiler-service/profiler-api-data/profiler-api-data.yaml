@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: Profiler APIs
+  version: 1.0.0
+  description: |
+    API for managing and retrieving the sitemap, sections, features, and permissions for applications and users.
+    
+    The following APIs (capabilities) are exposed by the profiler:
+    - API to retrieve the sitemap of an application
+    - API to retrieve the sitemap, including permissions, for a given user
+    - API to modify the sitemap/permissions for a given user
+
+servers:
+  - url: https://WIP
+
+paths:
+  /sitemap/{application}:
+    get:
+      summary: Get the complete sitemap for a specific application
+      operationId: getSitemap
+      tags:
+        - Sitemap
+      parameters:
+        - name: application
+          in: path
+          required: true
+          description: Application identifier (e.g. "b2c", "backoffice")
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sitemap for the requested application
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SitemapResponseDTO'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    SitemapResponseDTO:
+      type: object
+      properties:
+        application:
+          type: string
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/SectionDTO'
+
+    SectionDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sectionCode:
+          type: string
+        sectionName:
+          type: string
+        features:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeatureDTO'
+
+
+    FeatureDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        featureCode:
+          type: string
+        featureName:
+          type: string
+
+    PermissionDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        permissionCode:
+          type: string
+        permissionName:
+          type: string
