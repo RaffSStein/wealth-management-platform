@@ -48,6 +48,34 @@ paths:
                   message:
                     type: string
 
+
+  /permissions/getUserSitemapByClaims:
+    get:
+      summary: Get the sitemap for a user based on their claims
+      operationId: getUserSitemapByClaims
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User-specific sitemap with permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPermissionDTO'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
 components:
   securitySchemes:
     bearerAuth:
@@ -99,7 +127,37 @@ components:
         id:
           type: string
           format: uuid
-        permissionCode:
-          type: string
         permissionName:
           type: string
+
+    UserPermissionDTO:
+      type: object
+      properties:
+        userEmail:
+          type: string
+        bankCode:
+          type: string
+        sectionPermissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SectionPermissionsDTO'
+
+    SectionPermissionsDTO:
+      type: object
+      properties:
+        sectionName:
+          type: string
+        featurePermissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeaturePermissionsDTO'
+
+    FeaturePermissionsDTO:
+      type: object
+      properties:
+        featureName:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionDTO'

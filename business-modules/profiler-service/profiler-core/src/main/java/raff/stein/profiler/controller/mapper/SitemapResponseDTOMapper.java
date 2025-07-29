@@ -18,9 +18,9 @@ import java.util.List;
                 SectionDTOToSectionMapper.class,
                 PermissionEntityToPermissionMapper.class},
         config = CommonMapperConfiguration.class)
-public interface SitemapResponseMapper {
+public interface SitemapResponseDTOMapper {
 
-    SitemapResponseMapper MAPPER = Mappers.getMapper(SitemapResponseMapper.class);
+    SitemapResponseDTOMapper MAPPER = Mappers.getMapper(SitemapResponseDTOMapper.class);
 
     @Mapping(target = "application", source = "application")
     @Mapping(target = "sections", source = "sections")
