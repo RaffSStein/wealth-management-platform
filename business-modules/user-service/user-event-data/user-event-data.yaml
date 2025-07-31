@@ -14,14 +14,34 @@ components:
       properties:
         email:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
       required:
         - email
+        - firstName
+        - lastName
+        - createdAt
+
+
     UserUpdatedEvent:
       type: object
       properties:
         email:
           type: string
-#      required:
-#        - proposalId
-#        - status
-#        - updatedAt
+        firstName:
+          type: string
+        lastName:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - email
+        - firstName
+        - lastName
+        - updatedAt

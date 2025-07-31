@@ -1,0 +1,12 @@
+kafka:
+  topics:
+    # consumed topics
+    user-service:
+      user-created:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.broker.domain}.user-created"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.broker.domain}.user-created.sa.${kafka.broker.serviceAccount}"
+      user-updated:
+        enabled: false
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.broker.domain}.user-updated"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.broker.domain}.user-updated.sa.${kafka.broker.serviceAccount}"

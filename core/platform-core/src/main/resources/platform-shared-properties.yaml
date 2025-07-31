@@ -3,3 +3,7 @@ security:
     publicKeyPath: classpath:jwt/public_key.pem
     header: Authorization
     prefix: Bearer
+
+spring:
+  config:
+    import: classpath:kafka-shared-properties.yaml

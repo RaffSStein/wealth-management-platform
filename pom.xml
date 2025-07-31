@@ -29,6 +29,7 @@
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <jackson.databind.nullable.version>0.2.6</jackson.databind.nullable.version>
         <logstash.logback.encoder.version>7.4</logstash.logback.encoder.version>
+        <cloudevent.version>2.5.0</cloudevent.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +106,26 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
                 <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cloudevents</groupId>
+                <artifactId>cloudevents-core</artifactId>
+                <version>${cloudevent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cloudevents</groupId>
+                <artifactId>cloudevents-api</artifactId>
+                <version>${cloudevent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cloudevents</groupId>
+                <artifactId>cloudevents-kafka</artifactId>
+                <version>${cloudevent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cloudevents</groupId>
+                <artifactId>cloudevents-json-jackson</artifactId>
+                <version>${cloudevent.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
