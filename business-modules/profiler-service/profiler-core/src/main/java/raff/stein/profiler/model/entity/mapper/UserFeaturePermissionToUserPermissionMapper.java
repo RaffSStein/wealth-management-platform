@@ -15,7 +15,7 @@ public interface UserFeaturePermissionToUserPermissionMapper {
     UserFeaturePermissionToUserPermissionMapper MAPPER = Mappers.getMapper(UserFeaturePermissionToUserPermissionMapper.class);
 
     // Mapping from entity to model
-    default UserPermission toModel(
+    default UserPermission toUserPermission(
             String userEmail,
             String bankCode,
             List<UserFeaturePermissionEntity> userFeaturePermissionEntities) {

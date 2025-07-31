@@ -43,7 +43,7 @@ public class PermissionService {
             log.info("No user permissions found for email: [{}] and bankCode: [{}]", email, bankCode);
             return new UserPermission();
         }
-        return userFeaturePermissionMapper.toModel(email, bankCode, userPermissions);
+        return userFeaturePermissionMapper.toUserPermission(email, bankCode, userPermissions);
     }
 
 }

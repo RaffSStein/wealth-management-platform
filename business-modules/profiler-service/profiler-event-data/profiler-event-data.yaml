@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Profiler Events
   version: 1.0.0
-  description: OpenAPI definition for Proposal event payloads (async communication)
+  description: OpenAPI definition for Profiler event payloads (async communication)
 
 
 paths: {}
@@ -12,51 +12,64 @@ components:
     UserPermissionCreatedEvent:
       type: object
       properties:
-        userId:
-          type: integer
-          format: int64
-        customerId:
-          type: integer
-          format: int64
-        advisorId:
-          type: integer
-          format: int64
-        productIds:
+        userEmail:
+          type: string
+        bankCode:
+          type: string
+        sectionPermissions:
           type: array
           items:
-            type: integer
-            format: int64
-        riskProfile:
-          type: string
-        investmentAmount:
-          type: number
-          format: double
-        status:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
+            $ref: '#/components/schemas/SectionPermission'
       required:
-        - proposalId
-        - customerId
-        - advisorId
-        - productIds
-        - riskProfile
-        - investmentAmount
-        - status
-        - createdAt
+        - userEmail
+        - bankCode
+        - sectionPermissions
+
     UserPermissionUpdatedEvent:
       type: object
       properties:
-        proposalId:
-          type: integer
-          format: int64
-        status:
+        userEmail:
           type: string
-        updatedAt:
+        bankCode:
           type: string
-          format: date-time
+        sectionPermissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SectionPermission'
       required:
-        - proposalId
-        - status
-        - updatedAt
+        - userEmail
+        - bankCode
+        - sectionPermissions
+
+    #    Payloads objects
+    SectionPermission:
+      type: object
+      properties:
+        sectionCode:
+          type: string
+        sectionName:
+          type: string
+        featurePermissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeaturePermission'
+      required:
+        - sectionCode
+        - sectionName
+        - featurePermissions
+    FeaturePermission:
+      type: object
+      properties:
+        featureCode:
+          type: string
+        featureName:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+        - featureCode
+        - featureName
+        - permissions
+
