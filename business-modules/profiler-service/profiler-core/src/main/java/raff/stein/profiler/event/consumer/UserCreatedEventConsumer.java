@@ -1,4 +1,4 @@
-package raff.stein.profiler.event.incoming.consumer;
+package raff.stein.profiler.event.consumer;
 
 import io.cloudevents.CloudEvent;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +32,6 @@ public class UserCreatedEventConsumer extends WMPBaseEventConsumer {
     }
 
     private void processUserCreatedEvent(@NotNull UserCreatedEvent userCreatedEvent) {
-        //TODO: Implement the logic to handle the UserCreatedEvent and save its permissions based on some infp
+        //TODO: Implement the logic to handle the UserCreatedEvent and save its permissions based on some info
     }
 }

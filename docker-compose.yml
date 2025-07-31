@@ -33,7 +33,7 @@ services:
       - kafka
       - postgres-user #TODO: maybe a better way to handle this dependency instead of reusing the postgres service for user service
     ports:
-      - 8083:8083
+      - 8483:8483
     environment:
       BOOTSTRAP_SERVERS: kafka:9092
       GROUP_ID: 1

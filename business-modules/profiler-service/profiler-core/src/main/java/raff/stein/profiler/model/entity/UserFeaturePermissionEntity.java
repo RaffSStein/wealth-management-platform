@@ -3,8 +3,9 @@ package raff.stein.profiler.model.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import raff.stein.platformcore.audit.BaseDateEntity;
 
 import java.util.Set;
 import java.util.UUID;
@@ -17,11 +18,11 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "user_feature")
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserFeaturePermissionEntity {
+public class UserFeaturePermissionEntity extends BaseDateEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
