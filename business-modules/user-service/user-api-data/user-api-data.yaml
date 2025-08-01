@@ -14,7 +14,7 @@ paths:
       summary: Get user by ID
       operationId: getUserById
       tags:
-        - Users
+        - User
       parameters:
         - name: id
           in: path
@@ -31,13 +31,42 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: User not found
+    put:
+      summary: Update user by ID
+      operationId: updateUserById
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '400':
+          description: Invalid input
 
   /user:
     post:
       summary: Create a new user
       operationId: createUser
       tags:
-        - Users
+        - User
       requestBody:
         required: true
         content:
@@ -53,6 +82,44 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Invalid input
+
+  /user/{id}/disable:
+    post:
+      summary: Disable a user
+      operationId: disableUser
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User disabled
+        '404':
+          description: User not found
+
+  /user/{id}/enable:
+    post:
+      summary: Enable a user
+      operationId: enableUser
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User enabled
+        '404':
+          description: User not found
 
 components:
   securitySchemes:
@@ -112,6 +179,27 @@ components:
           format: date-time
 
     CreateUserRequest:
+      type: object
+      required:
+        - username
+        - email
+        - companyId
+        - roles
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        companyId:
+          type: string
+          format: uuid
+        roles:
+          type: array
+          items:
+            type: string
+
+    UpdateUserRequest:
       type: object
       required:
         - username

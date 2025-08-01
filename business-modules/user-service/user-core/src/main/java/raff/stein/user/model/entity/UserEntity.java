@@ -1,12 +1,13 @@
 package raff.stein.user.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import raff.stein.platformcore.audit.BaseDateEntity;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -24,6 +25,26 @@ public class UserEntity extends BaseDateEntity<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    // Relationships
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "settings_id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private UserSettings userSettings;
+
+    /**
+     * List of associations between this user and bank branches (roles per branch).
+     */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private Set<BankBranchUserEntity> bankBranchUsers = new HashSet<>();
+
+    // Fields
+
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -32,5 +53,27 @@ public class UserEntity extends BaseDateEntity<UUID> {
 
     @Column(nullable = false)
     private String lastName;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Column(length = 2)
+    private String country; // es: "IT", "US"
+
+    @Column(length = 100)
+    private String address;
+
+    @Column(length = 50)
+    private String city;
+
+    @Column
+    private LocalDate dateOfBirth;
+
+    @Column(length = 10)
+    private String gender; // es: "M", "F", "OTHER"
+
+    @Column(length = 20)
+    private String taxId; // Fiscal Code or equivalent, can be null if not applicable in the user's country
+
 
 }
