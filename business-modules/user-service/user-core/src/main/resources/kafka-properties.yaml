@@ -1,0 +1,31 @@
+kafka:
+  topics:
+    user-service:
+      domain: user-service
+      # produced topics
+      user-created:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.user-created"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.user-created.sa.${kafka.broker.serviceAccount}"
+      user-updated:
+        enabled: false
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.user-updated"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.user-updated.sa.${kafka.broker.serviceAccount}"
+
+    # consumed topics
+      create-user:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.create-user"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.create-user.sa.${kafka.broker.serviceAccount}"
+      update-user:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.update-user"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.update-user.sa.${kafka.broker.serviceAccount}"
+      disable-user:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.disable-user"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.disable-user.sa.${kafka.broker.serviceAccount}"
+      enable-user:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-service.domain}.enable-user"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-service.domain}.enable-user.sa.${kafka.broker.serviceAccount}"

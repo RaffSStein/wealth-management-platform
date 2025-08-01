@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 
+# TODO: add sonarcloud for code analysis
+
 jobs:
   build:
     runs-on: ubuntu-latest

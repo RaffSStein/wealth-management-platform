@@ -6,7 +6,7 @@ import org.openapitools.model.SectionDTO;
 import raff.stein.profiler.model.Section;
 import raff.stein.profiler.model.mapper.common.CommonMapperConfiguration;
 
-@Mapper(uses = CommonMapperConfiguration.class)
+@Mapper(config = CommonMapperConfiguration.class)
 public interface SectionDTOToSectionMapper {
 
     SectionDTOToSectionMapper MAPPER = Mappers.getMapper(SectionDTOToSectionMapper.class);

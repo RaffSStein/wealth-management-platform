@@ -6,6 +6,10 @@ package raff.stein.platformcore.security.context;
  */
 public class SecurityContextHolder {
 
+    private SecurityContextHolder() {
+        // Prevent instantiation
+    }
+
     private static final ThreadLocal<WMPContext> CONTEXT = new ThreadLocal<>();
 
     public static void setContext(WMPContext wmpContext) {

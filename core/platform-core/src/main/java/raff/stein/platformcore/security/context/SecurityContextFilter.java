@@ -44,7 +44,7 @@ public class SecurityContextFilter implements Filter {
                     // Set MDC for logging
                     MDC.put("userId", context.getUserId());
                     MDC.put("email", context.getEmail());
-                    MDC.put("company", context.getCompany());
+                    MDC.put("bankCode", context.getBankCode());
                     MDC.put("correlationId", context.getCorrelationId());
                 });
             }

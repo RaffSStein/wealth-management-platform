@@ -3,8 +3,9 @@ package raff.stein.profiler.model.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import raff.stein.platformcore.audit.BaseDateEntity;
 
 import java.util.Set;
 import java.util.UUID;
@@ -12,22 +13,26 @@ import java.util.UUID;
 /**
  * Entity representing the association between a feature and a set of permissions for that feature, for a specific user.
  * This allows fine-grained access control, specifying which permissions a user has within a specific feature of the platform.
- * For each user and feature, it is possible to associate multiple permissions.
+ * Each user can manage multiple banks.
+ * For each bank-feature pair, it is possible to associate multiple permissions.
  */
 @Entity
 @Table(name = "user_feature")
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserFeaturePermissionEntity {
+public class UserFeaturePermissionEntity extends BaseDateEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "user_uuid", nullable = false)
-    private UUID userUUID;
+    @Column(name = "user_email", nullable = false)
+    private String userEmail;
+
+    @Column(name = "bank_code", nullable = false)
+    private String bankCode;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "feature_id")

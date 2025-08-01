@@ -14,7 +14,7 @@ public class WMPContext {
     private final String userId;
     private final String email;
     private final Set<String> roles;
-    private final String company;
+    private final String bankCode;
     private final String correlationId;
 
 

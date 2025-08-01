@@ -1,8 +1,11 @@
 package raff.stein.user.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import raff.stein.platformcore.audit.BaseDateEntity;
 
 import java.util.UUID;
 
@@ -11,9 +14,11 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "users")
-@Data
+@Getter
 @Builder
-public class UserEntity {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity extends BaseDateEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

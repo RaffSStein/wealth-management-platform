@@ -2,6 +2,7 @@ package raff.stein.proposalservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import raff.stein.platformcore.audit.BaseDateEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "proposals")
 @Data
-public class ProposalEntity {
+public class ProposalEntity extends BaseDateEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

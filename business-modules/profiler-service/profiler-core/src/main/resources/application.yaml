@@ -1,5 +1,7 @@
 server:
   port: 8082
+  servlet:
+    context-path: /profiler-service
 spring:
   application:
     name: profiler-service
@@ -20,3 +22,4 @@ spring:
   config:
     import:
       - classpath:platform-shared-properties.yaml
+      - classpath:kafka-properties.yaml

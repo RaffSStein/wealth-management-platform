@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import raff.stein.platformcore.security.context.WMPContext;
 
 import java.security.PublicKey;
@@ -14,6 +15,7 @@ import java.util.Set;
 /**
  * Responsible for parsing and validating the JWT token.
  */
+@Slf4j
 public class JwtTokenParser {
 
     private final PublicKey publicKey;
@@ -40,11 +42,13 @@ public class JwtTokenParser {
                     .userId(claims.get("userId", String.class))
                     .email(claims.get("email", String.class))
                     .roles(Set.copyOf(claims.get("roles", List.class)))
-                    .company(claims.get("company", String.class))
+                    //TODO: probably not needed, as we can get it from the user-service
+                    .bankCode(claims.get("bankCode", String.class))
                     .correlationId(correlationId)
                     .build();
             return Optional.of(context);
         } catch (JwtException e) {
+            log.error(e.getMessage());
             return Optional.empty();
         }
     }

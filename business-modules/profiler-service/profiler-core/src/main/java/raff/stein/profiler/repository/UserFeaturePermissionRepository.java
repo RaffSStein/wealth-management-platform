@@ -10,8 +10,9 @@ import java.util.UUID;
 @Repository
 public interface UserFeaturePermissionRepository extends JpaRepository<UserFeaturePermissionEntity, UUID> {
 
-    List<UserFeaturePermissionEntity> findAllByUserUUID(UUID userUUID);
+    List<UserFeaturePermissionEntity> findAllByUserEmail(String userEmail);
+    List<UserFeaturePermissionEntity> findAllByUserEmailAndBankCode(String userEmail, String bankCode);
     List<UserFeaturePermissionEntity> findAllByFeature_Id(UUID featureId);
-    List<UserFeaturePermissionEntity> findAllByUserUUIDAndFeature_Id(UUID userUUID, UUID featureId);
+    List<UserFeaturePermissionEntity> findAllByUserEmailAndFeature_Id(String userEmail, UUID featureId);
 }
 

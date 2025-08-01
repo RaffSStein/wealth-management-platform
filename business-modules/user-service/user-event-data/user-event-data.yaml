@@ -12,16 +12,124 @@ components:
     UserCreatedEvent:
       type: object
       properties:
+        userId:
+          type: string
+          format: uuid
         email:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
       required:
+        - userId
         - email
+        - firstName
+        - lastName
+        - createdAt
+
+
     UserUpdatedEvent:
       type: object
       properties:
+        userId:
+          type: string
+          format: uuid
         email:
           type: string
-#      required:
-#        - proposalId
-#        - status
-#        - updatedAt
+        firstName:
+          type: string
+        lastName:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+        - firstName
+        - lastName
+        - updatedAt
+
+
+    CreateUserEvent:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+        - firstName
+        - lastName
+        - createdAt
+
+
+    UpdateUserEvent:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+        - firstName
+        - lastName
+        - updatedAt
+
+
+    DisableUserEvent:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        disabledAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+        - disabledAt
+
+
+    EnableUserEvent:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+        enabledAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - email
+        - enabledAt

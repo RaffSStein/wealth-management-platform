@@ -1,0 +1,12 @@
+kafka:
+  broker:
+    connectionUri: http://localhost:8670
+    serviceAccount: platform-service-account
+    secure-connection: false
+    environment: local-env
+    tenant: local-tenant
+    domain: local-domain
+    #TODO: split between environment and tenant, by profile
+  producer:
+    source: wmp
+
