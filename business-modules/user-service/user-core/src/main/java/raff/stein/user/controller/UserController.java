@@ -33,6 +33,7 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<User> getCurrentUser() {
+        // This method should return the currently authenticated user.
         return null;
     }
 
