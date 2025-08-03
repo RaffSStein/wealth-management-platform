@@ -7,7 +7,21 @@ info:
 
 paths:
 
-#  TODO: api with /me info
+  /me:
+    get:
+      summary: Get current logged-in user info
+      operationId: getCurrentUser
+      tags:
+        - User
+      responses:
+        '200':
+          description: Current user data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
 
   /user/{id}:
     get:

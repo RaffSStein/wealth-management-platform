@@ -14,6 +14,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController implements UserApi {
 
+    //TODO: Implement the methods of UserApi interface
+
     @Override
     public ResponseEntity<User> createUser(CreateUserRequest createUserRequest) {
         return null;
@@ -26,6 +28,11 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<Void> enableUser(UUID id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<User> getCurrentUser() {
         return null;
     }
 
