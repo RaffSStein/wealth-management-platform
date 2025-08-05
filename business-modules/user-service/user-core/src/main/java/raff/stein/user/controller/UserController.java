@@ -7,6 +7,7 @@ import org.openapitools.model.UpdateUserRequest;
 import org.openapitools.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import raff.stein.user.service.UserService;
 
 import java.util.UUID;
 
@@ -14,36 +15,63 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController implements UserApi {
 
+    private final UserService userService;
+
     //TODO: Implement the methods of UserApi interface
 
     @Override
     public ResponseEntity<User> createUser(CreateUserRequest createUserRequest) {
-        return null;
+        User createdUser = userService.createUser(createUserRequest);
+        return ResponseEntity.status(201).body(createdUser);
     }
 
     @Override
     public ResponseEntity<Void> disableUser(UUID id) {
-        return null;
+        boolean disabled = userService.disableUser(id);
+        if (disabled) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
     public ResponseEntity<Void> enableUser(UUID id) {
-        return null;
+        boolean enabled = userService.enableUser(id);
+        if (enabled) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
     public ResponseEntity<User> getCurrentUser() {
-        // This method should return the currently authenticated user.
-        return null;
+        User currentUser = userService.getCurrentUser();
+        if (currentUser != null) {
+            return ResponseEntity.ok(currentUser);
+        } else {
+            return ResponseEntity.status(401).build();
+        }
     }
 
     @Override
     public ResponseEntity<User> getUserById(UUID id) {
-        return null;
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Override
     public ResponseEntity<User> updateUserById(UUID id, UpdateUserRequest updateUserRequest) {
-        return null;
+        User updatedUser = userService.updateUserById(id, updateUserRequest);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
