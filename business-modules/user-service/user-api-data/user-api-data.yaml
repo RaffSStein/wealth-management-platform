@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDTO'
         '401':
           description: Unauthorized
 
@@ -42,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDTO'
         '404':
           description: User not found
     put:
@@ -69,7 +69,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDTO'
         '404':
           description: User not found
         '400':
@@ -93,7 +93,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserDTO'
         '400':
           description: Invalid input
 
@@ -152,24 +152,9 @@ components:
           type: string
           description: JWT token issued by external Identity Provider
 
-    Role:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
 
-    Company:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
 
-    User:
+    UserDTO:
       type: object
       properties:
         id:
@@ -180,12 +165,6 @@ components:
         email:
           type: string
           format: email
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/Role'
-        company:
-          $ref: '#/components/schemas/Company'
         isActive:
           type: boolean
         createdAt:

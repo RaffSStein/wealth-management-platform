@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.openapitools.api.UserApi;
 import org.openapitools.model.CreateUserRequest;
 import org.openapitools.model.UpdateUserRequest;
-import org.openapitools.model.User;
+import org.openapitools.model.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.user.service.UserService;
@@ -20,8 +20,8 @@ public class UserController implements UserApi {
     //TODO: Implement the methods of UserApi interface
 
     @Override
-    public ResponseEntity<User> createUser(CreateUserRequest createUserRequest) {
-        User createdUser = userService.createUser(createUserRequest);
+    public ResponseEntity<UserDTO> createUser(CreateUserRequest createUserRequest) {
+        UserDTO createdUser = userService.createUser(createUserRequest);
         return ResponseEntity.status(201).body(createdUser);
     }
 
@@ -46,8 +46,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<User> getCurrentUser() {
-        User currentUser = userService.getCurrentUser();
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        UserDTO currentUser = userService.getCurrentUser();
         if (currentUser != null) {
             return ResponseEntity.ok(currentUser);
         } else {
@@ -56,8 +56,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<User> getUserById(UUID id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<UserDTO> getUserById(UUID id) {
+        UserDTO user = userService.getUserById(id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -66,8 +66,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<User> updateUserById(UUID id, UpdateUserRequest updateUserRequest) {
-        User updatedUser = userService.updateUserById(id, updateUserRequest);
+    public ResponseEntity<UserDTO> updateUserById(UUID id, UpdateUserRequest updateUserRequest) {
+        UserDTO updatedUser = userService.updateUserById(id, updateUserRequest);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
