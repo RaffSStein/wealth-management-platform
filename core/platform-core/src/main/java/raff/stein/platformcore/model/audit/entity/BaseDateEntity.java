@@ -1,4 +1,4 @@
-package raff.stein.platformcore.audit;
+package raff.stein.platformcore.model.audit.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

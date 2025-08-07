@@ -3,7 +3,7 @@ package raff.stein.user.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.audit.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +14,8 @@ import java.util.UUID;
  * This model is designed to be internationally compatible, supporting both Italian and global banking standards.
  */
 @Entity
-@Table(name = "bank_branches")
+@Table(name = "bank_branches", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_bank_branch_code", columnNames = {"bankCode", "branchCode"})})
 @Getter
 @Builder
 @NoArgsConstructor
@@ -50,6 +51,19 @@ public class BankBranchEntity extends BaseDateEntity<UUID> {
     private String branchCode;
 
     /**
+     * Full name of the bank (e.g., "Intesa Sanpaolo S.p.A.", "Deutsche Bank AG").
+     * This is the legal name of the bank.
+     */
+    @Column(nullable = false)
+    private String bankName;
+
+    /**
+     * Name of the bank (e.g., "Intesa Sanpaolo", "Deutsche Bank").
+     */
+    @Column(nullable = false)
+    private String branchName;
+
+    /**
      * SWIFT/BIC code for international identification.
      */
     @Column(nullable = false)
@@ -76,13 +90,13 @@ public class BankBranchEntity extends BaseDateEntity<UUID> {
     /**
      * Full description of the bank (e.g., legal name).
      */
-    @Column(nullable = false)
+    @Column
     private String bankDescription;
 
     /**
      * Description of the branch (e.g., branch name or details).
      */
-    @Column(nullable = false)
+    @Column
     private String branchDescription;
 
     /**

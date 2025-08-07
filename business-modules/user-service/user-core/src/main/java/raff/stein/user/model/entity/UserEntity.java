@@ -3,7 +3,7 @@ package raff.stein.user.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.audit.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -67,7 +67,7 @@ public class UserEntity extends BaseDateEntity<UUID> {
     private String city;
 
     @Column
-    private LocalDate dateOfBirth;
+    private LocalDate birthDate;
 
     @Column(length = 10)
     private String gender; // es: "M", "F", "OTHER"

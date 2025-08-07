@@ -3,7 +3,7 @@ package raff.stein.user.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.audit.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.util.UUID;
 
