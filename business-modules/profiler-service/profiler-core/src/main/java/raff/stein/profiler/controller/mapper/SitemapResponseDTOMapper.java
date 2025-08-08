@@ -8,7 +8,7 @@ import raff.stein.profiler.model.Section;
 import raff.stein.profiler.model.entity.mapper.PermissionEntityToPermissionMapper;
 import raff.stein.profiler.model.mapper.FeatureDTOToFeatureMapper;
 import raff.stein.profiler.model.mapper.SectionDTOToSectionMapper;
-import raff.stein.profiler.model.mapper.common.CommonMapperConfiguration;
+import raff.stein.profiler.model.mapper.common.ProfilerCommonMapperConfiguration;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
                 FeatureDTOToFeatureMapper.class,
                 SectionDTOToSectionMapper.class,
                 PermissionEntityToPermissionMapper.class},
-        config = CommonMapperConfiguration.class)
+        config = ProfilerCommonMapperConfiguration.class)
 public interface SitemapResponseDTOMapper {
 
     SitemapResponseDTOMapper MAPPER = Mappers.getMapper(SitemapResponseDTOMapper.class);

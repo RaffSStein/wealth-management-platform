@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import raff.stein.platformcore.audit.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.util.Set;
 import java.util.UUID;

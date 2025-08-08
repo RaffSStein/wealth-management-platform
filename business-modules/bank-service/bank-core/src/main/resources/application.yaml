@@ -1,0 +1,25 @@
+server:
+  port: 8089
+  servlet:
+    context-path: /bank-service
+spring:
+  application:
+    name: bank-service
+  jpa:
+    generate-ddl: true
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+      # any additional Hibernate properties can be added here
+  datasource:
+    url: jdbc:postgresql://localhost:5443/bankdb
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  config:
+    import:
+      - classpath:platform-shared-properties.yaml
+      - classpath:kafka-properties.yaml

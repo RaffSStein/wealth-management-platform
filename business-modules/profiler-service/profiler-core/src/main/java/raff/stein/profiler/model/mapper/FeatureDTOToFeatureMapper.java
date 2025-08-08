@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.openapitools.model.FeatureDTO;
 import raff.stein.profiler.model.Feature;
-import raff.stein.profiler.model.mapper.common.CommonMapperConfiguration;
+import raff.stein.profiler.model.mapper.common.ProfilerCommonMapperConfiguration;
 
-@Mapper(config = CommonMapperConfiguration.class)
+@Mapper(config = ProfilerCommonMapperConfiguration.class)
 public interface FeatureDTOToFeatureMapper {
 
     FeatureDTOToFeatureMapper MAPPER = Mappers.getMapper(FeatureDTOToFeatureMapper.class);

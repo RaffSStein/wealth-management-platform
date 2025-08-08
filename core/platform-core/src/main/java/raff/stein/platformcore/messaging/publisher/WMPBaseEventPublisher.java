@@ -21,13 +21,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Component
-public class WMPEventPublisher {
+public class WMPBaseEventPublisher implements EventPublisher {
 
     private final Producer<String, CloudEvent> kafkaCloudEventProducer;
     private final ObjectMapper objectMapper;
     private final URI producerSource;
 
-    public WMPEventPublisher(
+    public WMPBaseEventPublisher(
             Producer<String, CloudEvent> kafkaCloudEventProducer,
             ObjectMapper objectMapper,
             @Value("${kafka.producer.source}") String producerSource) {
@@ -36,6 +36,7 @@ public class WMPEventPublisher {
         this.producerSource = URI.create(StringUtils.hasText(producerSource) ? producerSource : "");
     }
 
+    @Override
     public void publishCloudEvent(@NonNull String topic, @NonNull EventData eventData) {
 
         CloudEvent cloudEvent = createCloudEvent(eventData);

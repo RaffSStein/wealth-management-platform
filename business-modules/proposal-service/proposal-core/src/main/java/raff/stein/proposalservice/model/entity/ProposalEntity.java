@@ -2,7 +2,7 @@ package raff.stein.proposalservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import raff.stein.platformcore.audit.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -5,11 +5,11 @@ import org.mapstruct.factory.Mappers;
 import raff.stein.profiler.model.UserPermission;
 import raff.stein.profiler.model.entity.FeatureEntity;
 import raff.stein.profiler.model.entity.UserFeaturePermissionEntity;
-import raff.stein.profiler.model.mapper.common.CommonMapperConfiguration;
+import raff.stein.profiler.model.mapper.common.ProfilerCommonMapperConfiguration;
 
 import java.util.List;
 
-@Mapper(config = CommonMapperConfiguration.class, uses = {PermissionEntityToPermissionMapper.class})
+@Mapper(config = ProfilerCommonMapperConfiguration.class, uses = {PermissionEntityToPermissionMapper.class})
 public interface UserFeaturePermissionToUserPermissionMapper {
 
     UserFeaturePermissionToUserPermissionMapper MAPPER = Mappers.getMapper(UserFeaturePermissionToUserPermissionMapper.class);

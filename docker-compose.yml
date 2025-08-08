@@ -31,7 +31,7 @@ services:
     restart: always
     depends_on:
       - kafka
-      - postgres-user #TODO: maybe a better way to handle this dependency instead of reusing the postgres service for user service
+      - postgres-reporting #TODO: maybe a better way to handle this dependency instead of reusing the postgres service for user service
     ports:
       - 8483:8483
     environment:
@@ -148,6 +148,15 @@ services:
       POSTGRES_DB: userdb
     ports:
       - 5442:5432
+
+  postgres-bank:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: bankdb
+    ports:
+      - 5443:5432
 
   splunk:
     image: splunk/splunk:latest

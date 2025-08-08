@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.openapitools.model.SectionDTO;
 import raff.stein.profiler.model.Section;
-import raff.stein.profiler.model.mapper.common.CommonMapperConfiguration;
+import raff.stein.profiler.model.mapper.common.ProfilerCommonMapperConfiguration;
 
-@Mapper(config = CommonMapperConfiguration.class)
+@Mapper(config = ProfilerCommonMapperConfiguration.class)
 public interface SectionDTOToSectionMapper {
 
     SectionDTOToSectionMapper MAPPER = Mappers.getMapper(SectionDTOToSectionMapper.class);

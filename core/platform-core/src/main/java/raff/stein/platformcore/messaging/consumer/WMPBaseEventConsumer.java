@@ -14,7 +14,7 @@ import java.util.Optional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class WMPBaseEventConsumer {
+public class WMPBaseEventConsumer implements EventConsumer {
 
     private ObjectMapper objectMapper;
 
@@ -23,7 +23,8 @@ public class WMPBaseEventConsumer {
         this.objectMapper = objectMapper;
     }
 
-    protected <T> Optional<T> getEventPayload(CloudEvent cloudEvent, Class<T> clazz) {
+    @Override
+    public <T> Optional<T> getEventPayload(CloudEvent cloudEvent, Class<T> clazz) {
         log.info("CloudEvent received for class: [{}], eventId; [{}]",
                 clazz.getName(),
                 cloudEvent.getId());

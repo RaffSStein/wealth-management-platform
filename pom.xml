@@ -187,6 +187,8 @@
         <module>business-modules/notification-service</module>
         <module>business-modules/profiler-service</module>
         <module>business-modules/user-service</module>
+        <module>business-modules/bank-service</module>
+        <module>business-modules/email-service</module>
         <module>core/platform-core</module>
     </modules>
 </project>
