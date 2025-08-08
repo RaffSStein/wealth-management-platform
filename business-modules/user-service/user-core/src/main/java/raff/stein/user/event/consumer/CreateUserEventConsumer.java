@@ -53,7 +53,6 @@ public class CreateUserEventConsumer extends WMPBaseEventConsumer {
             return;
         }
         log.info("Creating new user with email: [{}]", user.getEmail());
-
         // Map User to UserEntity
         UserEntity userEntity = userToUserEntityMapper.toEntity(user);
         // get the saved user entity for the id
