@@ -12,7 +12,10 @@ import java.util.UUID;
  * Each user can operate for multiple bank branches, with a specific role for each association.
  */
 @Entity
-@Table(name = "bank_branch_users")
+@Table(
+        name = "bank_branch_users",
+        uniqueConstraints = {@UniqueConstraint(name = "uk_bank_branch_user", columnNames = {"user_id", "bankBranchId", "role"})}
+)
 @Getter
 @Setter
 @Builder
@@ -37,12 +40,8 @@ public class BankBranchUserEntity extends BaseDateEntity<UUID> {
     /**
      * The bank branch where the user operates.
      */
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "bank_branch_id", nullable = false)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    private BankBranchEntity bankBranch;
+    @Column(nullable = false)
+    private String bankBranchId;
 
     /**
      * The role of the user within the bank branch (e.g., SUPERVISOR, HANDLER, MANAGER, AUDITOR, etc.).

@@ -20,7 +20,7 @@ public class User extends BaseDate {
     private String address;
     private String gender;
     private String birthDate;
-    private List<BankBranch> userBankBranches;
+    private List<UserBranchRoles> userBranchRoles;
     private UserSettings userSettings;
 
     // Additional fields and methods can be added as needed

@@ -1,12 +1,12 @@
-package raff.stein.user.model.entity;
+package raff.stein.bank.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -29,14 +29,6 @@ public class BankBranchEntity extends BaseDateEntity<UUID> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    /**
-     * List of associations between this bank branch and users (roles per user).
-     */
-    @OneToMany(mappedBy = "bankBranch", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @JsonIgnore
-    private Set<BankBranchUserEntity> bankBranchUsers = new HashSet<>();
 
     /**
      * Bank code (internal or international identifier).

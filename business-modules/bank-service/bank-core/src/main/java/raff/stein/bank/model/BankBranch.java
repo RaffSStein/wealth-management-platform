@@ -1,11 +1,12 @@
-package raff.stein.user.model;
+package raff.stein.bank.model;
 
 import lombok.Builder;
 import lombok.Data;
+import raff.stein.platformcore.model.audit.BaseDate;
 
 @Data
 @Builder
-public class BankBranch {
+public class BankBranch extends BaseDate {
 
     private String bankCode;
     private String bankName;
@@ -22,6 +23,5 @@ public class BankBranch {
     private String zipCode;
     private String phoneNumber;
     private String email;
-
 
 }

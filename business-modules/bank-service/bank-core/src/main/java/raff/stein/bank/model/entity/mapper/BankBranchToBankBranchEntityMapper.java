@@ -1,9 +1,10 @@
-package raff.stein.user.model.entity.mapper;
+package raff.stein.bank.model.entity.mapper;
 
 import org.mapstruct.Mapper;
+import raff.stein.bank.model.BankBranch;
+import raff.stein.bank.model.entity.BankBranchEntity;
 import raff.stein.platformcore.model.mapper.configuration.CommonMapperConfiguration;
-import raff.stein.user.model.BankBranch;
-import raff.stein.user.model.entity.BankBranchEntity;
+
 
 @Mapper(config = CommonMapperConfiguration.class)
 public interface BankBranchToBankBranchEntityMapper {
