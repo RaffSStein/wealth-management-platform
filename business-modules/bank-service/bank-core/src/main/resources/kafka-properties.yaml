@@ -1,0 +1,18 @@
+kafka:
+  topics:
+    user-domain: user-service
+    bank-domain: bank-service
+    user-service:
+      # produced topics
+      create-user:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.user-domain}.create-user"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.user-domain}.create-user.sa.${kafka.broker.serviceAccount}"
+    bank-service:
+      # produced topics
+      bank-created:
+        enabled: true
+        name: "${kafka.broker.environment}.${kafka.broker.tenant}.${kafka.topics.bank-domain}.bank-created"
+        groupId: "${kafka.broker.environment}.${kafka.broker.tenant}.t.${kafka.topics.bank-domain}.bank-created.sa.${kafka.broker.serviceAccount}"
+
+    # consumed topics
