@@ -23,6 +23,7 @@ Each module represents a business domain and is implemented as an independent Sp
 - [notification-service](business-modules/notification-service/README.md)
 - [user-service](business-modules/user-service/README.md)
 - [profiler-service](business-modules/profiler-service/README.md)
+- [bank-service](business-modules/bank-service/README.md)
 - [core/platform-core](core/platform-core/README.md) (shared core logic)
 - [integration](integration/README.md) (external service integrations)
 
