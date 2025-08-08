@@ -47,7 +47,9 @@ public class CreateUserEventConsumer extends WMPBaseEventConsumer {
         User user = createUserEventToUserMapper.toUser(createUserEvent);
         // check if this user already exists
         if (userRepository.existsByEmail(user.getEmail())) {
-            log.warn("User with email [{}] already exists. Skipping CreateUserEvent with eventId: [{}]", user.getEmail(), eventId);
+            log.warn("User with email [{}] already exists. Skipping CreateUserEvent with eventId: [{}]",
+                    user.getEmail(),
+                    eventId);
             return;
         }
         log.info("Creating new user with email: [{}]", user.getEmail());
@@ -61,7 +63,7 @@ public class CreateUserEventConsumer extends WMPBaseEventConsumer {
         log.info("Publishing UserCreatedEvent for user with email: [{}]", user.getEmail());
         // Map UserEntity back to User
         User userToBePublished = userToUserEntityMapper.toModel(savedUser);
+        // Publish the user just created
         userCreatedEventPublisher.publishUserCreatedEvent(userToBePublished);
-
     }
 }
