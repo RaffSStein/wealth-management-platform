@@ -3,8 +3,9 @@ package raff.stein.profiler.model.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 import java.util.UUID;
 
@@ -16,11 +17,11 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "features")
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeatureEntity {
+public class FeatureEntity extends BaseEntity<UUID> {
 
     @Id
     @GeneratedValue

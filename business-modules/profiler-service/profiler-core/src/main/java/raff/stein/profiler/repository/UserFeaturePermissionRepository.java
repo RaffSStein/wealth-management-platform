@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface UserFeaturePermissionRepository extends JpaRepository<UserFeaturePermissionEntity, UUID> {
 
     List<UserFeaturePermissionEntity> findAllByUserEmail(String userEmail);
-    List<UserFeaturePermissionEntity> findAllByUserEmailAndBankCode(String userEmail, String bankCode);
+    List<UserFeaturePermissionEntity> findAllByUserEmailAndBranchCode(String userEmail, String branchCode);
     List<UserFeaturePermissionEntity> findAllByFeature_Id(UUID featureId);
     List<UserFeaturePermissionEntity> findAllByUserEmailAndFeature_Id(String userEmail, UUID featureId);
 }

@@ -4,10 +4,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import raff.stein.profiler.model.UserPermission;
 import raff.stein.profiler.model.entity.FeatureEntity;
+import raff.stein.profiler.model.entity.PermissionEntity;
 import raff.stein.profiler.model.entity.UserFeaturePermissionEntity;
 import raff.stein.profiler.model.mapper.common.ProfilerCommonMapperConfiguration;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Mapper(config = ProfilerCommonMapperConfiguration.class, uses = {PermissionEntityToPermissionMapper.class})
 public interface UserFeaturePermissionToUserPermissionMapper {
@@ -19,28 +22,53 @@ public interface UserFeaturePermissionToUserPermissionMapper {
             String userEmail,
             String bankCode,
             List<UserFeaturePermissionEntity> userFeaturePermissionEntities) {
+
         UserPermission.UserPermissionBuilder builder = UserPermission.builder()
                 .userEmail(userEmail)
                 .bankCode(bankCode);
-        // Group by section
-        List<UserPermission.SectionPermission> sectionPermissions = userFeaturePermissionEntities.stream()
-                .map(UserFeaturePermissionEntity::getFeature)
-                .map(FeatureEntity::getSection)
-                .distinct()
-                .map(section -> UserPermission.SectionPermission.builder()
-                        .sectionCode(section.getSectionCode())
-                        .sectionName(section.getSectionName())
-                        .featurePermissions(
-                                userFeaturePermissionEntities.stream()
-                                        .filter(ufe -> ufe.getFeature().getSection().equals(section))
-                                        .map(ufe -> UserPermission.FeaturePermission.builder()
-                                                .featureCode(ufe.getFeature().getFeatureCode())
-                                                .featureName(ufe.getFeature().getFeatureName())
-                                                .permissions(ufe.getPermissions().stream().map(PermissionEntityToPermissionMapper.MAPPER::toPermission).toList())
-                                                .build())
-                                        .toList()
-                        )
-                        .build())
+        // If no permissions are found, return an empty UserPermission
+        if (userFeaturePermissionEntities == null || userFeaturePermissionEntities.isEmpty()) {
+            return builder.build();
+        }
+
+        // group user permissions by feature
+        Map<FeatureEntity, List<UserFeaturePermissionEntity>> featureMap = userFeaturePermissionEntities
+                .stream()
+                .collect(Collectors.groupingBy(UserFeaturePermissionEntity::getFeature));
+        // group features by section code
+        Map<String, List<FeatureEntity>> sectionToFeatures = featureMap.keySet()
+                .stream()
+                .collect(Collectors.groupingBy(f -> f.getSection().getSectionCode()));
+
+        List<UserPermission.SectionPermission> sectionPermissions = sectionToFeatures.entrySet()
+                .stream()
+                .map(sectionEntry -> {
+                    String sectionCode = sectionEntry.getKey();
+                    List<FeatureEntity> features = sectionEntry.getValue();
+                    // section name is the same for all features in the section
+                    String sectionName = features.get(0).getSection().getSectionName();
+                    List<UserPermission.FeaturePermission> featurePermissions = features.stream()
+                            .map(feature -> {
+                                List<PermissionEntity> permissions = featureMap.get(feature).stream()
+                                        .map(UserFeaturePermissionEntity::getPermission)
+                                        .distinct()
+                                        .toList();
+                                return UserPermission.FeaturePermission.builder()
+                                        .featureCode(feature.getFeatureCode())
+                                        .featureName(feature.getFeatureName())
+                                        .permissions(permissions.stream()
+                                                .map(PermissionEntityToPermissionMapper.MAPPER::toPermission)
+                                                .toList())
+                                        .build();
+                            })
+                            .toList();
+
+                    return UserPermission.SectionPermission.builder()
+                            .sectionCode(sectionCode)
+                            .sectionName(sectionName)
+                            .featurePermissions(featurePermissions)
+                            .build();
+                })
                 .toList();
         builder.sectionPermissions(sectionPermissions);
         return builder.build();
@@ -48,5 +76,4 @@ public interface UserFeaturePermissionToUserPermissionMapper {
 
 
     // Mapping from model to entity (not always needed, but for completeness)
-    // ...potresti aggiungere qui i metodi inversi se necessario...
 }

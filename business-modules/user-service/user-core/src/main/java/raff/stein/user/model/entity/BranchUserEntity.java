@@ -13,15 +13,15 @@ import java.util.UUID;
  */
 @Entity
 @Table(
-        name = "bank_branch_users",
-        uniqueConstraints = {@UniqueConstraint(name = "uk_bank_branch_user", columnNames = {"user_id", "bankBranchId", "role"})}
+        name = "branch_users",
+        uniqueConstraints = {@UniqueConstraint(name = "uk_branch_user", columnNames = {"user_id", "branchId", "role"})}
 )
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankBranchUserEntity extends BaseDateEntity<UUID> {
+public class BranchUserEntity extends BaseDateEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,7 +41,7 @@ public class BankBranchUserEntity extends BaseDateEntity<UUID> {
      * The bank branch where the user operates.
      */
     @Column(nullable = false)
-    private String bankBranchId;
+    private String branchId;
 
     /**
      * The role of the user within the bank branch (e.g., SUPERVISOR, HANDLER, MANAGER, AUDITOR, etc.).

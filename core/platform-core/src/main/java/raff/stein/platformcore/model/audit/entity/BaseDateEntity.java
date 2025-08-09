@@ -8,7 +8,8 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -24,16 +25,14 @@ public abstract class BaseDateEntity<I> extends BaseEntity<I> {
     // tracign: correlationId, traceId, spanId ?
 
     /** entity creation date populated on @PrePersist. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creation_date", updatable = false, nullable = false)
     @CreationTimestamp
-    private Date creationDate;
+    private OffsetDateTime creationDate;
 
     /** entity modification date populated on @PreUpdate. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_update_date", nullable = false)
     @UpdateTimestamp
-    private Date lastUpdateDate;
+    private OffsetDateTime lastUpdateDate;
 
     /** let hibernate manage optimistic locking. */
     @Version
@@ -44,7 +43,7 @@ public abstract class BaseDateEntity<I> extends BaseEntity<I> {
      */
     @PrePersist
     public void initInsertDate() {
-        this.creationDate = new Date();
+        this.creationDate = ZonedDateTime.now().toOffsetDateTime();
         this.lastUpdateDate = this.creationDate;
     }
 
@@ -53,7 +52,7 @@ public abstract class BaseDateEntity<I> extends BaseEntity<I> {
      */
     @PreUpdate
     public void initLastUpdate() {
-        this.lastUpdateDate = new Date();
+        this.lastUpdateDate = ZonedDateTime.now().toOffsetDateTime();
     }
 
 }

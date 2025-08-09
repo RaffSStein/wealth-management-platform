@@ -38,7 +38,7 @@ public class PermissionService {
             return new UserPermission();
         }
         List<UserFeaturePermissionEntity> userPermissions =
-                userFeaturePermissionRepository.findAllByUserEmailAndBankCode(email, bankCode);
+                userFeaturePermissionRepository.findAllByUserEmailAndBranchCode(email, bankCode);
         if (userPermissions.isEmpty()) {
             log.info("No user permissions found for email: [{}] and bankCode: [{}]", email, bankCode);
             return new UserPermission();

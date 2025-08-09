@@ -3,6 +3,7 @@ package raff.stein.profiler.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectionEntity {
+public class SectionEntity extends BaseEntity<UUID> {
 
     @Id
     @GeneratedValue
