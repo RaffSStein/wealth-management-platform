@@ -4,8 +4,106 @@ info:
   version: 1.0.0
   description: API for managing bank information.
 
+paths:
+  /branches:
+    post:
+      tags:
+        - Bank
+      summary: Create a new bank branch
+      operationId: createBankBranch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankBranchDTO'
+      responses:
+        '201':
+          description: Bank branch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankBranchDTO'
+        '400':
+          description: Invalid input
+    get:
+      tags:
+        - Bank
+      summary: Get all bank branches
+      operationId: getAllBankBranches
+      responses:
+        '200':
+          description: List of bank branches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BankBranchDTO'
 
-paths: {}
+  /branches/{branchCode}:
+    get:
+      tags:
+        - Bank
+      summary: Get a bank branch by branchCode
+      operationId: getBankBranchByCode
+      parameters:
+        - name: branchCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bank branch found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankBranchDTO'
+        '404':
+          description: Bank branch not found
+    put:
+      tags:
+        - Bank
+      summary: Update a bank branch by branchCode
+      operationId: updateBankBranch
+      parameters:
+        - name: branchCode
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankBranchDTO'
+      responses:
+        '200':
+          description: Bank branch updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankBranchDTO'
+        '404':
+          description: Bank branch not found
+    delete:
+      tags:
+        - Bank
+      summary: Delete a bank branch by branchCode
+      operationId: deleteBankBranch
+      parameters:
+        - name: branchCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Bank branch deleted
+        '404':
+          description: Bank branch not found
 
 components:
   securitySchemes:
@@ -14,4 +112,42 @@ components:
       scheme: bearer
       bearerFormat: JWT
 
-  schemas: {}
+  schemas:
+    BankBranchDTO:
+      type: object
+      properties:
+        bankCode:
+          type: string
+        bankName:
+          type: string
+        branchCode:
+          type: string
+        branchName:
+          type: string
+        swiftCode:
+          type: string
+        countryCode:
+          type: string
+        bankType:
+          type: string
+        status:
+          type: string
+        bankDescription:
+          type: string
+        branchDescription:
+          type: string
+        branchCity:
+          type: string
+        address:
+          type: string
+        zipCode:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+      required:
+        - bankCode
+        - branchCode
+        - branchName
+        - countryCode

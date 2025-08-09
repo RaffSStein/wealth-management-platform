@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Entity representing a bank branch in a wealth management platform.
- * This model is designed to be internationally compatible, supporting both Italian and global banking standards.
+ * This model is designed to be internationally compatible, supporting all global banking standards.
  */
 @Entity
 @Table(name = "bank_branches", uniqueConstraints = {
