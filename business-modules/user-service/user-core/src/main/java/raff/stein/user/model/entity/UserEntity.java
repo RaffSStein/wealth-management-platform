@@ -41,7 +41,7 @@ public class UserEntity extends BaseDateEntity<UUID> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private Set<BankBranchUserEntity> bankBranchUsers = new HashSet<>();
+    private Set<BranchUserEntity> bankBranchUsers = new HashSet<>();
 
     // Fields
 
