@@ -32,7 +32,7 @@ public class UserEntity extends BaseDateEntity<UUID> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private UserSettings userSettings;
+    private UserSettingsEntity userSettings;
 
     /**
      * List of associations between this user and bank branches (roles per branch).

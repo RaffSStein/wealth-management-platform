@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSettings extends BaseDateEntity<UUID> {
+public class UserSettingsEntity extends BaseDateEntity<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
