@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: Customer Apis
+  version: 1.0.0
+  description: API for managing customer information.
+
+paths: {}
+
+components:
+  schemas: {}

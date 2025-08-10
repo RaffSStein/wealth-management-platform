@@ -1,0 +1,26 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /customer-service
+spring:
+  application:
+    name: customer-service
+  jpa:
+    generate-ddl: true
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+      # any additional Hibernate properties can be added here
+  datasource:
+    url: jdbc:postgresql://localhost:5435/customerdb
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  config:
+    import:
+      - classpath:platform-shared-properties.yaml
+      - classpath:kafka-properties.yaml
+

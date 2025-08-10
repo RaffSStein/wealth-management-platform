@@ -1,4 +1,4 @@
-package raff.stein.customerservice;
+package raff.stein.customer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
