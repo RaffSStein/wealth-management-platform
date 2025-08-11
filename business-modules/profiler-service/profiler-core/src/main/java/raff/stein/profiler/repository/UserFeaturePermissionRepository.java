@@ -12,7 +12,7 @@ public interface UserFeaturePermissionRepository extends JpaRepository<UserFeatu
 
     List<UserFeaturePermissionEntity> findAllByUserEmail(String userEmail);
     List<UserFeaturePermissionEntity> findAllByUserEmailAndBranchCode(String userEmail, String branchCode);
-    List<UserFeaturePermissionEntity> findAllByFeature_Id(UUID featureId);
-    List<UserFeaturePermissionEntity> findAllByUserEmailAndFeature_Id(String userEmail, UUID featureId);
+    List<UserFeaturePermissionEntity> findAllByFeature_Id(Integer featureId);
+    List<UserFeaturePermissionEntity> findAllByUserEmailAndFeature_Id(String userEmail, Integer featureId);
 }
 

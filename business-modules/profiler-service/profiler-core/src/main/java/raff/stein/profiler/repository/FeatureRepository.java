@@ -5,13 +5,12 @@ import org.springframework.stereotype.Repository;
 import raff.stein.profiler.model.entity.FeatureEntity;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface FeatureRepository extends JpaRepository<FeatureEntity, UUID> {
+public interface FeatureRepository extends JpaRepository<FeatureEntity, Integer> {
 
-    List<FeatureEntity> findAllBySectionId(UUID sectionId);
+    List<FeatureEntity> findAllBySectionId(Integer sectionId);
 
-    List<FeatureEntity> findAllBySectionIdIn(List<UUID> sectionIds);
+    List<FeatureEntity> findAllBySectionIdIn(List<Integer> sectionIds);
 }
 
