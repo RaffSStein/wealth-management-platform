@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.UUID;
-
 /**
  * Entity representing the association between a user and a bank branch, including the user's role within that branch.
  * Each user can operate for multiple bank branches, with a specific role for each association.
@@ -14,18 +12,18 @@ import java.util.UUID;
 @Entity
 @Table(
         name = "branch_users",
-        uniqueConstraints = {@UniqueConstraint(name = "uk_branch_user", columnNames = {"user_id", "branchId", "role"})}
+        uniqueConstraints = {@UniqueConstraint(name = "uk_branch_user_role", columnNames = {"user_id", "branchId", "role"})}
 )
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BranchUserEntity extends BaseDateEntity<UUID> {
+public class BranchUserEntity extends BaseDateEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * The user associated with this bank branch role.

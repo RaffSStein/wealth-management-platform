@@ -1,6 +1,6 @@
 package raff.stein.customer.model.entity.customer.enumeration;
 
-public enum OnboardingStatus {
+public enum CustomerStatus {
 
     DRAFT,
     PENDING_VERIFICATION,

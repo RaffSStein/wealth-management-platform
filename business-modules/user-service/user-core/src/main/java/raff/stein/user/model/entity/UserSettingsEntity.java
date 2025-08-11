@@ -5,19 +5,17 @@ import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "user_settings")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSettingsEntity extends BaseDateEntity<UUID> {
+public class UserSettingsEntity extends BaseDateEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     // Relationships
 

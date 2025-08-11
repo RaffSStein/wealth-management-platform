@@ -1,16 +1,18 @@
 package raff.stein.customer.model.entity.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import raff.stein.customer.model.entity.aml.AmlVerificationEntity;
+import raff.stein.customer.model.entity.customer.enumeration.CustomerStatus;
 import raff.stein.customer.model.entity.customer.enumeration.CustomerType;
 import raff.stein.customer.model.entity.customer.enumeration.Gender;
-import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
+import raff.stein.customer.model.entity.financial.CustomerFinancialsEntity;
+import raff.stein.customer.model.entity.goals.CustomerFinancialGoalsEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -21,9 +23,37 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CustomerEntity extends BaseDateEntity<UUID> {
 
+    //TODO: split customer types specific fields into separate entities if needed
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    //TODO: consider using a separate entity for user reference if needed, a user may access as different customers
+    @Column(nullable = false)
+    private UUID userId;        // Reference to the user in the platform
+
+    // Relationships
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<CustomerFinancialsEntity> customerFinancials;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<CustomerFinancialGoalsEntity> customerFinancialGoals;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<AmlVerificationEntity> amlVerifications;
+
+    // Fields
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -51,9 +81,6 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @Column(nullable = false)
     private String taxId;
 
-    @Column(nullable = false)
-    private String email;
-
     @Column
     private String phoneNumber;
 
@@ -74,6 +101,9 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OnboardingStatus onboardingStatus;
+    private CustomerStatus customerStatus;
+
+    @Column
+    private LocalDate onboardingDate;
 
 }

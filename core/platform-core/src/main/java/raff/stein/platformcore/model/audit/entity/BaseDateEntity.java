@@ -21,8 +21,8 @@ public abstract class BaseDateEntity<I> extends BaseEntity<I> {
     //TODO: entityListener for changes
     // history table for changes
     // createdBy, updatedBy, deletedBy fields
-    // soft dalete?
-    // tracign: correlationId, traceId, spanId ?
+    // soft delete?
+    // tracing: correlationId, traceId, spanId ?
 
     /** entity creation date populated on @PrePersist. */
     @Column(name = "creation_date", updatable = false, nullable = false)

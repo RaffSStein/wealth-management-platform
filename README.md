@@ -62,7 +62,7 @@ All business events (e.g., proposal created, order executed) are published to Ka
 - OpenAPI (for API and event model generation)
 - Lombok, Jakarta (for code simplification and modern Java EE)
 
-## API & Data Model
+## API & Event Data
 - API and event payloads are defined in OpenAPI YAML files in dedicated submodules (e.g., proposal-api-data, proposal-event-data).
 - Code generation is managed via Maven plugins, and shared models are imported as dependencies in other modules.
 
@@ -75,6 +75,17 @@ All business events (e.g., proposal created, order executed) are published to Ka
 ## Security
 - JWT-based authentication is implemented in the shared core and used by all modules.
 - Security context and correlation IDs are propagated and logged for each request.
+
+## DB Data Model
+The data model for the Wealth Management Platform is designed to support both internal microservice autonomy and robust event-driven communication. 
+
+- **Entity Keys**: 
+  - For entities that are exposed externally (e.g., via events or APIs), a UUID is used as the primary key. This ensures global uniqueness and facilitates safe event propagation across distributed systems.
+  - For entities whose lifecycle and visibility are strictly internal to a single microservice, a numeric ID is used:
+    - **Long**: Used for tables that are expected to grow significantly in size (e.g., logging, audit tables).
+    - **Integer**: Used for domain tables with a limited or predictable number of records.
+
+> _This section will be expanded with detailed entity diagrams and further explanations as the data model evolves._
 
 ## Work in Progress
 This repository is actively evolving. Features, modules, and documentation are subject to change as the platform matures. Please refer to the individual module [README](business-modules/proposal-service/README.md), [README](business-modules/portfolio-service/README.md), etc. for more details on each domain.

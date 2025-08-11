@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
-import java.util.UUID;
-
 /**
  * Entity representing a feature of the platform, such as a specific functionality or action
  * (e.g., EXPORT, EDIT_PROFILE). Each feature is associated with a section of the platform.
@@ -21,12 +19,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeatureEntity extends BaseEntity<UUID> {
+public class FeatureEntity extends BaseEntity<Integer> {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(nullable = false)
     private String featureCode; // e.g.: "EXPORT", "EDIT_PROFILE"
