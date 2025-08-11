@@ -189,6 +189,7 @@
         <module>business-modules/user-service</module>
         <module>business-modules/bank-service</module>
         <module>business-modules/email-service</module>
+        <module>business-modules/document-service</module>
         <module>core/platform-core</module>
     </modules>
 </project>
