@@ -9,6 +9,7 @@ import raff.stein.customer.model.entity.customer.enumeration.CustomerType;
 import raff.stein.customer.model.entity.customer.enumeration.Gender;
 import raff.stein.customer.model.entity.financial.CustomerFinancialsEntity;
 import raff.stein.customer.model.entity.goals.CustomerFinancialGoalsEntity;
+import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
@@ -52,6 +53,12 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private List<AmlVerificationEntity> amlVerifications;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<MifidFillingEntity> mifidFillings;
 
     // Fields
 

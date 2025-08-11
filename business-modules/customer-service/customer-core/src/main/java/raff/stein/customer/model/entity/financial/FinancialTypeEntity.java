@@ -6,14 +6,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import raff.stein.customer.model.entity.financial.enumeration.FinancialType;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 @Entity
-@Table(name = "customer_financial_types")
+@Table(name = "financial_types")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerFinancialTypeEntity {
+public class FinancialTypeEntity extends BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

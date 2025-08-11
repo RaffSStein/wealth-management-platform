@@ -1,10 +1,8 @@
 package raff.stein.customer.model.entity.goals;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
@@ -23,8 +21,20 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String goalType;
+    // Relationships
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "financial_goal_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private FinancialGoalTypeEntity financialGoalType;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false)
+    private CustomerEntity customer;
+
+    // Fields
 
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal targetAmount;
@@ -32,8 +42,6 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
     @Column(nullable = false)
     private LocalDate targetDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(nullable = false)
-    private CustomerEntity customer;
+
 
 }

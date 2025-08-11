@@ -34,7 +34,7 @@ public class CustomerFinancialsEntity extends BaseDateEntity<Integer> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private CustomerFinancialTypeEntity financialType;
+    private FinancialTypeEntity financialType;
 
     // Fields
 
