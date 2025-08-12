@@ -13,7 +13,10 @@ import raff.stein.profiler.model.entity.mapper.SectionEntityToSectionMapper;
 import raff.stein.profiler.repository.FeatureRepository;
 import raff.stein.profiler.repository.SectionRepository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,12 +42,14 @@ public class SitemapService {
         if (sectionEntities.isEmpty()) {
             return Collections.emptyList();
         }
-        List<UUID> sectionIds = sectionEntities.stream()
+        List<Integer> sectionIds = sectionEntities.stream()
                 .map(SectionEntity::getId)
                 .toList();
 
         List<FeatureEntity> allFeatureEntities = featureRepository.findAllBySectionIdIn(sectionIds);
-        Map<UUID, List<FeatureEntity>> featuresBySectionId = allFeatureEntities.stream()
+
+        Map<Integer, List<FeatureEntity>> featuresBySectionId = allFeatureEntities.stream()
+                .filter(fe -> fe.getSection() != null && fe.getSection().getId() != null)
                 .collect(Collectors.groupingBy(fe -> fe.getSection().getId()));
 
         List<Section> sections = new ArrayList<>();

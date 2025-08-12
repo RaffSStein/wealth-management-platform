@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
 /**
  * Entity representing a Permission in the application.
  * Mirrors the structure of PermissionDTO for MapStruct mapping.
@@ -14,7 +12,7 @@ import java.util.UUID;
 @Builder
 public class Permission {
 
-    private UUID id;
+    private Integer id;
     @JsonIgnore
     private String permissionCode;
     private String permissionName;

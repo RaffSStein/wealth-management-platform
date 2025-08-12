@@ -1,0 +1,26 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /document-service
+spring:
+  application:
+    name: document-service
+  jpa:
+    generate-ddl: true
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+      # any additional Hibernate properties can be added here
+  datasource:
+    url: jdbc:postgresql://localhost:5444/documentdb
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  config:
+    import:
+      - classpath:platform-shared-properties.yaml
+      - classpath:kafka-properties.yaml
+

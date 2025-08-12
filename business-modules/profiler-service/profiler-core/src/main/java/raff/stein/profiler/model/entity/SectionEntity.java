@@ -3,9 +3,9 @@ package raff.stein.profiler.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Entity representing a section in the platform. Each section can have a unique sectionId, a name, and an optional
@@ -15,16 +15,15 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "sections")
-@Data
 @Builder
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectionEntity {
+public class SectionEntity extends BaseEntity<Integer> {
 
     @Id
-    @GeneratedValue
-    @Column(columnDefinition = "uuid DEFAULT gen_random_uuid()")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(nullable = false)
     private String application;

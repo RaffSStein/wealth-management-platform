@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -17,7 +16,7 @@ import java.util.UUID;
  * For each bank-feature pair, it is possible to associate multiple permissions.
  */
 @Entity
-@Table(name = "user_feature")
+@Table(name = "user_feature_permission")
 @Getter
 @Builder
 @NoArgsConstructor
@@ -31,18 +30,14 @@ public class UserFeaturePermissionEntity extends BaseDateEntity<UUID> {
     @Column(name = "user_email", nullable = false)
     private String userEmail;
 
-    @Column(name = "bank_code", nullable = false)
-    private String bankCode;
+    @Column(name = "branch_code", nullable = false)
+    private String branchCode;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "feature_id")
     private FeatureEntity feature;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_feature_permissions",
-            joinColumns = @JoinColumn(name = "user_feature_id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id")
-    )
-    private Set<PermissionEntity> permissions;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "permission_id")
+    private PermissionEntity permission;
 }

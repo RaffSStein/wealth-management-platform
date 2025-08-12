@@ -5,10 +5,9 @@ import org.springframework.stereotype.Repository;
 import raff.stein.profiler.model.entity.SectionEntity;
 
 import java.util.List;
-import java.util.UUID;
 
 @Repository
-public interface SectionRepository extends JpaRepository<SectionEntity, UUID> {
+public interface SectionRepository extends JpaRepository<SectionEntity, Integer> {
 
     List<SectionEntity> findAllByApplication(String application);
 }

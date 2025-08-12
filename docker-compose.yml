@@ -158,6 +158,15 @@ services:
     ports:
       - 5443:5432
 
+  postgres-document:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: documentdb
+    ports:
+      - 5444:5432
+
   splunk:
     image: splunk/splunk:latest
     environment:

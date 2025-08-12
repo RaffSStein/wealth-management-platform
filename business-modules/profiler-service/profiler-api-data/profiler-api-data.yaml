@@ -98,8 +98,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int32
         sectionCode:
           type: string
         sectionName:
@@ -114,8 +114,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int32
         featureCode:
           type: string
         featureName:
@@ -125,8 +125,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int32
         permissionName:
           type: string
 

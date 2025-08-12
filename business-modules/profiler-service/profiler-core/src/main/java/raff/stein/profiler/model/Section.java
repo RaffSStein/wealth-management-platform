@@ -4,13 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
 public class Section {
 
-    private UUID id;
+    private Integer id;
     private String sectionCode;
     private String sectionName;
     private List<Feature> features;

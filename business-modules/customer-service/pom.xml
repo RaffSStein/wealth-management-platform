@@ -8,7 +8,11 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
+
     <artifactId>customer-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
 
     <dependencies>
         <dependency>
@@ -25,4 +29,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
+
+    <modules>
+        <module>customer-api-data</module>
+        <module>customer-event-data</module>
+        <module>customer-core</module>
+    </modules>
 </project>

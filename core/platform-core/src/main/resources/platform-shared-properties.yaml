@@ -5,5 +5,7 @@ security:
     prefix: Bearer
 
 spring:
+  mustache:
+    check-template-location: false
   config:
     import: classpath:kafka-shared-properties.yaml

@@ -3,8 +3,6 @@ package raff.stein.profiler.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.UUID;
-
 /**
  * Entity representing a Feature in the application.
  * Mirrors the structure of FeatureDTO for MapStruct mapping.
@@ -13,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class Feature {
 
-    private UUID id;
+    private Integer id;
     private String featureCode;
     private String featureName;
 
