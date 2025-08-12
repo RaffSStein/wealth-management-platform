@@ -1,15 +1,14 @@
 @startuml
 actor FE as "Frontend (WMP)"
 participant "customer-service" as Customer
-queue "create-document-topic" as createDocumentTopic
 participant "document-service" as Document
 queue "document-validated-topic" as documentValidationTopic
+queue "document-created-topic" as documentCreatedTopic
 participant "aml-external-systems" as ExternalSystems
 
 
 == Step 1 - customer personal information ==
 activate FE
-note right of FE: Customer starts onboarding\nprocess for a new customer
 note right of FE: Customer enters personal\ninformation and documents into the form
 FE -> Customer: POST /customers/init\n(customer data)
 deactivate FE
@@ -18,31 +17,38 @@ Customer -> Customer: Customer basic\ninfo validation
 alt Customer data valid
     Customer -> Customer: Save customer info to DB
     Customer -> Customer: Generate customer ID
-    Customer -> createDocumentTopic: publish create document request\n(customer ID, documents)
     Customer -> FE: 200 OK\n(customer ID)
-    deactivate Customer
-    createDocumentTopic --> Document: consume document\ncreation request
-    activate Document
-    Document -> Document: Validate documents
-    alt Documents valid format
-        Document -> Document: Save documents to DB
-        Document -> documentValidationTopic: publish document\ncreation success
-    else Documents invalid format
-        Document -> documentValidationTopic: publish document\ncreation failure
-    end
-    deactivate Document
-documentValidationTopic --> Customer: consume document validation result
-activate Customer
-Customer -> Customer: store document validation result
+    activate FE
+    note right of FE: Customer ID is used for\nsubsequent steps in the onboarding process
+    deactivate FE
 else Customer data invalid
     Customer -> FE: 400 Bad Request\n(validation errors)
     note right of FE: Customer needs to correct\ninvalid data
 end
 deactivate Customer
 
-== Step 2 - customer financial information ==
+
+== Step 1.1 - customer documents ==
 activate FE
+FE -> Document: POST /document/uploadDocument\n(upload customer documents)
+activate Document
+Document -> Document: Validate documents
+alt Documents valid format
+Document -> Document: Save documents to DB
+Document -> documentValidationTopic: publish document\nvalidation success
+Document -> documentCreatedTopic: publish document\ncreation
+else Documents invalid format
+Document -> documentValidationTopic: publish document\nvalidation failure
+end
+deactivate Document
+documentValidationTopic --> Customer: consume document validation result
+activate Customer
+Customer -> Customer: store document validation result
+deactivate Customer
+
+== Step 2 - customer financial information ==
 note right of FE: Retrieve financial types\nto display in form
+activate FE
 FE -> Customer: GET /customers/financials/types\n
 deactivate FE
 
