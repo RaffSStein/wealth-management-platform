@@ -18,6 +18,7 @@ public class File {
     private String description;
     private String documentType;
     private Set<Metadata> metadata;
+    private String operation;
 
     private MultipartFile multipartFile;
 }

@@ -23,7 +23,7 @@ public class DocumentService {
     public Document uploadDocument(File fileInput) {
         // get the document type (configuration) from the input file
         DocumentType documentType = documentTypeService.getDocumentType(fileInput.getDocumentType());
-        FileValidationResult fileValidationResult = FileValidatorProvider.getBasicFileValidator()
+        FileValidationResult fileValidationResult = FileValidatorProvider.getUploadFileValidator()
                 .validate(
                         fileInput,
                         new FileValidationResult(),

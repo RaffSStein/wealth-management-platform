@@ -30,7 +30,7 @@ public class DocumentController implements DocumentApi {
 
     @Override
     public ResponseEntity<DocumentDTO> uploadDocument(MultipartFile multipartFile, FileDTO fileDTO) {
-        File fileInput = fileDTOToFileMapper.toFile(fileDTO, multipartFile);
+        File fileInput = fileDTOToFileMapper.toUploadFile(fileDTO, multipartFile);
         Document createdDocument = documentService.uploadDocument(fileInput);
         DocumentDTO responseDocumentDTO = documentDTOToDocumentMapper.toDocumentDTO(createdDocument);
         return ResponseEntity.ok(responseDocumentDTO);
