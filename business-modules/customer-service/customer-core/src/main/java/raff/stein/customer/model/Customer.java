@@ -2,12 +2,32 @@ package raff.stein.customer.model;
 
 import lombok.Builder;
 import lombok.Data;
-import raff.stein.platformcore.model.audit.BaseDate;
+
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Data
 @Builder
-public class Customer extends BaseDate {
+public class Customer {
 
-
+    private UUID id;
+    private UUID userId;
+    // anagraphic data
+    private String customerType;
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+    private String gender;
+    private String nationality;
+    private String companyName;
+    private String taxId;
+    private String phoneNumber;
+    private String addressLine1;
+    private String addressLine2;
+    private String city;
+    private String zipCode;
+    private String country;
+    private String customerStatus;
+    private LocalDate onboardingDate;
 
 }

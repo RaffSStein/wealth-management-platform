@@ -4,7 +4,107 @@ info:
   version: 1.0.0
   description: API for managing customer information.
 
-paths: {}
+paths:
+  /customer/init:
+    post:
+      summary: Initialize a new customer onboarding
+      description: Receives the personal data of a customer to start the onboarding process.
+      operationId: initCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDTO'
+      responses:
+        '200':
+          description: Customer onboarding initialized successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+        '400':
+          description: Invalid input data
+        '500':
+          description: Internal server error
+      tags:
+        - Customer
 
 components:
-  schemas: {}
+  schemas:
+    CustomerDTO:
+      type: object
+      required:
+        - customerType
+        - taxId
+        - customerStatus
+        - userId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the customer
+        userId:
+          type: string
+          format: uuid
+          description: Unique identifier for the user associated with the customer
+        customerType:
+          $ref: '#/components/schemas/CustomerType'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          $ref: '#/components/schemas/Gender'
+        nationality:
+          type: string
+          description: ISO 3166-1 alpha-2
+          maxLength: 2
+        companyName:
+          type: string
+        taxId:
+          type: string
+        phoneNumber:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zipCode:
+          type: string
+        country:
+          type: string
+          description: ISO 3166-1 alpha-2
+          maxLength: 2
+        customerStatus:
+          $ref: '#/components/schemas/CustomerStatus'
+        onboardingDate:
+          type: string
+          format: date
+
+    CustomerType:
+      type: string
+      enum:
+        - INDIVIDUAL
+        - CORPORATE
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
+        - OTHER
+        - NOT_SPECIFIED
+
+    CustomerStatus:
+      type: string
+      enum:
+        - DRAFT
+        - PENDING_VERIFICATION
+        - ACTIVE
+        - REJECTED
