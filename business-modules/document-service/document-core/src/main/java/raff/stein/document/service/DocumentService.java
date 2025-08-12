@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import raff.stein.document.exception.FileValidationException;
 import raff.stein.document.model.Document;
+import raff.stein.document.model.DocumentType;
 import raff.stein.document.model.File;
 import raff.stein.document.repository.DocumentRepository;
 import raff.stein.document.service.validation.FileValidationResult;
@@ -17,11 +18,16 @@ import raff.stein.platformcore.exception.ErrorCode;
 public class DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final DocumentTypeService documentTypeService;
 
     public Document uploadDocument(File fileInput) {
-        // Validate the file input
-        FileValidationResult fileValidationResult = FileValidatorProvider.getBasicFileValidator().
-                validate(fileInput, new FileValidationResult());
+        // get the document type (configuration) from the input file
+        DocumentType documentType = documentTypeService.getDocumentType(fileInput.getDocumentType());
+        FileValidationResult fileValidationResult = FileValidatorProvider.getBasicFileValidator()
+                .validate(
+                        fileInput,
+                        new FileValidationResult(),
+                        documentType);
         if(fileValidationResult.isValid()) {
             // upload the file
             // upload file to storage (e.g., S3, local file system, etc.)
