@@ -36,7 +36,7 @@ and reporting-service (or email-service).
 
 Below is the sequence diagram representing the onboarding process:
 
-![Bank Branch Onboarding Sequence Diagram](/docs/domain/assets/branch-onboarding/onboarding.png)
+![Bank Branch Onboarding Sequence Diagram](/docs/domain/assets/onboarding/branch-onboarding/branch-onboarding-process-diagram.png)
 
 
 ---
