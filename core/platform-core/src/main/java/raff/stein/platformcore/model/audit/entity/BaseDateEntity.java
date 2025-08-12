@@ -1,58 +1,83 @@
 package raff.stein.platformcore.model.audit.entity;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 
+/**
+ * Base entity class for audit information.
+ * <p>
+ * This abstract class provides common audit fields for all entities, such as creation and modification metadata,
+ * and supports optimistic locking. It is intended to be extended by all entities that require audit tracking.
+ * </p>
+ *
+ * @param <I> the type of the entity identifier
+ */
+@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@ToString(of = {"creationDate"})
 public abstract class BaseDateEntity<I> extends BaseEntity<I> {
 
-    //TODO: entityListener for changes
+    //TODO:
     // history table for changes
-    // createdBy, updatedBy, deletedBy fields
-    // soft delete?
     // tracing: correlationId, traceId, spanId ?
 
-    /** entity creation date populated on @PrePersist. */
+    /**
+     * The username or identifier of the user who created the entity.
+     * Automatically populated by Spring Data JPA auditing.
+     */
+    @CreatedBy
+    @Column(name = "created_by", updatable = false, nullable = false)
+    @JsonIgnore
+    private String createdBy;
+
+    /**
+     * The timestamp when the entity was created.
+     * Automatically populated by Spring Data JPA auditing.
+     */
+    @CreatedDate
     @Column(name = "creation_date", updatable = false, nullable = false)
-    @CreationTimestamp
-    private OffsetDateTime creationDate;
+    @JsonIgnore
+    private OffsetDateTime createdDate;
 
-    /** entity modification date populated on @PreUpdate. */
-    @Column(name = "last_update_date", nullable = false)
-    @UpdateTimestamp
-    private OffsetDateTime lastUpdateDate;
+    /**
+     * The username or identifier of the user who last modified the entity.
+     * Automatically populated by Spring Data JPA auditing on update.
+     */
+    @LastModifiedBy
+    @Column(name = "last_modified_by")
+    @JsonIgnore
+    private String lastModifiedBy;
 
-    /** let hibernate manage optimistic locking. */
+    /**
+     * The timestamp when the entity was last modified.
+     * Automatically populated by Spring Data JPA auditing on update.
+     */
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    @JsonIgnore
+    private OffsetDateTime lastModifiedDate;
+
+    /**
+     * Version field for optimistic locking, managed by Hibernate.
+     * Used to prevent concurrent update conflicts.
+     */
     @Version
     private Long version;
 
-    /**
-     * Inits the insert date.
-     */
-    @PrePersist
-    public void initInsertDate() {
-        this.creationDate = ZonedDateTime.now().toOffsetDateTime();
-        this.lastUpdateDate = this.creationDate;
-    }
-
-    /**
-     * Inits the last update.
-     */
-    @PreUpdate
-    public void initLastUpdate() {
-        this.lastUpdateDate = ZonedDateTime.now().toOffsetDateTime();
-    }
 
 }
