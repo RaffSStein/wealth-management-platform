@@ -11,8 +11,8 @@ public class FileValidationException extends GenericException {
         super(errorCode, errorMessage);
     }
 
-    public static Supplier<FileValidationException> with(String fieldName, String fieldValue) {
-        String message = String.format(ErrorCode.DOCUMENT_UPLOAD_VALIDATION_ERROR.getMessageTemplate(), fieldName, fieldValue);
-        return () -> new FileValidationException(ErrorCode.DOCUMENT_UPLOAD_VALIDATION_ERROR, message);
+    public static Supplier<FileValidationException> with(String customerId) {
+        String message = String.format(ErrorCode.FILE_VALIDATION_FAILED.getMessageTemplate(), customerId);
+        return () -> new FileValidationException(ErrorCode.FILE_VALIDATION_FAILED, message);
     }
 }

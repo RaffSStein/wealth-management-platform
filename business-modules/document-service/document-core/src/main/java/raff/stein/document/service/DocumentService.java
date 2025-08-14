@@ -58,8 +58,7 @@ public class DocumentService {
             // return the uploaded document with metadata
             return uploadedDocumentWithMetadata;
         } else {
-            //TODO: replace with an exception that reports all the validation errors
-            throw FileValidationException.with("", "").get();
+            throw FileValidationException.with(fileInput.getCustomerId().toString()).get();
         }
     }
 
