@@ -9,6 +9,7 @@ import java.util.Set;
 @Builder
 public class DocumentType {
 
+    private Integer id;
     private String typeName;
     private String description;
     private Long maxFileSize;               // Maximum file size in bytes

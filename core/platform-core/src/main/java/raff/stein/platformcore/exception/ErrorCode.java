@@ -18,7 +18,8 @@ public enum ErrorCode {
 
     // Domain specific errors
     // Document related errors
-    DOCUMENT_UPLOAD_VALIDATION_ERROR("File validation not passed. Field [%s] - Value [%s]", ErrorCategory.VALIDATION_ERROR);
+    DOCUMENT_UPLOAD_VALIDATION_ERROR("File validation not passed. Field [%s] - Value [%s]", ErrorCategory.VALIDATION_ERROR),
+    DOCUMENT_STORAGE_ERROR("Error while storing document [%s] in storage", ErrorCategory.GENERIC_ERROR);
 
 
     private final String messageTemplate;

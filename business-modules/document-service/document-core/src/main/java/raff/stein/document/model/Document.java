@@ -22,4 +22,6 @@ public class Document {
     private String mimeType;
     private Long fileSize;
     private String fileContentBase64;
+    private String fullFilePath;
+    private UUID initialFileUuid;
 }

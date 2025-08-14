@@ -20,6 +20,10 @@ public class DocumentTypeService {
             DocumentTypeEntityToDocumentTypeMapper.MAPPER;
 
     public DocumentType getDocumentType(String documentTypeName) {
+        return documentTypeEntityToDocumentTypeMapper.toDocumentType(getDocumentTypeEntity(documentTypeName));
+    }
+
+    public DocumentTypeEntity getDocumentTypeEntity(String documentTypeName) {
         if(documentTypeName == null || documentTypeName.isBlank()) {
             return null;
         }
@@ -30,6 +34,6 @@ public class DocumentTypeService {
             log.warn("Document type [{}] not found", normalizedDocumentTypeName);
             return null;
         }
-        return documentTypeEntityToDocumentTypeMapper.toDocumentType(documentTypeEntityOptional.get());
+        return documentTypeEntityOptional.get();
     }
 }
