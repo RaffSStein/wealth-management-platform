@@ -11,14 +11,11 @@ import java.util.UUID;
 @Builder
 public class File {
 
+    private UUID id;
     private UUID customerId;
-    private String fileName;
-    private Long fileSize;
-    private String mimeType;
     private String description;
     private String documentType;
     private Set<Metadata> metadata;
-    private String operation;
 
     private MultipartFile multipartFile;
 }

@@ -15,7 +15,10 @@ public interface FileDTOToFileMapper {
     FileDTO toFileDTO(File file);
 
     @Mapping(target = "multipartFile", source = "multipartFile")
-    @Mapping(target = "operation", constant = "upload")
-    File toUploadFile(FileDTO fileDTO, MultipartFile multipartFile);
+    File toFile(FileDTO fileDTO, MultipartFile multipartFile);
+
+    @Mapping(target = "multipartFile", source = "multipartFile")
+    @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID())")
+    File toNewFile(FileDTO fileDTO, MultipartFile multipartFile);
 
 }

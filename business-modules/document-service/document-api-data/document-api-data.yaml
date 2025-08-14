@@ -79,9 +79,6 @@ components:
       type: object
       description: Data transfer object for file metadata.
       required:
-        - fileName
-        - fileSize
-        - mimeType
         - documentType
         - metadata
         - customerId
@@ -90,13 +87,6 @@ components:
           type: string
           format: uuid
           description: Unique identifier for the customer associated with the file
-        fileName:
-          type: string
-        fileSize:
-          type: integer
-          format: int64
-        mimeType:
-          type: string
         description:
           type: string
         documentType:

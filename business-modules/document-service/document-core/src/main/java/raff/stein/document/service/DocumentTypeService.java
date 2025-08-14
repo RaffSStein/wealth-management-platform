@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import raff.stein.document.model.DocumentType;
+import raff.stein.document.model.entity.DocumentTypeEntity;
 import raff.stein.document.model.entity.mapper.DocumentTypeEntityToDocumentTypeMapper;
 import raff.stein.document.repository.DocumentTypeRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,12 @@ public class DocumentTypeService {
             return null;
         }
         String normalizedDocumentTypeName = documentTypeName.trim().toUpperCase();
-        return documentTypeEntityToDocumentTypeMapper.toDocumentType(
-                documentTypeRepository.findByTypeName(normalizedDocumentTypeName));
+        Optional<DocumentTypeEntity> documentTypeEntityOptional =
+                documentTypeRepository.findByTypeName(normalizedDocumentTypeName);
+        if (documentTypeEntityOptional.isEmpty()) {
+            log.warn("Document type [{}] not found", normalizedDocumentTypeName);
+            return null;
+        }
+        return documentTypeEntityToDocumentTypeMapper.toDocumentType(documentTypeEntityOptional.get());
     }
 }

@@ -15,4 +15,59 @@ info:
 paths: {}
 
 components:
-  schemas: {}
+  schemas:
+    FileValidatedEvent:
+      type: object
+      description: Event emitted when a file has been validated
+      required:
+        - fileId
+        - customerId
+        - isValid
+        - fileName
+        - documentType
+        - fileSize
+        - mimeType
+        - validatedAt
+      properties:
+        fileId:
+          type: string
+          format: uuid
+          description: Unique identifier of the file.
+        customerId:
+          type: string
+          format: uuid
+          description: Unique identifier of the customer associated with the file.
+        fileName:
+          type: string
+          description: Name of the validated file.
+        documentType:
+          type: string
+          description: Type of the document (e.g., invoice, receipt).
+        fileSize:
+          type: integer
+          format: int64
+          description: Size of the file in bytes.
+        mimeType:
+          type: string
+          description: MIME type of the file (e.g., application/pdf).
+        isValid:
+          type: boolean
+          description: Indicates whether the file is valid or not.
+        validationStatus:
+          type: string
+          enum: [SUCCESS, ERROR, WARNING]
+          description: Result of the validation process.
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of validation errors, if any.
+        warnings:
+          type: array
+          items:
+            type: string
+          description: List of validation warnings, if any.
+        validatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of the validation event.

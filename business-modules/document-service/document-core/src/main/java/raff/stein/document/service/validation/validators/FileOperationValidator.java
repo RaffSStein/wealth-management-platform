@@ -17,7 +17,10 @@ public class FileOperationValidator extends FileValidator {
     @Override
     protected void doValidate(File file, FileValidationResult result, DocumentType configuration) {
         // Validate the operation against the allowed operations in the document type configuration
-        if (!configuration.getAllowedOperations().contains(operation)) {
+        boolean isNotValidOperation = configuration.getAllowedOperations()
+                .stream()
+                .noneMatch(op -> op.equalsIgnoreCase(operation));
+        if (isNotValidOperation) {
             result.addError(
                     FileOperationValidator.class.getName(),
                     String.format("Operation '%s' is not allowed for document type '%s'",

@@ -8,8 +8,6 @@ import raff.stein.document.model.Document;
 import raff.stein.document.model.DocumentType;
 import raff.stein.document.model.File;
 import raff.stein.document.repository.DocumentRepository;
-import raff.stein.document.service.validation.FileValidationResult;
-import raff.stein.document.service.validation.FileValidatorProvider;
 import raff.stein.platformcore.exception.ErrorCode;
 
 @Service
@@ -19,15 +17,15 @@ public class DocumentService {
 
     private final DocumentRepository documentRepository;
     private final DocumentTypeService documentTypeService;
+    private final FileValidationService fileValidationService;
 
     public Document uploadDocument(File fileInput) {
         // get the document type (configuration) from the input file
         DocumentType documentType = documentTypeService.getDocumentType(fileInput.getDocumentType());
-        FileValidationResult fileValidationResult = FileValidatorProvider.getUploadFileValidator().validate(
-                fileInput,
-                new FileValidationResult(),
-                documentType);
-        if(fileValidationResult.isValid()) {
+        // validate the file against the document type configuration
+        // publish an event to notify other services about the validation result
+        Boolean isValid = fileValidationService.validateUploadedFileAndPublish(fileInput, documentType);
+        if(Boolean.TRUE.equals(isValid)) {
             // upload the file
             // upload file to storage (e.g., S3, local file system, etc.)
             // save document and related metadata to the database

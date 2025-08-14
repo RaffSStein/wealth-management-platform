@@ -12,31 +12,43 @@ public class FileBaseValidator extends FileValidator {
         // Base validation checks for file and configuration
         // File checks
         if (file == null) {
-            result.addError(FileBaseValidator.class.getName(), "File cannot be null");
+            result.addError(FileBaseValidator.class.getName(), "File object was null");
         } else {
             if(file.getMultipartFile() == null || file.getMultipartFile().isEmpty()) {
-                result.addError(FileBaseValidator.class.getName(), "MultipartFile cannot be null or empty");
+                result.addError(FileBaseValidator.class.getName(), "MultipartFile was null or empty");
             }
         }
         // configuration checks
         if (configuration == null) {
-            result.addError(FileBaseValidator.class.getName(), "Document type configuration cannot be null");
+            result.addError(FileBaseValidator.class.getName(), "Document type configuration was null");
         } else {
-            if (configuration.getMaxFileSize() == null || configuration.getMaxFileSize() <= 0) {
-                result.addError(
-                        FileBaseValidator.class.getName(),
-                        "Document type configuration max file size must be a non null digit greater than zero");
-            }
-            if (configuration.getAllowedMimeTypes() == null || configuration.getAllowedMimeTypes().isEmpty()) {
-                result.addError(
-                        FileBaseValidator.class.getName(),
-                        "Document type configuration allowed MIME types cannot be null or empty");
-            }
-            if (configuration.getAllowedOperations() == null || configuration.getAllowedOperations().isEmpty()) {
-                result.addError(
-                        FileBaseValidator.class.getName(),
-                        "Document type configuration allowed operations cannot be null or empty");
-            }
+            fileSizeNullCheck(result, configuration);
+            allowedMimeTypesNullCheck(result, configuration);
+            allowedOperationsNullCheck(result, configuration);
+        }
+    }
+
+    private static void allowedOperationsNullCheck(FileValidationResult result, DocumentType configuration) {
+        if (configuration.getAllowedOperations() == null || configuration.getAllowedOperations().isEmpty()) {
+            result.addError(
+                    FileBaseValidator.class.getName(),
+                    "Document type configuration allowed operations was null or empty");
+        }
+    }
+
+    private static void allowedMimeTypesNullCheck(FileValidationResult result, DocumentType configuration) {
+        if (configuration.getAllowedMimeTypes() == null || configuration.getAllowedMimeTypes().isEmpty()) {
+            result.addError(
+                    FileBaseValidator.class.getName(),
+                    "Document type configuration allowed MIME types was or empty");
+        }
+    }
+
+    private static void fileSizeNullCheck(FileValidationResult result, DocumentType configuration) {
+        if (configuration.getMaxFileSize() == null || configuration.getMaxFileSize() <= 0) {
+            result.addError(
+                    FileBaseValidator.class.getName(),
+                    "Document type configuration max file size must be a non null digit greater than zero");
         }
     }
 }
