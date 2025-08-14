@@ -31,18 +31,21 @@ public class DocumentEntity extends BaseDateEntity<UUID> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private List<DocumentVersionEntity> versions;
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private List<DocumentAccessLogEntity> accessLogs;
 
     @OneToMany(mappedBy = "document", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private List<DocumentMetadataEntity> metadata;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

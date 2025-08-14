@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import raff.stein.document.event.producer.mapper.FileToFileValidatedMapper;
+import raff.stein.document.event.producer.mapper.FileToFileValidatedEventMapper;
 import raff.stein.document.model.File;
 import raff.stein.document.service.validation.FileValidationResult;
 import raff.stein.platformcore.messaging.publisher.WMPBaseEventPublisher;
@@ -17,7 +17,7 @@ public class FileValidatedEventPublisher {
 
     private final WMPBaseEventPublisher wmpBaseEventPublisher;
     private final String fileValidatedTopic;
-    private static final FileToFileValidatedMapper fileToFileValidatedMapper = FileToFileValidatedMapper.MAPPER;
+    private static final FileToFileValidatedEventMapper fileToFileValidatedEventMapper = FileToFileValidatedEventMapper.MAPPER;
 
     public FileValidatedEventPublisher(
             WMPBaseEventPublisher wmpBaseEventPublisher,
@@ -27,7 +27,7 @@ public class FileValidatedEventPublisher {
     }
 
     public void publishDocumentValidatedEvent(File file, FileValidationResult fileValidationResult) {
-        var fileValidatedEvent = fileToFileValidatedMapper.toFileValidatedEvent(file, fileValidationResult);
+        var fileValidatedEvent = fileToFileValidatedEventMapper.toFileValidatedEvent(file, fileValidationResult);
         var eventData = new EventData(fileValidatedEvent);
         wmpBaseEventPublisher.publishCloudEvent(fileValidatedTopic, eventData);
     }

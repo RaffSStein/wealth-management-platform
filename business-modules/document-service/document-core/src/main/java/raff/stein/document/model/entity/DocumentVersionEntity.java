@@ -75,5 +75,12 @@ public class DocumentVersionEntity extends BaseDateEntity<Long> {
     @Column(length = 100, nullable = false)
     private String mimeType;
 
+    /**
+     * Indicates whether the version is currently active.
+     * Only one version can be active at a time for a given document.
+     */
+    @Column(nullable = false)
+    private boolean isActive;
+
 
 }

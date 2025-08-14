@@ -3,6 +3,7 @@ package raff.stein.document.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import raff.stein.document.event.producer.DocumentUploadedEventPublisher;
 import raff.stein.document.exception.FileValidationException;
 import raff.stein.document.model.Document;
 import raff.stein.document.model.File;
@@ -25,6 +26,8 @@ public class DocumentService {
     private final FileValidationService fileValidationService;
     private final CloudStorageService cloudStorageService;
 
+    private final DocumentUploadedEventPublisher documentUploadedEventPublisher;
+
     private final DocumentRepository documentRepository;
     private final DocumentAccessLogRepository documentAccessLogRepository;
     private final DocumentMetadataRepository documentMetadataRepository;
@@ -46,11 +49,14 @@ public class DocumentService {
                 documentTypeEntityToDocumentTypeMapper.toDocumentType(documentTypeEntity));
         if(Boolean.TRUE.equals(isValid)) {
             // upload file to storage (e.g., S3, local file system, etc.)
-            Document uploadedDocument = cloudStorageService.uploadFile(fileInput);
+            final Document uploadedDocument = cloudStorageService.uploadFile(fileInput);
             // save document and related metadata to the database
             final DocumentEntity savedDocument = buildDocumentEntityAndRelatedEntities(uploadedDocument, documentTypeEntity);
             // publish an event to notify other services for upload and validation
-            return null;
+            final Document uploadedDocumentWithMetadata = documentEntityToDocumentMapper.toDocument(savedDocument);
+            documentUploadedEventPublisher.publishDocumentUploadedEvent(uploadedDocumentWithMetadata);
+            // return the uploaded document with metadata
+            return uploadedDocumentWithMetadata;
         } else {
             //TODO: replace with an exception that reports all the validation errors
             throw FileValidationException.with("", "").get();
@@ -76,6 +82,9 @@ public class DocumentService {
         documentVersionRepository.save(documentVersionEntity);
         documentAccessLogEntity.setDocument(savedDocumentEntity);
         documentAccessLogRepository.save(documentAccessLogEntity);
+        savedDocumentEntity.setVersions(List.of(documentVersionEntity));
+        savedDocumentEntity.setAccessLogs(List.of(documentAccessLogEntity));
+        savedDocumentEntity.setMetadata(documentMetadataEntities);
         return savedDocumentEntity;
     }
 

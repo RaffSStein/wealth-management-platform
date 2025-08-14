@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Mapper(config = DocumentEventMapperConfig.class)
-public interface FileToFileValidatedMapper {
+public interface FileToFileValidatedEventMapper {
 
-    FileToFileValidatedMapper MAPPER = Mappers.getMapper(FileToFileValidatedMapper.class);
+    FileToFileValidatedEventMapper MAPPER = Mappers.getMapper(FileToFileValidatedEventMapper.class);
 
     @Mapping(target = "fileId", source = "file.id")
     @Mapping(target = "fileSize", source = "file.multipartFile.size")

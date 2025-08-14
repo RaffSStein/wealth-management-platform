@@ -16,5 +16,6 @@ public interface DocumentVersionEntityToDocumentMapper {
     @Mapping(target = "versionNumber", source = "activeVersion")
     @Mapping(target = "filePath", source = "fullFilePath")
     @Mapping(target = "document", ignore = true)
+    @Mapping(target = "isActive", constant = "true")
     DocumentVersionEntity toDocumentVersionEntity(Document document);
 }

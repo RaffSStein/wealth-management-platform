@@ -71,3 +71,65 @@ components:
           type: string
           format: date-time
           description: Timestamp of the validation event.
+
+    DocumentUploadedEvent:
+      type: object
+      description: Event emitted when a document is successfully uploaded.
+      required:
+        - documentId
+        - customerId
+        - fileName
+        - documentType
+        - fileSize
+        - mimeType
+        - uploadedAt
+      properties:
+        documentId:
+          type: string
+          format: uuid
+          description: Unique identifier of the uploaded document.
+        customerId:
+          type: string
+          format: uuid
+          description: Unique identifier of the customer associated with the document.
+        fileName:
+          type: string
+          description: Name of the uploaded file.
+        documentType:
+          type: string
+          description: Type of the document (e.g., invoice, receipt).
+        fileSize:
+          type: integer
+          format: int64
+          description: Size of the file in bytes.
+        mimeType:
+          type: string
+          description: MIME type of the file (e.g., application/pdf).
+        uploadDate:
+          type: string
+          format: date-time
+          description: Timestamp of the upload event.
+        activeVersion:
+          type: integer
+          description: Version number of the document, indicating the active version.
+        metadata:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Metadata'
+        uploadedBy:
+          type: string
+          description: Identifier of the user who uploaded the document.
+        initialFileUuid:
+          type: string
+          format: uuid
+          description: Unique identifier of the initial file, if this is a versioned document.
+          nullable: true
+
+    Metadata:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
