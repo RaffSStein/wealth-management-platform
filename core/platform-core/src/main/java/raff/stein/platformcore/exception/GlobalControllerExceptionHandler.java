@@ -19,6 +19,7 @@ import raff.stein.platformcore.exception.types.notfound.GenericObjectNotFoundExc
 import raff.stein.platformcore.exception.types.notimplemented.NotImplementedException;
 import raff.stein.platformcore.exception.types.unauthorized.AuthenticationException;
 import raff.stein.platformcore.exception.types.unauthorized.JwtTokenException;
+import raff.stein.platformcore.exception.types.unauthorized.WmpContextException;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,7 +94,8 @@ public class GlobalControllerExceptionHandler {
      */
     @ExceptionHandler({
             JwtTokenException.class,
-            AuthenticationException.class
+            AuthenticationException.class,
+            WmpContextException.class
             // Add any specific unauthorized exceptions here
     })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

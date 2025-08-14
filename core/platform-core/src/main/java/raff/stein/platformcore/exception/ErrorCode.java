@@ -11,8 +11,8 @@ public enum ErrorCode {
     ACCESS_DENIED("Access denied for user [%s] to object with id [%s]", ErrorCategory.AUTHORIZATION_ERROR),
     AUTHENTICATION_ERROR("Authentication failed for user [%s]", ErrorCategory.AUTHENTICATION_ERROR),
     MISSING_HEADER_ERROR("Missing required header [%s]", ErrorCategory.VALIDATION_ERROR),
-    MISSING_HEADER_TOKEN_FIELD("Missing required token field [%s]", ErrorCategory.VALIDATION_ERROR),
-    NULL_WMP_CONTEXT("Context was null in an authorized scenario", ErrorCategory.VALIDATION_ERROR),
+    MISSING_HEADER_TOKEN_FIELD("Missing required token field [%s]", ErrorCategory.AUTHENTICATION_ERROR),
+    NULL_WMP_CONTEXT("Context was null in an authorized scenario", ErrorCategory.AUTHENTICATION_ERROR),
     OPTIMISTIC_LOCKING_ERROR("The resource has been modified by another transaction. Please retry", ErrorCategory.VALIDATION_ERROR),
     NOT_IMPLEMENTED_ERROR("This feature [%s] is not implemented yet", ErrorCategory.GENERIC_ERROR),
 

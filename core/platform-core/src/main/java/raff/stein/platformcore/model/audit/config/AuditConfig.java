@@ -26,7 +26,6 @@ public class AuditConfig {
      * Retrieve the current user's email from the Spring SecurityContext.
      * @return the email of the authenticated user, or null if not available
      */
-
     private String getCurrentUserEmail() {
         WMPContext wmpContext = SecurityContextHolder.getContext();
         if (wmpContext != null) {

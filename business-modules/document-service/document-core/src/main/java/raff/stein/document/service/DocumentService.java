@@ -23,11 +23,10 @@ public class DocumentService {
     public Document uploadDocument(File fileInput) {
         // get the document type (configuration) from the input file
         DocumentType documentType = documentTypeService.getDocumentType(fileInput.getDocumentType());
-        FileValidationResult fileValidationResult = FileValidatorProvider.getUploadFileValidator()
-                .validate(
-                        fileInput,
-                        new FileValidationResult(),
-                        documentType);
+        FileValidationResult fileValidationResult = FileValidatorProvider.getUploadFileValidator().validate(
+                fileInput,
+                new FileValidationResult(),
+                documentType);
         if(fileValidationResult.isValid()) {
             // upload the file
             // upload file to storage (e.g., S3, local file system, etc.)
@@ -35,7 +34,8 @@ public class DocumentService {
             // publish an event to notify other services for upload and validation
             return null;
         } else {
-            // publish an event to notify other services about the validation failure
+            // TODO: publish an event to notify other services about the validation failure
+            // TODO: log the validation errors
             //TODO: replace with an exception that reports all the validation errors
             FileValidationException.of(ErrorCode.DOCUMENT_UPLOAD_VALIDATION_ERROR, "", "");
         }

@@ -11,7 +11,7 @@ public class DocumentType {
 
     private String typeName;
     private String description;
-    private Long maxFileSize;
+    private Long maxFileSize;               // Maximum file size in bytes
     private Set<String> allowedMimeTypes;
     private Set<String> allowedOperations;
 }
