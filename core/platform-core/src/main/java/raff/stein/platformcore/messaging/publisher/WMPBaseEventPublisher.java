@@ -17,7 +17,6 @@ import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Component
@@ -45,36 +44,21 @@ public class WMPBaseEventPublisher implements EventPublisher {
                 cloudEvent.getId(),
                 cloudEvent.getType());
 
-        boolean sent = sendCloudEvent(topic, cloudEvent);
-
-        if (sent) {
-            log.info("CloudEvent sent successfully to topic: [{}], eventId: [{}], eventType: [{}]",
-                    topic,
-                    cloudEvent.getId(),
-                    cloudEvent.getType());
-        } else {
-            log.error("Failed to send CloudEvent to topic: [{}], eventId: [{}], eventType: [{}]",
-                    topic,
-                    cloudEvent.getId(),
-                    cloudEvent.getType());
-        }
+        sendCloudEvent(topic, cloudEvent);
 
     }
 
-    private boolean sendCloudEvent(@NonNull String topic, CloudEvent cloudEvent) {
-        AtomicBoolean eventSent = new AtomicBoolean(true);
+    private void sendCloudEvent(@NonNull String topic, CloudEvent cloudEvent) {
         kafkaCloudEventProducer.send(
                 new ProducerRecord<>(topic, cloudEvent), (recordMetadata, e) -> {
                     if (e != null) {
-                        log.error("Failed to send CloudEvent to topic: [{}], error: {}", topic, e.getMessage());
-                        eventSent.set(false);
+                        log.error("Failed to publish CloudEvent to topic: [{}], error: {}", topic, e.getMessage());
                     } else {
-                        log.info("CloudEvent sent to topic: [{}], partition: [{}], offset: [{}]",
+                        log.info("CloudEvent published to topic: [{}], partition: [{}], offset: [{}]",
                                 topic, recordMetadata.partition(), recordMetadata.offset());
                     }
                 }
         );
-        return eventSent.get();
     }
 
     private CloudEvent createCloudEvent(@NonNull EventData eventData) {

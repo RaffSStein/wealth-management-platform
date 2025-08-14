@@ -30,7 +30,6 @@ public class FileValidatedEventPublisher {
         var fileValidatedEvent = fileToFileValidatedMapper.toFileValidatedEvent(file, fileValidationResult);
         var eventData = new EventData(fileValidatedEvent);
         wmpBaseEventPublisher.publishCloudEvent(fileValidatedTopic, eventData);
-        log.info("Published FileValidatedEvent for file with ID: [{}]", file.getId());
     }
 
 

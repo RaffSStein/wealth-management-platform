@@ -17,6 +17,6 @@ public class FileValidatorProvider {
         return new FileBaseValidator()
                 .linkWith(new FileSizeValidator())
                 .linkWith(new FileExtensionValidator())
-                .linkWith(new FileOperationValidator("UPLOAD"));
+                .linkWith(new FileOperationValidator("upload"));
     }
 }
