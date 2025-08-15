@@ -9,5 +9,5 @@ public interface CloudStorageService {
 
     Document uploadFile(File file);
 
-    Document downloadFile(String documentId);
+    String downloadFile(String filePath);
 }

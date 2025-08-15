@@ -1,5 +1,6 @@
 package raff.stein.document.service.storage;
 
+import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
@@ -17,6 +18,7 @@ import raff.stein.document.utils.DocumentFileNameUtils;
 
 import java.io.InputStream;
 import java.time.OffsetDateTime;
+import java.util.Base64;
 
 /**
  * Service implementation for Google Cloud Storage (GCS) integration.
@@ -105,7 +107,16 @@ public class GCSStorageService implements CloudStorageService {
     }
 
     @Override
-    public Document downloadFile(String documentId) {
-        return null;
+    public String downloadFile(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            log.error("File path is null or empty");
+            return null;
+        }
+        final Blob blob = storage.get(BlobId.of(bucketName, filePath));
+        if(blob == null || !blob.exists()) {
+            log.error("File not found in GCS: {}", filePath);
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(blob.getContent());
     }
 }

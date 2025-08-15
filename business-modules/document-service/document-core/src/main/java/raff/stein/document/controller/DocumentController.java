@@ -25,7 +25,12 @@ public class DocumentController implements DocumentApi {
 
     @Override
     public ResponseEntity<DocumentDTO> downloadDocument(UUID documentId) {
-        return null;
+        if (documentId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Document document = documentService.downloadDocument(documentId);
+        DocumentDTO responseDocumentDTO = documentDTOToDocumentMapper.toDocumentDTO(document);
+        return ResponseEntity.ok(responseDocumentDTO);
     }
 
     @Override

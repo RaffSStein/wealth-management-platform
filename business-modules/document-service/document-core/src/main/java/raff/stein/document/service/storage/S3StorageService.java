@@ -75,7 +75,7 @@ public class S3StorageService implements CloudStorageService {
     }
 
     @Override
-    public Document downloadFile(String documentId) {
+    public String downloadFile(String filePath) {
         return null;
     }
 }

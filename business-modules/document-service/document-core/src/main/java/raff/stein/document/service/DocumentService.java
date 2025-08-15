@@ -3,6 +3,7 @@ package raff.stein.document.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raff.stein.document.event.producer.DocumentUploadedEventPublisher;
 import raff.stein.document.exception.FileValidationException;
 import raff.stein.document.model.Document;
@@ -16,6 +17,7 @@ import raff.stein.document.repository.DocumentVersionRepository;
 import raff.stein.document.service.storage.CloudStorageService;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +62,18 @@ public class DocumentService {
         } else {
             throw FileValidationException.with(fileInput.getCustomerId().toString()).get();
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Document downloadDocument(UUID documentId) {
+        // find the document by ID
+        DocumentEntity documentEntity = documentRepository.findById(documentId)
+                .orElseThrow(() -> new IllegalArgumentException("Document not found with ID: " + documentId));
+        // convert the DocumentEntity to Document
+        Document document = documentEntityToDocumentMapper.toDocument(documentEntity);
+        String fileContentBase64 = cloudStorageService.downloadFile(document.getFullFilePath());
+        document.setFileContentBase64(fileContentBase64);
+        return document;
     }
 
     private DocumentEntity buildDocumentEntityAndRelatedEntities(Document document, DocumentTypeEntity documentTypeEntity) {
