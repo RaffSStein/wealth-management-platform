@@ -66,6 +66,7 @@ public class DocumentService {
 
     @Transactional(readOnly = true)
     public Document downloadDocument(UUID documentId) {
+        //TODO: add security checks to ensure the user has access to the document
         // find the document by ID
         DocumentEntity documentEntity = documentRepository.findById(documentId)
                 .orElseThrow(() -> new IllegalArgumentException("Document not found with ID: " + documentId));
