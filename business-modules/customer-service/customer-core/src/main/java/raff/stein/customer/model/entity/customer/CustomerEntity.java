@@ -6,7 +6,6 @@ import lombok.*;
 import raff.stein.customer.model.entity.aml.AmlVerificationEntity;
 import raff.stein.customer.model.entity.customer.enumeration.CustomerStatus;
 import raff.stein.customer.model.entity.customer.enumeration.CustomerType;
-import raff.stein.customer.model.entity.customer.enumeration.Gender;
 import raff.stein.customer.model.entity.financial.CustomerFinancialsEntity;
 import raff.stein.customer.model.entity.goals.CustomerFinancialGoalsEntity;
 import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
@@ -60,6 +59,12 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @JsonIgnore
     private List<MifidFillingEntity> mifidFillings;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<CustomerOnboardingEntity> customerOnboardingStatuses;
+
     // Fields
 
     @Enumerated(EnumType.STRING)
@@ -75,9 +80,8 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @Column
     private LocalDate dateOfBirth;
 
-    @Enumerated(EnumType.STRING)
     @Column
-    private Gender gender;
+    private String gender;
 
     @Column(length = 2)
     private String nationality; // ISO 3166-1 alpha-2

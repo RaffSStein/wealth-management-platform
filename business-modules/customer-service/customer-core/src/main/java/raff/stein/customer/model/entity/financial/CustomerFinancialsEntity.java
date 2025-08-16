@@ -29,7 +29,7 @@ public class CustomerFinancialsEntity extends BaseDateEntity<Integer> {
     @JsonIgnore
     private CustomerEntity customer;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "financial_type_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
