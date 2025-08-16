@@ -1,0 +1,50 @@
+package raff.stein.customer.model.entity.customer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
+import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
+
+import java.util.List;
+
+@Entity
+@Table(name = "customer_onboarding")
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerOnboardingEntity extends BaseDateEntity<Long> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private CustomerEntity customer;
+
+    @OneToMany(mappedBy = "customerOnboarding", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<CustomerOnboardingStepEntity> onboardingSteps;
+
+    @Column(nullable = false, length = 32)
+    @Enumerated(EnumType.STRING)
+    private OnboardingStatus onboardingStatus;
+
+    @Column(length = 1000)
+    private String reason;
+
+    /**
+     * Indicates whether this onboarding is actual being performed or not.
+     * This is used to differentiate between active and older onboarding processes.
+     */
+    @Column(nullable = false)
+    private boolean isValid;
+
+
+
+
+}

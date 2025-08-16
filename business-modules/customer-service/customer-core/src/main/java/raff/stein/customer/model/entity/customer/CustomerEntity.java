@@ -59,6 +59,12 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @JsonIgnore
     private List<MifidFillingEntity> mifidFillings;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    private List<CustomerOnboardingEntity> customerOnboardingStatuses;
+
     // Fields
 
     @Enumerated(EnumType.STRING)

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import raff.stein.platformcore.messaging.publisher.model.EventData;
+import raff.stein.platformcore.security.context.SecurityContextHolder;
+import raff.stein.platformcore.security.context.WMPContext;
 
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -63,6 +65,8 @@ public class WMPBaseEventPublisher implements EventPublisher {
 
     private CloudEvent createCloudEvent(@NonNull EventData eventData) {
 
+        final WMPContext wmpContext = SecurityContextHolder.getContext();
+
         Object data = eventData.data();
         CloudEventBuilder cloudEventBuilder = CloudEventBuilder.v1()
                 .withDataContentType("application/json")
@@ -71,7 +75,12 @@ public class WMPBaseEventPublisher implements EventPublisher {
                 .withData(PojoCloudEventData.wrap(data, objectMapper::writeValueAsBytes))
                 .withTime(OffsetDateTime.now(ZoneOffset.UTC))
                 .withId(UUID.randomUUID().toString())
-                .withSubject("");
+                .withSubject("")
+                // forward user information from the security context
+                .withExtension("userid", wmpContext.getUserId())
+                .withExtension("email", wmpContext.getEmail())
+                .withExtension("bankcode", wmpContext.getBankCode())
+                .withExtension("correlationid", wmpContext.getCorrelationId());
         return cloudEventBuilder.build();
     }
 }
