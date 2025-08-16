@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingEntity;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingStepEntity;
@@ -24,8 +25,18 @@ public class OnboardingService {
     private final CustomerOnboardingRepository customerOnboardingRepository;
     private final CustomerOnboardingStepRepository customerOnboardingStepRepository;
 
+    @Transactional
     public void startOnboardingProcess(CustomerEntity savedCustomerEntity) {
-        log.info("Starting onboarding process for customer.");
+        log.info("Starting onboarding process for customer with ID [{}].", savedCustomerEntity.getId());
+        // check if the customer already has an onboarding process instance active
+        Optional<CustomerOnboardingEntity> existingOnboardingOptional =
+                customerOnboardingRepository.findByCustomerIdAndIsValidTrue(savedCustomerEntity.getId());
+        existingOnboardingOptional.ifPresent(onb -> {
+            log.warn("Customer with ID [{}] already has an active onboarding process. Disabling the old one", savedCustomerEntity.getId());
+            // if the customer already has an active onboarding process, disable it
+            onb.setValid(false);
+        });
+
         final CustomerOnboardingEntity onboardingEntity = CustomerOnboardingEntity.builder()
                 .customer(savedCustomerEntity)
                 .onboardingStatus(OnboardingStatus.IN_PROGRESS)

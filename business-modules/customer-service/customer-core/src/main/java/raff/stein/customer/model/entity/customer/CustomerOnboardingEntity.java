@@ -42,6 +42,7 @@ public class CustomerOnboardingEntity extends BaseDateEntity<Long> {
      * This is used to differentiate between active and older onboarding processes.
      */
     @Column(nullable = false)
+    @Setter
     private boolean isValid;
 
 
