@@ -1,4 +1,4 @@
-package raff.stein.customer.model;
+package raff.stein.customer.model.bo.customer;
 
 import lombok.Builder;
 import lombok.Data;

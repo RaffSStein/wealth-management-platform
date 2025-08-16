@@ -3,7 +3,7 @@ package raff.stein.customer.controller.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.openapitools.model.CustomerDTO;
-import raff.stein.customer.model.Customer;
+import raff.stein.customer.model.bo.customer.Customer;
 
 @Mapper(config = CustomerControllerCommonMapperConfig.class)
 public interface CustomerDTOToCustomerMapper {

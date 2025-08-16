@@ -3,7 +3,7 @@ package raff.stein.customer.model.entity.customer.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import raff.stein.customer.model.Customer;
+import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.customer.model.entity.mapper.CustomerEntityCommonMapperConfig;
 

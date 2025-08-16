@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
+import raff.stein.customer.model.entity.goals.enumeration.GoalTimeline;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.math.BigDecimal;
@@ -23,8 +24,8 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
 
     // Relationships
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "financial_goal_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "goal_type_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
@@ -32,9 +33,16 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private CustomerEntity customer;
 
     // Fields
+
+    @Column(nullable = false, length = 100)
+    @Enumerated(EnumType.STRING)
+    private GoalTimeline goalTimeline;
 
     @Column(nullable = false, precision = 19, scale = 4)
     private BigDecimal targetAmount;

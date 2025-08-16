@@ -6,7 +6,7 @@ import org.openapitools.model.CustomerDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.CustomerDTOToCustomerMapper;
-import raff.stein.customer.model.Customer;
+import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.service.CustomerService;
 
 @RestController

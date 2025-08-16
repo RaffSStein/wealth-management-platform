@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import raff.stein.customer.model.Customer;
+import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.customer.model.entity.customer.mapper.CustomerToCustomerEntityMapper;
 import raff.stein.customer.repository.CustomerRepository;
