@@ -30,6 +30,41 @@ paths:
       tags:
         - Customer
 
+  /financial/types:
+    get:
+      summary: Get all financial types
+      description: Returns the list of all available financial types.
+      operationId: getAllFinancialTypes
+      responses:
+        '200':
+          description: List of financial types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FinancialTypeDTO'
+
+      tags:
+        - Financial
+
+  /goal/types:
+    get:
+      summary: Get all goal types
+      description: Returns the list of all available goal types.
+      operationId: getAllGoalTypes
+      responses:
+        '200':
+          description: List of goal types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GoalTypeDTO'
+      tags:
+        - Goal
+
 components:
   schemas:
     CustomerDTO:
@@ -108,3 +143,31 @@ components:
         - PENDING_VERIFICATION
         - ACTIVE
         - REJECTED
+
+    FinancialTypeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        type:
+          type: string
+          description: Financial type (e.g. INCOME, EXPENSE)
+        description:
+          type: string
+
+    GoalTypeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        goalTimeline:
+          type: string
+          description: Timeline of the goal (e.g. SHORT_TERM, LONG_TERM)
+        description:
+          type: string
