@@ -1,6 +1,6 @@
 package raff.stein.customer.model.entity.goals.enumeration;
 
-public enum GoalType {
+public enum GoalTypeEnum {
     HOME,
     EDUCATION,
     RETIREMENT,

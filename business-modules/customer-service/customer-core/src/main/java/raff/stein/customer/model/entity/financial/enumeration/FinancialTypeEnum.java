@@ -1,6 +1,6 @@
 package raff.stein.customer.model.entity.financial.enumeration;
 
-public enum FinancialType {
+public enum FinancialTypeEnum {
     INCOME,
     EXPENSE;
 }

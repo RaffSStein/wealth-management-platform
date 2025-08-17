@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -29,5 +30,9 @@ public class Customer {
     private String country;
     private String customerStatus;
     private LocalDate onboardingDate;
+
+    // related objects
+    private List<CustomerFinancials> customerFinancials;
+    private List<CustomerGoals> customerGoals;
 
 }

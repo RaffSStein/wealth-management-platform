@@ -65,6 +65,66 @@ paths:
       tags:
         - Goal
 
+  /customer/{customerId}/financials:
+    post:
+      summary: Add financial data for a customer
+      description: Adds a list of financial records for the specified customer.
+      operationId: addCustomerFinancials
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerFinancialDTO'
+      responses:
+        '200':
+          description: Financial records created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      tags:
+        - Customer
+
+  /customer/{customerId}/goals:
+    post:
+      summary: Add goals for a customer
+      description: Adds a list of goals for the specified customer.
+      operationId: addCustomerGoals
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerGoalDTO'
+      responses:
+        '201':
+          description: Goals created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDTO'
+      tags:
+        - Customer
+
 components:
   schemas:
     CustomerDTO:
@@ -121,6 +181,14 @@ components:
         onboardingDate:
           type: string
           format: date
+        customerFinancials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerFinancialDTO'
+        customerGoals:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerGoalDTO'
 
     CustomerType:
       type: string
@@ -166,8 +234,43 @@ components:
           format: int32
         name:
           type: string
-        goalTimeline:
+        type:
           type: string
-          description: Timeline of the goal (e.g. SHORT_TERM, LONG_TERM)
         description:
           type: string
+
+    CustomerFinancialDTO:
+      type: object
+      required:
+          - financialType
+          - amount
+          - date
+      properties:
+        financialType:
+          $ref: '#/components/schemas/FinancialTypeDTO'
+        amount:
+          type: number
+        description:
+          type: string
+          maxLength: 500
+        notes:
+          type: string
+          maxLength: 500
+
+    CustomerGoalDTO:
+      type: object
+      required:
+          - goalType
+          - targetAmount
+          - goalTimeLine
+      properties:
+        goalType:
+          $ref: '#/components/schemas/GoalTypeDTO'
+        targetAmount:
+          type: number
+        notes:
+          type: string
+          maxLength: 500
+        goalTimeLine:
+          type: string
+          description: Duration of the goal in months or years

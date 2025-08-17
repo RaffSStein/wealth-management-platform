@@ -1,19 +1,28 @@
 package raff.stein.customer.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.CustomerApi;
 import org.openapitools.model.CustomerDTO;
+import org.openapitools.model.CustomerFinancialDTO;
+import org.openapitools.model.CustomerGoalDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.CustomerDTOToCustomerMapper;
 import raff.stein.customer.model.bo.customer.Customer;
+import raff.stein.customer.model.bo.customer.CustomerFinancials;
+import raff.stein.customer.model.bo.customer.CustomerGoals;
 import raff.stein.customer.service.CustomerService;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
 public class CustomerController implements CustomerApi {
 
     private final CustomerService customerService;
+
     private static final CustomerDTOToCustomerMapper customerDTOToCustomerMapper = CustomerDTOToCustomerMapper.MAPPER;
 
     @Override
@@ -21,6 +30,30 @@ public class CustomerController implements CustomerApi {
         Customer customerInput = customerDTOToCustomerMapper.toCustomer(customerDTO);
         Customer createdCustomer = customerService.initCustomer(customerInput);
         CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(createdCustomer);
+        return ResponseEntity.ok(responseCustomerDTO);
+    }
+
+    @Override
+    public ResponseEntity<CustomerDTO> addCustomerFinancials(UUID customerId, List<@Valid CustomerFinancialDTO> customerFinancialDTO) {
+        List<CustomerFinancials> customerFinancialsList = customerFinancialDTO.stream()
+                .map(customerDTOToCustomerMapper::toCustomerFinancials)
+                .toList();
+        Customer customer = customerService.updateCustomer(
+                customerId,
+                customerFinancialsList);
+        CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
+        return ResponseEntity.ok(responseCustomerDTO);
+    }
+
+    @Override
+    public ResponseEntity<CustomerDTO> addCustomerGoals(UUID customerId, List<@Valid CustomerGoalDTO> customerGoalDTO) {
+        List<CustomerGoals> customerGoalsList = customerGoalDTO.stream()
+                .map(customerDTOToCustomerMapper::toCustomerGoals)
+                .toList();
+        Customer customer = customerService.updateCustomer(
+                customerId,
+                customerGoalsList);
+        CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
         return ResponseEntity.ok(responseCustomerDTO);
     }
 }
