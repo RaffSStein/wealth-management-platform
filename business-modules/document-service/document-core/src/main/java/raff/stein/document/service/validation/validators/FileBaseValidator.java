@@ -40,7 +40,7 @@ public class FileBaseValidator extends FileValidator {
         if (configuration.getAllowedMimeTypes() == null || configuration.getAllowedMimeTypes().isEmpty()) {
             result.addError(
                     FileBaseValidator.class.getName(),
-                    "Document type configuration allowed MIME types was or empty");
+                    "Document type configuration allowed MIME types was null or empty");
         }
     }
 

@@ -14,7 +14,7 @@ public class FileExtensionValidator extends FileValidator {
     protected void doValidate(File file, FileValidationResult result, DocumentType configuration) {
         final MultipartFile multipartFile = file.getMultipartFile();
         final String fileMimeType = multipartFile.getContentType();
-        if (fileMimeType == null || fileMimeType.isEmpty()) {
+        if (fileMimeType != null && !fileMimeType.isEmpty()) {
             final Set<String> allowedMimeTypes = configuration.getAllowedMimeTypes();
             if (!allowedMimeTypes.contains(fileMimeType)) {
                 result.addError(

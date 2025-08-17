@@ -74,6 +74,11 @@ public interface DocumentEntityToDocumentMapper {
         return versions.stream()
                 .filter(DocumentVersionEntity::isActive)
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No active version found for the document"));
+                .orElseThrow(() -> {
+                    String documentId = !versions.isEmpty() && versions.get(0) != null
+                            ? String.valueOf(versions.get(0).getDocument().getId())
+                            : "unknown";
+                    return new IllegalStateException("No active version found for document with ID: " + documentId);
+                });
     }
 }
