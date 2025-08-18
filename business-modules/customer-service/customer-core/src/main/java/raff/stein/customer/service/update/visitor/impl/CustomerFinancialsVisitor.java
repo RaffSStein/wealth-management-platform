@@ -1,5 +1,6 @@
 package raff.stein.customer.service.update.visitor.impl;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.customer.Customer;
@@ -32,11 +33,13 @@ public class CustomerFinancialsVisitor implements CustomerVisitor<Collection<Cus
     }
 
     @Override
-    public Customer visit(Customer customer, Collection<CustomerFinancials> payload) {
+    public Customer visit(Customer customer, @NonNull Collection<CustomerFinancials> payload) {
         UUID customerId = customer.getId();
 
         // 1. fetch existing financial entities for the customer
         List<CustomerFinancialEntity> existingEntities = customerFinancialsRepository.findByCustomerId(customerId);
+
+        //FIXME: goals and financials may be more than 1 for the same goal type, so we need to handle that case
 
         // 2. fetch financial types from the repository
         List<String> financialTypeNames = payload.stream()

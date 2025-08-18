@@ -1,5 +1,6 @@
 package raff.stein.customer.service.update.visitor;
 
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.customer.Customer;
 
@@ -34,7 +35,7 @@ public class CustomerVisitorDispatcher {
      * @param payload  The payload containing the data to update the customer.
      * @throws IllegalArgumentException if the payload is null or no visitor is registered for the payload type.
      */
-    public Customer dispatchAndVisit(Customer customer, Object payload) {
+    public Customer dispatchAndVisit(Customer customer, @NonNull Object payload) {
         TypeKey key = resolveTypeKey(payload);
 
         @SuppressWarnings("unchecked")

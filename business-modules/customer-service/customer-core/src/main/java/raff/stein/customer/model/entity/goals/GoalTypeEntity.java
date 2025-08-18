@@ -13,7 +13,7 @@ import raff.stein.platformcore.model.audit.entity.BaseEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FinancialGoalTypeEntity extends BaseEntity<Integer> {
+public class GoalTypeEntity extends BaseEntity<Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import raff.stein.customer.model.entity.customer.CustomerFinancialGoalsEntity;
 
+import java.util.List;
+import java.util.UUID;
+
 @Repository
-public interface CustomerFinancialGoalsRepository extends JpaRepository<CustomerFinancialGoalsEntity, Long> {
+public interface CustomerGoalsRepository extends JpaRepository<CustomerFinancialGoalsEntity, Long> {
+
+    List<CustomerFinancialGoalsEntity> findByCustomerId(UUID customerId);
+
 }
