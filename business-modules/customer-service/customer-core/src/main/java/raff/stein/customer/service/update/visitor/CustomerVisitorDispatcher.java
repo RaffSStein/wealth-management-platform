@@ -3,9 +3,7 @@ package raff.stein.customer.service.update.visitor;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.customer.Customer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class CustomerVisitorDispatcher {
@@ -50,13 +48,24 @@ public class CustomerVisitorDispatcher {
     }
 
     private TypeKey resolveTypeKey(Object payload) {
-        // handle list payloads
-        if (payload instanceof List<?> list && !list.isEmpty()) {
-            Class<?> parameterType = list.get(0).getClass();
-            return TypeKey.of(List.class, parameterType);
+        // handle collections payloads
+        if (payload instanceof Collection<?> collection && !collection.isEmpty()) {
+            Class<?> parameterType = collection.iterator().next().getClass();
+            return TypeKey.of(Collection.class, parameterType, null);
+        }
+        // handle optional payloads
+        if (payload instanceof Optional<?> optional && optional.isPresent()) {
+            Object value = optional.get();
+            return resolveTypeKey(value);
+        }
+        // handle Map payloads
+        if (payload instanceof Map<?, ?> map && !map.isEmpty()) {
+            Class<?> keyType = map.keySet().iterator().next().getClass();
+            Class<?> valueType = map.values().iterator().next().getClass();
+            return TypeKey.of(Map.class, keyType, valueType);
         }
         // normal object payloads
-        return TypeKey.of(payload.getClass(), null);
+        return TypeKey.of(payload.getClass(), null, null);
     }
 }
 

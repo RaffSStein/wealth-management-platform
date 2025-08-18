@@ -6,19 +6,19 @@ import raff.stein.customer.model.bo.customer.CustomerGoals;
 import raff.stein.customer.service.update.visitor.CustomerVisitor;
 import raff.stein.customer.service.update.visitor.TypeKey;
 
-import java.util.List;
+import java.util.Collection;
 
 @Component
-public class CustomerGoalsVisitor implements CustomerVisitor<List<CustomerGoals>> {
+public class CustomerGoalsVisitor implements CustomerVisitor<Collection<CustomerGoals>> {
 
     @Override
-    public Customer visit(Customer customer, List<CustomerGoals> payload) {
+    public Customer visit(Customer customer, Collection<CustomerGoals> payload) {
         //TODO
         return customer;
     }
 
     @Override
     public TypeKey getPayloadType() {
-        return TypeKey.of(List.class, CustomerGoals.class);
+        return TypeKey.of(Collection.class, CustomerGoals.class, null);
     }
 }

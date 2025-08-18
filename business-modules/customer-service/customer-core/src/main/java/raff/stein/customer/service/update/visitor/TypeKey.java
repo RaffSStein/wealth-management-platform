@@ -13,10 +13,12 @@ import java.util.Objects;
 public class TypeKey {
 
     private final Class<?> rawType;
-    private final Class<?> parameterType;
+    private final Class<?> keyOrParameterType;
+    private final Class<?> valueType;
 
-    public static TypeKey of(Class<?> rawType, Class<?> parameterType) {
-        return new TypeKey(rawType, parameterType);
+
+    public static TypeKey of(Class<?> rawType, Class<?> keyOrParameterType, Class<?> valueType) {
+        return new TypeKey(rawType, keyOrParameterType, valueType);
     }
 
     @Override
@@ -24,16 +26,22 @@ public class TypeKey {
         if (this == o) return true;
         if (!(o instanceof TypeKey that)) return false;
         return Objects.equals(rawType, that.rawType) &&
-                Objects.equals(parameterType, that.parameterType);
+                Objects.equals(keyOrParameterType, that.keyOrParameterType) &&
+                Objects.equals(valueType, that.valueType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(rawType, parameterType);
+        return Objects.hash(rawType, keyOrParameterType, valueType);
     }
 
     @Override
     public String toString() {
-        return rawType.getSimpleName() + "<" + parameterType.getSimpleName() + ">";
+        String valueTypeName = valueType != null ? valueType.getSimpleName() : "";
+        String keyOrParameterTypeName = keyOrParameterType != null ? keyOrParameterType.getSimpleName() : "";
+        String rawTypeName = rawType != null ? rawType.getSimpleName() : "";
+        return rawTypeName + "<"  +
+                "<" + keyOrParameterTypeName + ">" + "," +
+                "<" + valueTypeName + ">";
     }
 }

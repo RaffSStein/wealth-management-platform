@@ -12,7 +12,6 @@ public class CustomerFinancials {
 
     private FinancialType financialType;
     private BigDecimal amount;
-    private String notes;
     private String description;
 
 }

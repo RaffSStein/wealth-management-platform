@@ -1,9 +1,9 @@
-package raff.stein.customer.model.entity.goals;
+package raff.stein.customer.model.entity.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.customer.model.entity.customer.CustomerEntity;
+import raff.stein.customer.model.entity.goals.FinancialGoalTypeEntity;
 import raff.stein.customer.model.entity.goals.enumeration.GoalTimeline;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 

@@ -6,8 +6,6 @@ import lombok.*;
 import raff.stein.customer.model.entity.aml.AmlVerificationEntity;
 import raff.stein.customer.model.entity.customer.enumeration.CustomerStatus;
 import raff.stein.customer.model.entity.customer.enumeration.CustomerType;
-import raff.stein.customer.model.entity.financial.CustomerFinancialsEntity;
-import raff.stein.customer.model.entity.goals.CustomerFinancialGoalsEntity;
 import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
@@ -39,7 +37,7 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<CustomerFinancialsEntity> customerFinancials;
+    private List<CustomerFinancialEntity> customerFinancials;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
