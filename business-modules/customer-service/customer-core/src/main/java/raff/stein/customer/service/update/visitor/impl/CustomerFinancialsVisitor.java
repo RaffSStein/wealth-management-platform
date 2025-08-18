@@ -12,10 +12,7 @@ import raff.stein.customer.repository.FinancialTypeRepository;
 import raff.stein.customer.service.update.visitor.CustomerVisitor;
 import raff.stein.customer.service.update.visitor.TypeKey;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,15 +47,14 @@ public class CustomerFinancialsVisitor implements CustomerVisitor<Collection<Cus
                 .toList();
         List<FinancialTypeEntity> financialTypeEntities = financialTypeRepository.findAllByNameIn(financialTypeNames);
 
-
-        // 3. map existing entities by financial type
-        Map<Integer, CustomerFinancialEntity> existingByType =
+        // 3. map existing entities by financial type id
+        Map<Integer, CustomerFinancialEntity> existingByTypeId =
                 existingEntities.stream()
                         .filter(e -> e.getFinancialTypeId() != null)
                         .collect(Collectors.toMap(CustomerFinancialEntity::getFinancialTypeId, Function.identity()));
 
-        // 3. map new payload to entities by financial type
-        Map<Integer, CustomerFinancialEntity> newByType =
+        // 4. map new payload to entities by financial type id
+        Map<Integer, CustomerFinancialEntity> newByTypeId =
                 payload.stream()
                         .map(customerFinancials -> {
                             CustomerFinancialEntity entity = customerFinancialsToCustomerFinancialEntityMapper.toCustomerFinancialsEntity(customerFinancials);
@@ -73,29 +69,36 @@ public class CustomerFinancialsVisitor implements CustomerVisitor<Collection<Cus
                         .filter(e -> e.getFinancialTypeId() != null)
                         .collect(Collectors.toMap(CustomerFinancialEntity::getFinancialTypeId, Function.identity()));
 
-        // 4. Update & Insert
-        for (Map.Entry<Integer, CustomerFinancialEntity> entry : newByType.entrySet()) {
+        List<CustomerFinancialEntity> newEntities = new ArrayList<>();
+
+        // 5. Update & Insert
+        for (Map.Entry<Integer, CustomerFinancialEntity> entry : newByTypeId.entrySet()) {
             Integer typeId = entry.getKey();
             CustomerFinancialEntity newEntity = entry.getValue();
 
-            if (existingByType.containsKey(typeId)) {
-                CustomerFinancialEntity existing = existingByType.get(typeId);
+            if (existingByTypeId.containsKey(typeId)) {
+                CustomerFinancialEntity existing = existingByTypeId.get(typeId);
                 existing.updateFrom(newEntity);
-                customerFinancialsRepository.save(existing);
+                CustomerFinancialEntity updated = customerFinancialsRepository.save(existing);
+                newEntities.add(updated);
             } else {
-                customerFinancialsRepository.save(newEntity);
+                CustomerFinancialEntity inserted = customerFinancialsRepository.save(newEntity);
+                newEntities.add(inserted);
             }
         }
 
-        // 5. Delete the obsolete ones
-        for (Map.Entry<Integer, CustomerFinancialEntity> entry : existingByType.entrySet()) {
-            if (!newByType.containsKey(entry.getKey())) {
+        // 6. Delete the obsolete ones
+        for (Map.Entry<Integer, CustomerFinancialEntity> entry : existingByTypeId.entrySet()) {
+            if (!newByTypeId.containsKey(entry.getKey())) {
                 customerFinancialsRepository.delete(entry.getValue());
             }
         }
 
-        // 6. update customer data
-        customer.setCustomerFinancials((List<CustomerFinancials>) payload);
+        // 7. update customer data
+        customer.setCustomerFinancials(
+                newEntities.stream()
+                        .map(customerFinancialsToCustomerFinancialEntityMapper::toCustomerFinancials)
+                        .toList());
         return customer;
     }
 }
