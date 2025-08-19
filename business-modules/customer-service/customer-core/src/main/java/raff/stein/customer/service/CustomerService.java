@@ -43,6 +43,11 @@ public class CustomerService {
         // Convert the customer entity to a business object
         Customer customer = customerToCustomerEntityMapper.toCustomer(customerEntity);
         // Update customer attributes via a visitor pattern
-        return customerVisitorDispatcher.dispatchAndVisit(customer, customerAttributesToUpdate);
+        customerVisitorDispatcher.dispatchAndVisit(customer, customerAttributesToUpdate);
+        // retrieve the updated customer entity from the repository
+        // This is necessary to ensure that the returned entity is refreshed with any changes made by the visitor
+        CustomerEntity updatedCustomerEntity = customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found with ID: " + customerId));
+        return customerToCustomerEntityMapper.toCustomer(updatedCustomerEntity);
     }
 }
