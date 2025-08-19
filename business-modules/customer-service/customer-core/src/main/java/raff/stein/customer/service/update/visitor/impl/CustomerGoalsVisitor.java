@@ -52,7 +52,7 @@ public class CustomerGoalsVisitor implements CustomerVisitor<Collection<Customer
             savedEntities = upsertGoals(payload, goalsFromFEToUpdateById, customerId);
         }
         // add to customer the new goals in order to return them to the FE
-        customer.setCustomerGoals(
+        customer.getCustomerGoals().addAll(
                 savedEntities.stream()
                         .map(customerGoalsToCustomerGoalsEntityMapper::toCustomerGoals)
                         .toList());
@@ -125,10 +125,10 @@ public class CustomerGoalsVisitor implements CustomerVisitor<Collection<Customer
         List<CustomerFinancialGoalsEntity> entitiesToSave = new ArrayList<>(newEntities);
         List<CustomerFinancialGoalsEntity> savedEntities = customerGoalsRepository.saveAll(entitiesToSave);
         // explicit set goalType for new entities
-        // it is required for the mapper later to work correctly
         savedEntities.forEach(
                 e -> {
                     if(e.getGoalType() == null) {
+                        // Set goalType only for mapping purposes (Hibernate will not persist this due to updatable = false)
                         e.setGoalType(goalTypeEntitiesById.getOrDefault(e.getGoalTypeId(), null));
                     }
                 });

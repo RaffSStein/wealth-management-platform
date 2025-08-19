@@ -1,5 +1,6 @@
 package raff.stein.customer.service;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerService {
+
+    private final EntityManager entityManager;
 
     private final CustomerRepository customerRepository;
 
@@ -43,11 +46,7 @@ public class CustomerService {
         // Convert the customer entity to a business object
         Customer customer = customerToCustomerEntityMapper.toCustomer(customerEntity);
         // Update customer attributes via a visitor pattern
-        customerVisitorDispatcher.dispatchAndVisit(customer, customerAttributesToUpdate);
-        // retrieve the updated customer entity from the repository
-        // This is necessary to ensure that the returned entity is refreshed with any changes made by the visitor
-        CustomerEntity updatedCustomerEntity = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException("Customer not found with ID: " + customerId));
-        return customerToCustomerEntityMapper.toCustomer(updatedCustomerEntity);
+        return customerVisitorDispatcher.dispatchAndVisit(customer, customerAttributesToUpdate);
+
     }
 }

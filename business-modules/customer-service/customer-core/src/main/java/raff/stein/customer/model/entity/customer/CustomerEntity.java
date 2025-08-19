@@ -10,7 +10,7 @@ import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -37,31 +37,31 @@ public class CustomerEntity extends BaseDateEntity<UUID> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<CustomerFinancialEntity> customerFinancials;
+    private Set<CustomerFinancialEntity> customerFinancials;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<CustomerFinancialGoalsEntity> customerFinancialGoals;
+    private Set<CustomerFinancialGoalsEntity> customerFinancialGoals;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<AmlVerificationEntity> amlVerifications;
+    private Set<AmlVerificationEntity> amlVerifications;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<MifidFillingEntity> mifidFillings;
+    private Set<MifidFillingEntity> mifidFillings;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<CustomerOnboardingEntity> customerOnboardingStatuses;
+    private Set<CustomerOnboardingEntity> customerOnboardingStatuses;
 
     // Fields
 

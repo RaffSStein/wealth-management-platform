@@ -51,7 +51,7 @@ public class CustomerFinancialsVisitor implements CustomerVisitor<Collection<Cus
         }
 
         // add to customer the new financials in order to return them to the FE
-        customer.setCustomerFinancials(
+        customer.getCustomerFinancials().addAll(
                 savedEntities.stream()
                         .map(customerFinancialsToCustomerFinancialEntityMapper::toCustomerFinancials)
                         .toList());
@@ -125,12 +125,12 @@ public class CustomerFinancialsVisitor implements CustomerVisitor<Collection<Cus
                 financialTypeEntitiesByName);
 
         List<CustomerFinancialEntity> entitiesToSave = new ArrayList<>(newByTypeId);
-        List<CustomerFinancialEntity> savedEntities = customerFinancialsRepository.saveAllAndFlush(entitiesToSave);
+        List<CustomerFinancialEntity> savedEntities = customerFinancialsRepository.saveAll(entitiesToSave);
         // explicit set financialType for new entities
-        // it is required for the mapper later to work correctly
         savedEntities.forEach(
                 e -> {
                     if (e.getFinancialType() == null) {
+                        // Set financialType only for mapping purposes (Hibernate will not persist this due to updatable = false)
                         e.setFinancialType(financialTypeEntitiesById.getOrDefault(e.getFinancialTypeId(), null));
                     }
                 });
