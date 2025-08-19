@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class CustomerGoals {
 
+    private Long id;
     private GoalType goalType;
     private BigDecimal targetAmount;
     private LocalDate targetDate;

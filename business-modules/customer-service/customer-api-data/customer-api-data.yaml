@@ -238,6 +238,9 @@ components:
           - amount
           - date
       properties:
+        id:
+          type: integer
+          format: int64
         financialType:
           $ref: '#/components/schemas/FinancialTypeDTO'
         amount:
@@ -256,6 +259,9 @@ components:
           - targetAmount
           - goalTimeLine
       properties:
+        id:
+          type: integer
+          format: int64
         goalType:
           $ref: '#/components/schemas/GoalTypeDTO'
         targetAmount:

@@ -28,84 +28,145 @@ public class CustomerGoalsVisitor implements CustomerVisitor<Collection<Customer
             CustomerGoalsToCustomerGoalsEntityMapper.MAPPER;
 
     @Override
+    public TypeKey getPayloadType() {
+        return TypeKey.of(Collection.class, CustomerGoals.class, null);
+    }
+
+    @Override
     public Customer visit(Customer customer, @NonNull Collection<CustomerGoals> payload) {
         UUID customerId = customer.getId();
+        // FE will send back items with an ID for update purposes
+        // if the ID is null, it means it's a new goal to be created
+        // some objects in the payload may already have an ID, so we need to distinguish between new and existing goals
+        Map<Long, CustomerGoals> goalsFromFEToUpdateById = payload.stream()
+                .filter(goal -> goal.getId() != null)
+                .collect(Collectors.toMap(CustomerGoals::getId, Function.identity()));
 
-        // 1. fetch existing goals for the customer
-        List<CustomerFinancialGoalsEntity> existingGoals = customerGoalsRepository.findByCustomerId(customerId);
+        List<CustomerFinancialGoalsEntity> savedEntities;
 
-        //FIXME: goals and financials may be more than 1 for the same goal type, so we need to handle that case and the update of existing values
-
-        // 2. fetch goal types from the repository
-        List<String> goalTypeNames = payload.stream()
-                .map(CustomerGoals::getGoalType)
-                .filter(type -> type != null && type.getName() != null && !type.getName().isEmpty())
-                .map(type -> type.getName().toUpperCase())
-                .distinct()
-                .toList();
-        List<GoalTypeEntity> goalTypeEntities = goalTypeRepository.findAllByNameIn(goalTypeNames);
-
-        // 3. map existing goals by goal type id
-        Map<Integer, CustomerFinancialGoalsEntity> existingByTypeId =
-                existingGoals.stream()
-                        .filter(e -> e.getGoalTypeId() != null)
-                        .collect(Collectors.toMap(CustomerFinancialGoalsEntity::getGoalTypeId, Function.identity()));
-
-        // 4. map new payload to entities by goal type id
-        Map<Integer, CustomerFinancialGoalsEntity> newByTypeId =
-                payload.stream()
-                        .map(customerGoals -> {
-                            CustomerFinancialGoalsEntity entity = customerGoalsToCustomerGoalsEntityMapper.toCustomerGoalsEntity(customerGoals);
-                            GoalTypeEntity goalType = goalTypeEntities.stream()
-                                    .filter(type -> type.getName().equalsIgnoreCase(customerGoals.getGoalType().getName()))
-                                    .findFirst()
-                                    .orElseThrow(() -> new IllegalArgumentException("Goal type not found: " + customerGoals.getGoalType().getName()));
-                            entity.setCustomerId(customerId);
-                            entity.setGoalTypeId(goalType.getId());
-                            return entity;
-                        })
-                        .filter(e -> e.getGoalTypeId() != null)
-                        .collect(Collectors.toMap(CustomerFinancialGoalsEntity::getGoalTypeId, Function.identity()));
-
-        List<CustomerFinancialGoalsEntity> newEntities = new ArrayList<>();
-
-        // 5. Update & insert
-        for (Map.Entry<Integer, CustomerFinancialGoalsEntity> entry : newByTypeId.entrySet()) {
-            Integer goalTypeId = entry.getKey();
-            CustomerFinancialGoalsEntity newEntity = entry.getValue();
-
-            if (existingByTypeId.containsKey(goalTypeId)) {
-                // Update existing entity
-                CustomerFinancialGoalsEntity existingEntity = existingByTypeId.get(goalTypeId);
-                existingEntity.updateFrom(newEntity);
-                CustomerFinancialGoalsEntity updated = customerGoalsRepository.save(existingEntity);
-                newEntities.add(updated);
-            } else {
-                // Insert new entity
-                CustomerFinancialGoalsEntity savedEntity = customerGoalsRepository.save(newEntity);
-                newEntities.add(savedEntity);
-            }
+        if (goalsFromFEToUpdateById.isEmpty()) {
+            // no existing goals to update, just create new ones
+            savedEntities = createNewGoals(payload, customerId);
+        } else {
+            // upsert cycle
+            savedEntities = upsertGoals(payload, goalsFromFEToUpdateById, customerId);
         }
-
-        // 6. Delete obsolete goals
-        for (Map.Entry<Integer, CustomerFinancialGoalsEntity> entry : existingByTypeId.entrySet()) {
-            if (!newByTypeId.containsKey(entry.getKey())) {
-                // Delete the obsolete goal
-                customerGoalsRepository.delete(entry.getValue());
-            }
-        }
-
-        // 7. Update the customer with the new goals
+        // add to customer the new goals in order to return them to the FE
         customer.setCustomerGoals(
-                newEntities.stream()
+                savedEntities.stream()
                         .map(customerGoalsToCustomerGoalsEntityMapper::toCustomerGoals)
                         .toList());
 
         return customer;
     }
 
-    @Override
-    public TypeKey getPayloadType() {
-        return TypeKey.of(Collection.class, CustomerGoals.class, null);
+    private List<CustomerFinancialGoalsEntity> upsertGoals(
+            @NonNull Collection<CustomerGoals> payload,
+            Map<Long, CustomerGoals> goalsFromFEToUpdateById,
+            UUID customerId) {
+        // fetch existing goals for the customer
+        Map<Long, CustomerFinancialGoalsEntity> customerGoalsEntityToUpdateById = customerGoalsRepository
+                .findByIdIn(goalsFromFEToUpdateById.keySet())
+                .stream()
+                .collect(Collectors.toMap(CustomerFinancialGoalsEntity::getId, Function.identity()));
+        // get goal types from the payload and map them by name and id
+        // this is needed to ensure that we can set the goal type for new entities
+        List<GoalTypeEntity> goalTypes = getGoalTypeEntities(payload);
+        Map<String, GoalTypeEntity> goalTypeEntitiesByName = goalTypes
+                .stream()
+                .collect(Collectors.toMap(GoalTypeEntity::getName, Function.identity()));
+        Map<Integer, GoalTypeEntity> goalTypeEntitiesById = goalTypes
+                .stream()
+                .collect(Collectors.toMap(GoalTypeEntity::getId, Function.identity()));
+        // get new entities from the payload
+        List<CustomerFinancialGoalsEntity> newEntities = getNewEntities(payload, goalTypeEntitiesByName, customerId);
+
+        List<CustomerFinancialGoalsEntity> entitiesToSave = new ArrayList<>(newEntities);
+        // update existing entities
+        // we will update the existing entities with the data from the payload
+        for(Map.Entry<Long, CustomerGoals> entry : goalsFromFEToUpdateById.entrySet()) {
+            Long goalId = entry.getKey();
+            CustomerGoals goalFromFE = entry.getValue();
+            CustomerFinancialGoalsEntity existingEntity = customerGoalsEntityToUpdateById.get(goalId);
+            if (existingEntity != null) {
+                // Update existing entity
+                existingEntity.updateFrom(customerGoalsToCustomerGoalsEntityMapper.toCustomerGoalsEntity(goalFromFE));
+                entitiesToSave.add(existingEntity);
+            }
+        }
+        List<CustomerFinancialGoalsEntity> savedEntities = customerGoalsRepository.saveAll(entitiesToSave);
+        // explicit set goalType for new entities
+        // it is required for the mapper later to work correctly
+        savedEntities.forEach(
+                e -> {
+                    if(e.getGoalType() == null) {
+                        e.setGoalType(goalTypeEntitiesById.getOrDefault(e.getGoalTypeId(), null));
+                    }
+                });
+        return savedEntities;
+    }
+
+    private List<CustomerFinancialGoalsEntity> createNewGoals(
+            @NonNull Collection<CustomerGoals> payload,
+            UUID customerId) {
+        // get goal types from the payload and map them by name and id
+        List<GoalTypeEntity> goalTypes = getGoalTypeEntities(payload);
+
+        Map<String, GoalTypeEntity> goalTypeEntitiesByName = goalTypes
+                .stream()
+                .collect(Collectors.toMap(GoalTypeEntity::getName, Function.identity()));
+
+        Map<Integer, GoalTypeEntity> goalTypeEntitiesById = goalTypes
+                .stream()
+                .collect(Collectors.toMap(GoalTypeEntity::getId, Function.identity()));
+        // get new entities from the payload
+        List<CustomerFinancialGoalsEntity> newEntities = getNewEntities(payload, goalTypeEntitiesByName, customerId);
+
+        List<CustomerFinancialGoalsEntity> entitiesToSave = new ArrayList<>(newEntities);
+        List<CustomerFinancialGoalsEntity> savedEntities = customerGoalsRepository.saveAll(entitiesToSave);
+        // explicit set goalType for new entities
+        // it is required for the mapper later to work correctly
+        savedEntities.forEach(
+                e -> {
+                    if(e.getGoalType() == null) {
+                        e.setGoalType(goalTypeEntitiesById.getOrDefault(e.getGoalTypeId(), null));
+                    }
+                });
+        return savedEntities;
+
+    }
+
+    private static List<CustomerFinancialGoalsEntity> getNewEntities(
+            Collection<CustomerGoals> payload,
+            Map<String, GoalTypeEntity> goalTypeEntitiesByName,
+            UUID customerId) {
+
+        return payload.stream()
+                .filter(goal -> goal.getId() == null) // Only new goals
+                .filter(customerGoal -> customerGoal.getGoalType() != null && customerGoal.getGoalType().getName() != null)
+                .map(customerGoal -> {
+                    CustomerFinancialGoalsEntity entity = customerGoalsToCustomerGoalsEntityMapper.toCustomerGoalsEntity(customerGoal);
+                    GoalTypeEntity goalType = goalTypeEntitiesByName.getOrDefault(
+                            customerGoal.getGoalType().getName().toUpperCase(),
+                            null);
+                    if(goalType == null) {
+                        throw new IllegalArgumentException("Goal type not found: " + customerGoal.getGoalType().getName());
+                    }
+                    entity.setCustomerId(customerId);
+                    entity.setGoalTypeId(goalType.getId());
+                    return entity;
+                })
+                .toList();
+    }
+
+    private List<GoalTypeEntity> getGoalTypeEntities(Collection<CustomerGoals> payload) {
+        // fetch goal types from the repository
+        List<String> goalTypeNames = payload.stream()
+                .map(CustomerGoals::getGoalType)
+                .filter(type -> type != null && type.getName() != null && !type.getName().isEmpty())
+                .map(type -> type.getName().toUpperCase())
+                .distinct()
+                .toList();
+        return goalTypeRepository.findAllByNameIn(goalTypeNames);
     }
 }

@@ -30,6 +30,7 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private GoalTypeEntity goalType;
 
     @Column(name = "goal_type_id", nullable = false)
@@ -60,8 +61,6 @@ public class CustomerFinancialGoalsEntity extends BaseDateEntity<Long> {
     private LocalDate targetDate;
 
     public void updateFrom(CustomerFinancialGoalsEntity source) {
-        this.goalTypeId = source.getGoalTypeId();
-        this.customerId = source.getCustomerId();
         this.goalTimeline = source.getGoalTimeline();
         this.targetAmount = source.getTargetAmount();
         this.targetDate = source.getTargetDate();
