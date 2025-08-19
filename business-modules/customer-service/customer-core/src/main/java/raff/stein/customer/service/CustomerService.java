@@ -1,6 +1,5 @@
 package raff.stein.customer.service;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomerService {
-
-    private final EntityManager entityManager;
 
     private final CustomerRepository customerRepository;
 
@@ -54,5 +51,17 @@ public class CustomerService {
         Customer customer = customerToCustomerEntityMapper.toCustomer(customerEntity);
         // Update customer attributes via a visitor pattern
         return customerVisitorDispatcher.dispatchAndVisit(customer, customerAttributesToUpdate);
+    }
+
+    public void proceedToOnboardingStep(
+            UUID customerId,
+            OnboardingStep onboardingStep) {
+        log.debug("Proceeding to onboarding step [{}] for customer ID: [{}]", onboardingStep, customerId);
+        // Dispatch the step to the appropriate handler
+        onboardingService.proceedToStep(
+                onboardingStep,
+                OnboardingStepContext.builder()
+                        .customerId(customerId)
+                        .build());
     }
 }

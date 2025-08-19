@@ -12,6 +12,7 @@ import raff.stein.customer.controller.mapper.CustomerDTOToCustomerMapper;
 import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.bo.customer.CustomerFinancials;
 import raff.stein.customer.model.bo.customer.CustomerGoals;
+import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 import raff.stein.customer.service.CustomerService;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public class CustomerController implements CustomerApi {
         Customer customer = customerService.updateCustomer(
                 customerId,
                 customerFinancialsList);
+        customerService.proceedToOnboardingStep(customerId, OnboardingStep.FINANCIALS);
         CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
         return ResponseEntity.ok(responseCustomerDTO);
     }
@@ -53,6 +55,7 @@ public class CustomerController implements CustomerApi {
         Customer customer = customerService.updateCustomer(
                 customerId,
                 customerGoalsList);
+        customerService.proceedToOnboardingStep(customerId, OnboardingStep.GOALS);
         CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
         return ResponseEntity.ok(responseCustomerDTO);
     }
