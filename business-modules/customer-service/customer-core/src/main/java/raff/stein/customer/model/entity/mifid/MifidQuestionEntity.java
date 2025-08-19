@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "mifid_question")
@@ -32,7 +32,7 @@ public class MifidQuestionEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<MifidAnswerOptionEntity> answerOptions;
+    private Set<MifidAnswerOptionEntity> answerOptions;
 
     @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

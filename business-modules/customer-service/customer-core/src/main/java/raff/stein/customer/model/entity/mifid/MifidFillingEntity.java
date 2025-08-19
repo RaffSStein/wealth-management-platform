@@ -7,7 +7,7 @@ import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "mifid_filling")
@@ -34,7 +34,7 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<MifidResponseEntity> responses;
+    private Set<MifidResponseEntity> responses;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)

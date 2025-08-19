@@ -6,7 +6,7 @@ import lombok.*;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer_onboarding")
@@ -28,7 +28,7 @@ public class CustomerOnboardingEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<CustomerOnboardingStepEntity> onboardingSteps;
+    private Set<CustomerOnboardingStepEntity> onboardingSteps;
 
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)

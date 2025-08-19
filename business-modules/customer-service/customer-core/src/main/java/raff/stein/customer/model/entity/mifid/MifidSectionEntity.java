@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "mifid_section")
@@ -25,7 +25,7 @@ public class MifidSectionEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private List<MifidQuestionEntity> questions;
+    private Set<MifidQuestionEntity> questions;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
