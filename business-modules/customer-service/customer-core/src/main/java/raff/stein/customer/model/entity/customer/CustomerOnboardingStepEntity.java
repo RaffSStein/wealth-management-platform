@@ -1,5 +1,6 @@
 package raff.stein.customer.model.entity.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
@@ -18,8 +19,15 @@ public class CustomerOnboardingStepEntity extends BaseDateEntity<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_onboarding_id", nullable = false)
+    @JoinColumn(name = "customer_onboarding_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private CustomerOnboardingEntity customerOnboarding;
+
+    @Column(name = "customer_onboarding_id", nullable = false)
+    @Setter
+    private Long customerOnboardingId;
 
     @Column(nullable = false, length = 50)
     @Enumerated(EnumType.STRING)

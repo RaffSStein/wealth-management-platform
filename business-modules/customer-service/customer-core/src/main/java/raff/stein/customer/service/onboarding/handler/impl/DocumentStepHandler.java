@@ -1,60 +1,41 @@
-package raff.stein.customer.service;
-
+package raff.stein.customer.service.onboarding.handler.impl;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import raff.stein.customer.model.entity.customer.CustomerEntity;
+import org.springframework.stereotype.Component;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingEntity;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingStepEntity;
-import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 import raff.stein.customer.repository.CustomerOnboardingRepository;
 import raff.stein.customer.repository.CustomerOnboardingStepRepository;
+import raff.stein.customer.service.onboarding.handler.OnboardingStepContext;
+import raff.stein.customer.service.onboarding.handler.OnboardingStepHandler;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Slf4j
-public class OnboardingService {
+public class DocumentStepHandler implements OnboardingStepHandler {
 
     private final CustomerOnboardingRepository customerOnboardingRepository;
     private final CustomerOnboardingStepRepository customerOnboardingStepRepository;
 
-    @Transactional
-    public void startOnboardingProcess(CustomerEntity savedCustomerEntity) {
-        log.info("Starting onboarding process for customer with ID [{}].", savedCustomerEntity.getId());
-        // check if the customer already has an onboarding process instance active
-        Optional<CustomerOnboardingEntity> existingOnboardingOptional =
-                customerOnboardingRepository.findByCustomerIdAndIsValidTrue(savedCustomerEntity.getId());
-        existingOnboardingOptional.ifPresent(onb -> {
-            log.warn("Customer with ID [{}] already has an active onboarding process. Disabling the old one", savedCustomerEntity.getId());
-            // if the customer already has an active onboarding process, disable it
-            onb.setValid(false);
-        });
-
-        final CustomerOnboardingEntity onboardingEntity = CustomerOnboardingEntity.builder()
-                .customer(savedCustomerEntity)
-                .onboardingStatus(OnboardingStatus.IN_PROGRESS)
-                .reason("Onboarding process initiated")
-                .isValid(true)
-                .build();
-        customerOnboardingRepository.save(onboardingEntity);
-        // create the first step of the onboarding process
-        final CustomerOnboardingStepEntity firstStep = CustomerOnboardingStepEntity.builder()
-                .step(OnboardingStep.INIT)
-                .status("DONE")
-                .reason("Onboarding process initiated")
-                .customerOnboarding(onboardingEntity)
-                .build();
-        customerOnboardingStepRepository.save(firstStep);
+    @Override
+    public OnboardingStep getHandledStep() {
+        return OnboardingStep.DOCUMENTS;
     }
 
-    public void updatedDocumentOnboardingStep(UUID customerId, UUID fileId, @NonNull Boolean isValid) {
+    @Override
+    public void handle(@NonNull OnboardingStepContext context) {
+        UUID customerId = context.getCustomerId();
+        UUID fileId = (UUID) context.getMetadata("fileId");
+        Boolean isValid = (Boolean) context.getMetadata("isValid");
+
+        log.info("Handling document step for customer ID: [{}] with file ID: [{}]. Valid: [{}]", customerId, fileId, isValid);
+
         // if the file is valid, check or create the document step for the status
         // get the actual customer onboarding instance
         Optional<CustomerOnboardingEntity> customerOnboardingOptional =
@@ -69,10 +50,10 @@ public class OnboardingService {
                         customerOnboarding,
                         OnboardingStep.DOCUMENTS);
         // Prepare the reason and status based on the validation result
-        final String reason = isValid ?
+        final String reason = Boolean.TRUE.equals(isValid) ?
                 String.format("File with ID: [%s] has been validated successfully.", fileId.toString()) :
                 String.format("File with ID: [%s] has been rejected.", fileId.toString());
-        final String status = isValid ? "DONE" : "REJECTED";
+        final String status = Boolean.TRUE.equals(isValid) ? "DONE" : "REJECTED";
         // Check if the document onboarding step already exists
         // If it exists, update the status to VALIDATED
         if (existingDocumentStepOptional.isPresent()) {
@@ -96,12 +77,13 @@ public class OnboardingService {
             log.info("Creating new document onboarding step for customer ID: [{}].", customerId);
             // Create a new document onboarding step
             CustomerOnboardingStepEntity newDocumentStep = CustomerOnboardingStepEntity.builder()
-                    .customerOnboarding(customerOnboarding)
+                    .customerOnboardingId(customerOnboarding.getId())
                     .step(OnboardingStep.DOCUMENTS)
                     .status(status)
                     .reason(reason)
                     .build();
             customerOnboardingStepRepository.save(newDocumentStep);
+
         }
     }
 }

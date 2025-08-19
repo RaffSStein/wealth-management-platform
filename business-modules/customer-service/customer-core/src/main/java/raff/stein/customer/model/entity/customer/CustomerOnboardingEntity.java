@@ -7,6 +7,7 @@ import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "customer_onboarding")
@@ -21,8 +22,15 @@ public class CustomerOnboardingEntity extends BaseDateEntity<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private CustomerEntity customer;
+
+    @Column(name = "customer_id", nullable = false)
+    @Setter
+    private UUID customerId;
 
     @OneToMany(mappedBy = "customerOnboarding", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude

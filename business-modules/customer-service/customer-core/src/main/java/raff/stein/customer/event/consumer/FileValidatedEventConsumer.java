@@ -7,10 +7,13 @@ import org.openapitools.model.FileValidatedEvent;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 import raff.stein.customer.repository.CustomerRepository;
-import raff.stein.customer.service.OnboardingService;
+import raff.stein.customer.service.onboarding.OnboardingService;
+import raff.stein.customer.service.onboarding.handler.OnboardingStepContext;
 import raff.stein.platformcore.messaging.consumer.WMPBaseEventConsumer;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -60,10 +63,14 @@ public class FileValidatedEventConsumer extends WMPBaseEventConsumer {
                     customerId);
         }
         // proceed with step update
-        onboardingService.updatedDocumentOnboardingStep(
-                customerId,
-                fileValidatedEvent.getFileId(),
-                isValid);
+        onboardingService.proceedToStep(
+                OnboardingStep.DOCUMENTS,
+                OnboardingStepContext.builder()
+                        .customerId(customerId)
+                        .metadata(Map.of(
+                                "fileId", fileValidatedEvent.getFileId(),
+                                "isValid", isValid))
+                        .build());
 
         log.info("FileValidatedEvent with eventId: [{}] processed successfully", eventId);
     }
