@@ -40,9 +40,11 @@ public class CustomerOnboardingEntity extends BaseDateEntity<Long> {
 
     @Column(nullable = false, length = 32)
     @Enumerated(EnumType.STRING)
+    @Setter
     private OnboardingStatus onboardingStatus;
 
     @Column(length = 1000)
+    @Setter
     private String reason;
 
     /**

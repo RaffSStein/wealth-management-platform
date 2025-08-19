@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingEntity;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingStepEntity;
+import raff.stein.customer.model.entity.customer.enumeration.OnboardingStatus;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 import raff.stein.customer.repository.CustomerOnboardingRepository;
 import raff.stein.customer.repository.CustomerOnboardingStepRepository;
@@ -55,7 +56,7 @@ public class DocumentStepHandler implements OnboardingStepHandler {
                 String.format("File with ID: [%s] has been rejected.", fileId.toString());
         final String status = Boolean.TRUE.equals(isValid) ? "DONE" : "REJECTED";
         // Check if the document onboarding step already exists
-        // If it exists, update the status to VALIDATED
+        // If it exists, update the status and reason with the new outcome
         if (existingDocumentStepOptional.isPresent()) {
             log.info("Document onboarding step already exists for customer ID: [{}]. Updating status.", customerId);
             // Update the existing step
@@ -83,7 +84,18 @@ public class DocumentStepHandler implements OnboardingStepHandler {
                     .reason(reason)
                     .build();
             customerOnboardingStepRepository.save(newDocumentStep);
-
+        }
+        // now update the onboarding status
+        if (Boolean.TRUE.equals(isValid)) {
+            log.info("File with ID: [{}] is valid. Proceeding to next onboarding step for customer ID: [{}].", fileId, customerId);
+            // Proceed to the next step in the onboarding process
+            customerOnboarding.setOnboardingStatus(OnboardingStatus.IN_PROGRESS);
+            customerOnboarding.setReason("Document validated successfully");
+        } else {
+            log.warn("File with ID: [{}] is not valid. Marking onboarding as failed for customer ID: [{}].", fileId, customerId);
+            // Mark the onboarding as failed
+            customerOnboarding.setOnboardingStatus(OnboardingStatus.FAILED);
+            customerOnboarding.setReason("Document validation failed");
         }
     }
 }
