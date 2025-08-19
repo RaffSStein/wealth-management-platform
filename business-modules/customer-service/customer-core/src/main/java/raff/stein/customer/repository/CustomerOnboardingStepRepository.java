@@ -11,6 +11,7 @@ import raff.stein.customer.model.entity.customer.CustomerOnboardingStepEntity;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface CustomerOnboardingStepRepository extends JpaRepository<CustomerOnboardingStepEntity, Long> {
@@ -33,5 +34,7 @@ public interface CustomerOnboardingStepRepository extends JpaRepository<Customer
             @Param("step") OnboardingStep step,
             @Param("status") String status,
             @Param("reason") String reason);
+
+    Optional<CustomerOnboardingStepEntity> findTopByCustomerOnboarding_CustomerIdAndCustomerOnboarding_IsValidTrueOrderByStepOrderDesc(UUID customerId);
 
 }

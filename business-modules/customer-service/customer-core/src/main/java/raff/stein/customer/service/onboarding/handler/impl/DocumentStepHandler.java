@@ -80,6 +80,7 @@ public class DocumentStepHandler implements OnboardingStepHandler {
             CustomerOnboardingStepEntity newDocumentStep = CustomerOnboardingStepEntity.builder()
                     .customerOnboardingId(customerOnboarding.getId())
                     .step(OnboardingStep.DOCUMENTS)
+                    .stepOrder(OnboardingStep.DOCUMENTS.getOrder())
                     .status(status)
                     .reason(reason)
                     .build();

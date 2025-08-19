@@ -20,6 +20,7 @@ public class CustomerFinancialsStepHandler implements OnboardingStepHandler {
 
     @Override
     public void handle(@NonNull OnboardingStepContext context) {
+        //TODO
 
     }
 }

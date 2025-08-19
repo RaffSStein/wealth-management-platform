@@ -41,4 +41,7 @@ public class CustomerOnboardingStepEntity extends BaseDateEntity<Long> {
     @Setter
     private String reason;
 
+    @Column(nullable = false)
+    private int stepOrder;
+
 }

@@ -51,6 +51,7 @@ public class InitStepHandler implements OnboardingStepHandler {
         final CustomerOnboardingStepEntity firstStep = CustomerOnboardingStepEntity.builder()
                 .customerOnboardingId(savedCustomerOnboardingEntity.getId())
                 .step(OnboardingStep.INIT)
+                .stepOrder(OnboardingStep.INIT.getOrder())
                 .status("DONE")
                 .reason("Onboarding process initiated")
                 .build();
