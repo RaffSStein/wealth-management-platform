@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @Builder
 public class CustomerFinancials {
 
+    private Long id;
     private FinancialType financialType;
     private BigDecimal amount;
     private String description;

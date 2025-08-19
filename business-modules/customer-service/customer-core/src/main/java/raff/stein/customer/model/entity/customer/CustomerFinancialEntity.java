@@ -39,6 +39,7 @@ public class CustomerFinancialEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private FinancialTypeEntity financialType;
 
     @Column(name = "financial_type_id", nullable = false)
@@ -56,8 +57,6 @@ public class CustomerFinancialEntity extends BaseDateEntity<Long> {
     public void updateFrom(CustomerFinancialEntity source) {
         this.amount = source.getAmount();
         this.description = source.getDescription();
-        this.financialTypeId = source.getFinancialTypeId();
-        this.customerId = source.getCustomerId();
     }
 
 }
