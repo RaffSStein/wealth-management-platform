@@ -39,9 +39,11 @@ public class CustomerController implements CustomerApi {
         List<CustomerFinancials> customerFinancialsList = customerFinancialDTO.stream()
                 .map(customerDTOToCustomerMapper::toCustomerFinancials)
                 .toList();
+        // update customer financials
         Customer customer = customerService.updateCustomer(
                 customerId,
                 customerFinancialsList);
+        // record the onboarding step
         customerService.proceedToOnboardingStep(customerId, OnboardingStep.FINANCIALS);
         CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
         return ResponseEntity.ok(responseCustomerDTO);
@@ -52,9 +54,11 @@ public class CustomerController implements CustomerApi {
         List<CustomerGoals> customerGoalsList = customerGoalDTO.stream()
                 .map(customerDTOToCustomerMapper::toCustomerGoals)
                 .toList();
+        // update customer goals
         Customer customer = customerService.updateCustomer(
                 customerId,
                 customerGoalsList);
+        // record the onboarding step
         customerService.proceedToOnboardingStep(customerId, OnboardingStep.GOALS);
         CustomerDTO responseCustomerDTO = customerDTOToCustomerMapper.toCustomerDTO(customer);
         return ResponseEntity.ok(responseCustomerDTO);
