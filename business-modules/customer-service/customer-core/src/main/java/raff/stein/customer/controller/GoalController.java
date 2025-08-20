@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.GoalTypeDTOToGoalTypeMapper;
 import raff.stein.customer.model.bo.goals.GoalType;
-import raff.stein.customer.service.GoalsService;
+import raff.stein.customer.service.update.GoalsService;
 
 import java.util.List;
 

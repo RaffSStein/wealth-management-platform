@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.FinancialTypeDTOToFinancialType;
 import raff.stein.customer.model.bo.financial.FinancialType;
-import raff.stein.customer.service.FinancialsService;
+import raff.stein.customer.service.update.FinancialsService;
 
 import java.util.List;
 

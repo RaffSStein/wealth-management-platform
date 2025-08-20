@@ -1,4 +1,4 @@
-package raff.stein.customer.service;
+package raff.stein.customer.service.update;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
