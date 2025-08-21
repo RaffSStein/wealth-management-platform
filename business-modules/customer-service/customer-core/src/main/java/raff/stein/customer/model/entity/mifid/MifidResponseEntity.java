@@ -3,7 +3,7 @@ package raff.stein.customer.model.entity.mifid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MifidResponseEntity extends BaseDateEntity<Long> {
+public class MifidResponseEntity extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,15 @@ public class MifidResponseEntity extends BaseDateEntity<Long> {
     private MifidQuestionEntity question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "filling_id")
+    @JoinColumn(name = "filling_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private MifidFillingEntity filling;
+
+    @Column(name = "filling_id", nullable = false)
+    @Setter
+    private Long fillingId;
 
     // Fields
 

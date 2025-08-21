@@ -3,7 +3,7 @@ package raff.stein.customer.model.entity.mifid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MifidQuestionnaireEntity extends BaseDateEntity<Long> {
+public class MifidQuestionnaireEntity extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

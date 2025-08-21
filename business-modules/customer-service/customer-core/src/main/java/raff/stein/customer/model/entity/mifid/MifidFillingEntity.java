@@ -8,6 +8,7 @@ import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "mifid_filling")
@@ -24,11 +25,15 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
     // Relationships
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private CustomerEntity customer;
+
+    @Column(name = "customer_id", nullable = false)
+    @Setter
+    private UUID customerId;
 
     @OneToMany(mappedBy = "filling", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
@@ -37,11 +42,15 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
     private Set<MifidResponseEntity> responses;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "questionnaire_id", nullable = false)
+    @JoinColumn(name = "questionnaire_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private MifidQuestionnaireEntity questionnaire;
+
+    @Column(name = "questionnaire_id", nullable = false)
+    @Setter
+    private Long questionnaireId;
 
     // Fields
 

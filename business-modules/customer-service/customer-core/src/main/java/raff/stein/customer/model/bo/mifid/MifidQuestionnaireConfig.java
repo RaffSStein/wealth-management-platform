@@ -15,5 +15,6 @@ public class MifidQuestionnaireConfig {
     private String questionnaireVersion;
     private String status;
     private List<MifidSection> sections;
+    private List<RiskProfileConfiguration> riskProfileConfigurations;
 }
 

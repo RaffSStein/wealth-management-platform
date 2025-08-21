@@ -3,7 +3,7 @@ package raff.stein.customer.model.entity.mifid;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
+import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
 @Entity
 @Table(name = "mifid_answer_option")
@@ -11,7 +11,7 @@ import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MifidAnswerOptionEntity extends BaseDateEntity<Long> {
+public class MifidAnswerOptionEntity extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +19,15 @@ public class MifidAnswerOptionEntity extends BaseDateEntity<Long> {
 
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private MifidQuestionEntity question;
+
+    @Column(name = "question_id", nullable = false)
+    @Setter
+    private Long questionId;
 
     @OneToOne(mappedBy = "answerOption", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
