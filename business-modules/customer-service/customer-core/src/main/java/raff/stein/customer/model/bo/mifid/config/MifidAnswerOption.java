@@ -1,4 +1,4 @@
-package raff.stein.customer.model.bo.mifid;
+package raff.stein.customer.model.bo.mifid.config;
 
 import lombok.Builder;
 import lombok.Data;

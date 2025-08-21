@@ -21,19 +21,27 @@ public class MifidResponseEntity extends BaseEntity<Long> {
 
     // Relationships
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "answer_option_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "answer_option_id",  nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private MifidAnswerOptionEntity answerOption;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id")
+    @Column(name = "answer_option_id", nullable = false)
+    @Setter
+    private Long answerOptionId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "question_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private MifidQuestionEntity question;
+
+    @Column(name = "question_id", nullable = false)
+    @Setter
+    private Long questionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "filling_id", nullable = false, insertable = false, updatable = false, referencedColumnName = "id")

@@ -6,6 +6,7 @@ info:
 
 paths:
 
+  # ONBOARDING APIs
   # Customer APIs
   /customer/init:
     post:
@@ -32,7 +33,6 @@ paths:
       tags:
         - Customer
 
-  # ONBOARDING APIs
   # Financial and Goal Types
   /financial/types:
     get:
@@ -128,7 +128,7 @@ paths:
                 $ref: '#/components/schemas/CustomerDTO'
       tags:
         - Customer
-  # MIFID
+  # MIFID configuration
   /mifid/questionnaire/config:
     get:
       summary: Get latest valid MIFID questionnaire configuration
@@ -143,6 +143,127 @@ paths:
                 $ref: '#/components/schemas/MifidQuestionnaireConfigDTO'
       tags:
         - Mifid
+
+  /customer/{customerId}/mifid/submit:
+    post:
+      summary: Submit MIFID questionnaire answers for a customer
+      description: Receives the answers to a MIFID questionnaire for a customer, including questionnaire name and responses. Returns the calculated risk profile.
+      operationId: submitQuestionnaire
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MifidFillingDTO'
+      responses:
+        '200':
+          description: Calculated risk profile for the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MifidRiskProfileResponseDTO'
+      tags:
+        - Mifid
+
+  /customer/{customerId}/mifid/{fillingId}:
+    get:
+      summary: Get MIFID questionnaire filling for a customer
+      description: Returns the current (possibly incomplete) MIFID questionnaire filling for the specified customer.
+      operationId: getMifidFillingForCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fillingId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Current MIFID questionnaire filling for the customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MifidFillingDTO'
+        '404':
+          description: No filling found for the customer
+      tags:
+        - Mifid
+
+  /customer/{customerId}/mifid/save:
+    post:
+      summary: Save (partial) MIFID questionnaire filling for a customer
+      description: Saves a (possibly incomplete) MIFID questionnaire filling for the specified customer. This can be used to persist progress before final submission.
+      operationId: saveMifidFillingForCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MifidFillingDTO'
+      responses:
+        '200':
+          description: MIFID questionnaire filling saved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MifidFillingDTO'
+      tags:
+        - Mifid
+
+  /customer/{customerId}/mifid/filling/{fillingId}:
+    patch:
+      summary: Update (partial) MIFID questionnaire filling for a customer
+      description: Updates a (possibly incomplete) MIFID questionnaire filling for the specified customer and fillingId. This can be used to persist progress before final submission.
+      operationId: updateMifidFillingForCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fillingId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MifidFillingDTO'
+      responses:
+        '200':
+          description: MIFID questionnaire filling updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MifidFillingDTO'
+      tags:
+        - Mifid
+
 
 components:
   schemas:
@@ -303,6 +424,10 @@ components:
     MifidQuestionnaireConfigDTO:
       type: object
       properties:
+        questionnaireId:
+          type: integer
+          format: int64
+          description: Unique identifier for the MIFID questionnaire
         name:
           type: string
         description:
@@ -370,3 +495,47 @@ components:
         maxScore:
           type: integer
 
+    MifidFillingDTO:
+      type: object
+      required:
+        - questionnaireId
+        - fillingDate
+        - responses
+      properties:
+        questionnaireId:
+          type: integer
+          format: int64
+          description: Unique identifier for the MIFID questionnaire
+        fillingDate:
+          type: string
+          format: date
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/MifidResponseDTO'
+
+    MifidResponseDTO:
+      type: object
+      required:
+        - questionId
+      properties:
+        questionId:
+          type: integer
+        answerOptionId:
+          type: integer
+        freeText:
+          type: string
+        numericValue:
+          type: number
+        dateValue:
+          type: string
+          format: date
+
+    MifidRiskProfileResponseDTO:
+      type: object
+      required:
+        - calculatedRiskProfile
+      properties:
+        calculatedRiskProfile:
+          type: string
+          description: Calculated risk profile for the customer

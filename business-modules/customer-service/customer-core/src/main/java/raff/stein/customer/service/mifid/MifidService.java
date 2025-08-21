@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import raff.stein.customer.exception.CustomerException;
-import raff.stein.customer.model.bo.mifid.MifidQuestionnaireConfig;
+import raff.stein.customer.model.bo.mifid.config.MifidQuestionnaireConfig;
 import raff.stein.customer.model.entity.mifid.MifidQuestionnaireEntity;
 import raff.stein.customer.model.entity.mifid.mapper.MifidQuestionnaireEntityToMifidQuestionnaireMapper;
 import raff.stein.customer.repository.MifidQuestionnaireRepository;

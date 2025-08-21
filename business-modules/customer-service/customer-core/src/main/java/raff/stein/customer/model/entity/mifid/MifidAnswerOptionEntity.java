@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.platformcore.model.audit.entity.BaseEntity;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "mifid_answer_option")
 @Getter
@@ -29,11 +31,11 @@ public class MifidAnswerOptionEntity extends BaseEntity<Long> {
     @Setter
     private Long questionId;
 
-    @OneToOne(mappedBy = "answerOption", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "answerOption", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private MifidResponseEntity response;
+    private Set<MifidResponseEntity> responses;
 
     // Fields
 

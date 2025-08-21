@@ -38,11 +38,11 @@ public class MifidQuestionEntity extends BaseEntity<Long> {
     @JsonIgnore
     private Set<MifidAnswerOptionEntity> answerOptions;
 
-    @OneToOne(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    private MifidResponseEntity response;
+    private Set<MifidResponseEntity> responses;
 
     // Fields
 
