@@ -532,16 +532,19 @@ components:
     MifidResponseDTO:
       type: object
       required:
-        - questionId
+        - question
+        - answerOption
       properties:
-        questionId:
-          type: integer
-        answerOptionId:
-          type: integer
+        question:
+          $ref: '#/components/schemas/MifidQuestionDTO'
+        answerOption:
+          $ref: '#/components/schemas/MifidAnswerOptionDTO'
         freeText:
           type: string
         numericValue:
           type: number
+          format: double
+
         dateValue:
           type: string
           format: date
