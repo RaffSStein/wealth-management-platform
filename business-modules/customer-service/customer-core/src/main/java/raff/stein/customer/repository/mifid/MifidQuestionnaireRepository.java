@@ -1,4 +1,4 @@
-package raff.stein.customer.repository;
+package raff.stein.customer.repository.mifid;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +21,6 @@ public interface MifidQuestionnaireRepository extends JpaRepository<MifidQuestio
     })
     @Query("SELECT q FROM MifidQuestionnaireEntity q WHERE :today BETWEEN q.validFrom AND q.validTo ORDER BY q.validFrom DESC")
     Optional<MifidQuestionnaireEntity> findValidQuestionnaire(@Param("today") LocalDate today);
+
+    //TODO: handle customer fillings of old questionnaires (disable those fillings when a new questionnaire is created)
 }

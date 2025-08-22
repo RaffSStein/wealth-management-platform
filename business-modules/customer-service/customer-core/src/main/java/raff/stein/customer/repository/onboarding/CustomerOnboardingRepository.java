@@ -1,4 +1,4 @@
-package raff.stein.customer.repository;
+package raff.stein.customer.repository.onboarding;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

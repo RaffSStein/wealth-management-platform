@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
-import raff.stein.customer.repository.CustomerRepository;
+import raff.stein.customer.repository.customer.CustomerRepository;
 import raff.stein.customer.service.onboarding.OnboardingService;
 import raff.stein.customer.service.onboarding.handler.OnboardingStepContext;
 import raff.stein.platformcore.messaging.consumer.WMPBaseEventConsumer;

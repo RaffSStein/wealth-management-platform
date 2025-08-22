@@ -506,9 +506,24 @@ components:
           type: integer
           format: int64
           description: Unique identifier for the MIFID questionnaire
+        fillingId:
+          type: integer
+          format: int64
+          description: Unique identifier for the MIFID questionnaire filling (if existing)
         fillingDate:
           type: string
           format: date
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - COMPLETED
+            - SUBMITTED
+            - DEPRECATED
+          description: Status of the MIFID questionnaire filling
+        isValid:
+          type: boolean
+          description: Indicates if the filling is the latest valid one
         responses:
           type: array
           items:

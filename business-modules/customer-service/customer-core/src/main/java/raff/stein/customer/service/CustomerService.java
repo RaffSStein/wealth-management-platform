@@ -8,7 +8,7 @@ import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
 import raff.stein.customer.model.entity.customer.enumeration.OnboardingStep;
 import raff.stein.customer.model.entity.customer.mapper.CustomerToCustomerEntityMapper;
-import raff.stein.customer.repository.CustomerRepository;
+import raff.stein.customer.repository.customer.CustomerRepository;
 import raff.stein.customer.service.onboarding.OnboardingService;
 import raff.stein.customer.service.onboarding.handler.OnboardingStepContext;
 import raff.stein.customer.service.update.visitor.CustomerVisitorDispatcher;

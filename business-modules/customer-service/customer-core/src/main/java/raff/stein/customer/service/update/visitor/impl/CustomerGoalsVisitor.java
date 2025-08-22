@@ -8,8 +8,8 @@ import raff.stein.customer.model.bo.customer.CustomerGoals;
 import raff.stein.customer.model.entity.customer.CustomerFinancialGoalsEntity;
 import raff.stein.customer.model.entity.customer.mapper.CustomerGoalsToCustomerGoalsEntityMapper;
 import raff.stein.customer.model.entity.goals.GoalTypeEntity;
-import raff.stein.customer.repository.CustomerGoalsRepository;
-import raff.stein.customer.repository.GoalTypeRepository;
+import raff.stein.customer.repository.goal.CustomerGoalsRepository;
+import raff.stein.customer.repository.goal.GoalTypeRepository;
 import raff.stein.customer.service.update.visitor.CustomerVisitor;
 import raff.stein.customer.service.update.visitor.TypeKey;
 

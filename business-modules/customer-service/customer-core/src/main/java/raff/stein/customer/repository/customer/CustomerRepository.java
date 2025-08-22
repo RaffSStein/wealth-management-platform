@@ -1,4 +1,4 @@
-package raff.stein.customer.repository;
+package raff.stein.customer.repository.customer;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;

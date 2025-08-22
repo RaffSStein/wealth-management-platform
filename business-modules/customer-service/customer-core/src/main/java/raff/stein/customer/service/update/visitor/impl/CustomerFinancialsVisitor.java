@@ -8,8 +8,8 @@ import raff.stein.customer.model.bo.customer.CustomerFinancials;
 import raff.stein.customer.model.entity.customer.CustomerFinancialEntity;
 import raff.stein.customer.model.entity.customer.mapper.CustomerFinancialsToCustomerFinancialEntityMapper;
 import raff.stein.customer.model.entity.financial.FinancialTypeEntity;
-import raff.stein.customer.repository.CustomerFinancialsRepository;
-import raff.stein.customer.repository.FinancialTypeRepository;
+import raff.stein.customer.repository.financial.CustomerFinancialsRepository;
+import raff.stein.customer.repository.financial.FinancialTypeRepository;
 import raff.stein.customer.service.update.visitor.CustomerVisitor;
 import raff.stein.customer.service.update.visitor.TypeKey;
 

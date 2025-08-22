@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import raff.stein.customer.exception.CustomerException;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingEntity;
 import raff.stein.customer.model.entity.customer.CustomerOnboardingStepEntity;
-import raff.stein.customer.repository.CustomerOnboardingRepository;
-import raff.stein.customer.repository.CustomerOnboardingStepRepository;
+import raff.stein.customer.repository.onboarding.CustomerOnboardingRepository;
+import raff.stein.customer.repository.onboarding.CustomerOnboardingStepRepository;
 import raff.stein.customer.service.onboarding.handler.OnboardingStepContext;
 import raff.stein.customer.service.onboarding.handler.OnboardingStepHandler;
 

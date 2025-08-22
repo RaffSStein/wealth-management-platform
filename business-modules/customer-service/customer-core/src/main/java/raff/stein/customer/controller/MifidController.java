@@ -8,8 +8,11 @@ import org.openapitools.model.MifidRiskProfileResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.MifidConfigDTOToMifidConfig;
+import raff.stein.customer.controller.mapper.MifidFillingToMifidFillingDTOMapper;
 import raff.stein.customer.model.bo.mifid.config.MifidQuestionnaireConfig;
+import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 import raff.stein.customer.service.mifid.MifidService;
+import raff.stein.customer.service.mifid.command.MifidActionType;
 
 import java.util.UUID;
 
@@ -20,6 +23,7 @@ public class MifidController implements MifidApi {
     private final MifidService mifidService;
 
     private static final MifidConfigDTOToMifidConfig mifidConfigDTOToMifidConfig = MifidConfigDTOToMifidConfig.MAPPER;
+    private static final MifidFillingToMifidFillingDTOMapper mifidFillingToMifidFillingDTOMapper = MifidFillingToMifidFillingDTOMapper.MAPPER;
 
     @Override
     public ResponseEntity<MifidQuestionnaireConfigDTO> getLatestValidMifidQuestionnaireConfig() {
@@ -32,7 +36,12 @@ public class MifidController implements MifidApi {
     public ResponseEntity<MifidFillingDTO> getMifidFillingForCustomer(
             UUID customerId,
             Long fillingId) {
-        return null;
+        final MifidFilling mifidFilling = mifidService.handleFilling(
+                MifidActionType.GET,
+                customerId,
+                null);
+        final MifidFillingDTO mifidFillingDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
+        return ResponseEntity.ok(mifidFillingDTO);
     }
 
     @Override

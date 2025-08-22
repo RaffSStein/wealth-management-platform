@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import raff.stein.customer.model.bo.financial.FinancialType;
 import raff.stein.customer.model.entity.financial.mapper.FinancialTypeToFinancialTypeEntityMapper;
-import raff.stein.customer.repository.FinancialTypeRepository;
+import raff.stein.customer.repository.financial.FinancialTypeRepository;
 
 import java.util.List;
 

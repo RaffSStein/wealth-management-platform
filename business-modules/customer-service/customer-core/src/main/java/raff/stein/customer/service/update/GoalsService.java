@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import raff.stein.customer.model.bo.goals.GoalType;
 import raff.stein.customer.model.entity.goals.mapper.GoalTypeEntityToGoalTypeMapper;
-import raff.stein.customer.repository.GoalTypeRepository;
+import raff.stein.customer.repository.goal.GoalTypeRepository;
 
 import java.util.List;
 

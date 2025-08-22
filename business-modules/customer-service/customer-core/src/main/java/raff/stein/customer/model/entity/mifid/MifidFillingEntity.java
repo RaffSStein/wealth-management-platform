@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import raff.stein.customer.model.entity.customer.CustomerEntity;
+import raff.stein.customer.model.entity.mifid.enumeration.MifidFillingStatus;
 import raff.stein.platformcore.model.audit.entity.BaseDateEntity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,11 +55,16 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
 
     // Fields
 
-    @Column(name = "filling_date", nullable = false)
-    private LocalDate fillingDate;
+    @Column(nullable = false)
+    private LocalDateTime fillingDate;
 
-    @Column(name = "calculated_risk_profile", length = 100)
+    @Column(length = 100)
     private String calculatedRiskProfile;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MifidFillingStatus status;
+
 
 
 
