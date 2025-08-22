@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.model.MifidFillingDTO;
 import org.springframework.stereotype.Service;
+import raff.stein.customer.controller.mapper.MifidFillingToMifidFillingDTOMapper;
 import raff.stein.customer.exception.CustomerException;
 import raff.stein.customer.model.bo.mifid.config.MifidQuestionnaireConfig;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
@@ -27,6 +28,8 @@ public class MifidService {
 
     private static final MifidQuestionnaireEntityToMifidQuestionnaireMapper mifidQuestionnaireEntityToMifidQuestionnaireMapper =
             MifidQuestionnaireEntityToMifidQuestionnaireMapper.MAPPER;
+    private static final MifidFillingToMifidFillingDTOMapper mifidFillingToMifidFillingDTOMapper =
+            MifidFillingToMifidFillingDTOMapper.MAPPER;
 
     public MifidQuestionnaireConfig getLatestValidMifidQuestionnaireConfig() {
         log.info("Fetching latest valid Mifid questionnaire configuration");
@@ -43,7 +46,10 @@ public class MifidService {
         if (actionType == null) {
             throw new IllegalArgumentException("Action type must not be null");
         }
-        return mifidCommandDispatcher.dispatch(actionType, customerId, dto);
+        return mifidCommandDispatcher.dispatch(
+                actionType,
+                customerId,
+                mifidFillingToMifidFillingDTOMapper.toMifidFilling(dto));
     }
 
 }

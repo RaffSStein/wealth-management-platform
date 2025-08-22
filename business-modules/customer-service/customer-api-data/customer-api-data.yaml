@@ -164,11 +164,11 @@ paths:
               $ref: '#/components/schemas/MifidFillingDTO'
       responses:
         '200':
-          description: Calculated risk profile for the customer
+          description: MIFID questionnaire submitted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MifidRiskProfileResponseDTO'
+                $ref: '#/components/schemas/MifidFillingDTO'
       tags:
         - Mifid
 
@@ -448,6 +448,9 @@ components:
     MifidSectionDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         title:
           type: string
         orderIndex:
@@ -460,6 +463,9 @@ components:
     MifidQuestionDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         text:
           type: string
         questionType:
@@ -476,6 +482,9 @@ components:
     MifidAnswerOptionDTO:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         optionText:
           type: string
         score:
@@ -528,6 +537,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MifidResponseDTO'
+        customerRiskProfile:
+          $ref: '#/components/schemas/CustomerRiskProfileDTO'
 
     MifidResponseDTO:
       type: object
@@ -549,7 +560,7 @@ components:
           type: string
           format: date
 
-    MifidRiskProfileResponseDTO:
+    CustomerRiskProfileDTO:
       type: object
       required:
         - calculatedRiskProfile

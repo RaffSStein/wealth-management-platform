@@ -17,5 +17,6 @@ public class MifidFilling {
     private boolean isValid;
     private MifidFillingStatus status;
     private List<MifidResponse> responses;
+    private CustomerRiskProfile customerRiskProfile;
 
 }

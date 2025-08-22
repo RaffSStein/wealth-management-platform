@@ -3,7 +3,6 @@ package raff.stein.customer.service.mifid.command.impl;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.openapitools.model.MifidFillingDTO;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
@@ -31,7 +30,7 @@ public class GetMifidCommand implements MifidCommand {
     }
 
     @Override
-    public MifidFilling execute(@NonNull UUID customerId, @Nullable MifidFillingDTO dto) {
+    public MifidFilling execute(@NonNull UUID customerId, @Nullable MifidFilling mifidFilling) {
         // retrieve the latest valid MifidFilling for the given customerId
         Optional<MifidFillingEntity> optionalFilling = mifidFillingRepository
                 .findTopByCustomerIdAndStatusNotOrderByFillingDateDesc(customerId, MifidFillingStatus.DEPRECATED);

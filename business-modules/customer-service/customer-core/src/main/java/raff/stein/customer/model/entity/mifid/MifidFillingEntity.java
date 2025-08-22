@@ -63,9 +63,14 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Setter
     private MifidFillingStatus status;
 
 
+    public void initializeMifidFirstSave() {
+        this.fillingDate = LocalDateTime.now();
+        this.status = MifidFillingStatus.DRAFT;
+    }
 
 
 }

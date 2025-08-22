@@ -1,6 +1,5 @@
 package raff.stein.customer.service.mifid.command;
 
-import org.openapitools.model.MifidFillingDTO;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 
@@ -21,12 +20,12 @@ public class MifidCommandDispatcher {
     public MifidFilling dispatch(
             MifidActionType actionType,
             UUID customerId,
-            MifidFillingDTO dto) {
+            MifidFilling dtmifidFilling) {
 
         MifidCommand command = commandMap.get(actionType);
         if (command == null) {
             throw new UnsupportedOperationException("Unsupported action type: " + actionType);
         }
-        return command.execute(customerId, dto);
+        return command.execute(customerId, dtmifidFilling);
     }
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.openapitools.api.MifidApi;
 import org.openapitools.model.MifidFillingDTO;
 import org.openapitools.model.MifidQuestionnaireConfigDTO;
-import org.openapitools.model.MifidRiskProfileResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import raff.stein.customer.controller.mapper.MifidConfigDTOToMifidConfig;
@@ -40,15 +39,20 @@ public class MifidController implements MifidApi {
                 MifidActionType.GET,
                 customerId,
                 null);
-        final MifidFillingDTO mifidFillingDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
-        return ResponseEntity.ok(mifidFillingDTO);
+        final MifidFillingDTO outputDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
+        return ResponseEntity.ok(outputDTO);
     }
 
     @Override
     public ResponseEntity<MifidFillingDTO> saveMifidFillingForCustomer(
             UUID customerId,
             MifidFillingDTO mifidFillingDTO) {
-        return null;
+        final MifidFilling mifidFilling = mifidService.handleFilling(
+                MifidActionType.SAVE,
+                customerId,
+                mifidFillingDTO);
+        final MifidFillingDTO outputDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
+        return ResponseEntity.ok(outputDTO);
     }
 
     @Override
@@ -56,13 +60,23 @@ public class MifidController implements MifidApi {
             UUID customerId,
             Long fillingId,
             MifidFillingDTO mifidFillingDTO) {
-        return null;
+        final MifidFilling mifidFilling = mifidService.handleFilling(
+                MifidActionType.UPDATE,
+                customerId,
+                mifidFillingDTO);
+        final MifidFillingDTO outputDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
+        return ResponseEntity.ok(outputDTO);
     }
 
     @Override
-    public ResponseEntity<MifidRiskProfileResponseDTO> submitQuestionnaire(
+    public ResponseEntity<MifidFillingDTO> submitQuestionnaire(
             UUID customerId,
             MifidFillingDTO mifidFillingDTO) {
-        return null;
+        final MifidFilling mifidFilling = mifidService.handleFilling(
+                MifidActionType.SUBMIT,
+                customerId,
+                mifidFillingDTO);
+        final MifidFillingDTO outputDTO = mifidFillingToMifidFillingDTOMapper.toMifidFillingDTO(mifidFilling);
+        return ResponseEntity.ok(outputDTO);
     }
 }

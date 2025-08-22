@@ -3,7 +3,6 @@ package raff.stein.customer.service.mifid.command.impl;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.openapitools.model.MifidFillingDTO;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 import raff.stein.customer.service.mifid.command.MifidActionType;
@@ -21,7 +20,7 @@ public class UpdateMifidCommand implements MifidCommand {
     }
 
     @Override
-    public MifidFilling execute(@NonNull UUID customerId, @Nullable MifidFillingDTO dto) {
+    public MifidFilling execute(@NonNull UUID customerId, @Nullable MifidFilling mifidFilling) {
         return null;
     }
 }
