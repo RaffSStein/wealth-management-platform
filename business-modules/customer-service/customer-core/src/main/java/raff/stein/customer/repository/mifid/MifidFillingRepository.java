@@ -19,7 +19,7 @@ public interface MifidFillingRepository extends JpaRepository<MifidFillingEntity
     @EntityGraph(attributePaths = {
             "responses",
             "responses.question",
-            "responses.answerOptions"
+            "responses.answerOption"
     })
     Optional<MifidFillingEntity> findTopByCustomerIdAndStatusNotOrderByFillingDateDesc(UUID customerId, MifidFillingStatus status);
 }
