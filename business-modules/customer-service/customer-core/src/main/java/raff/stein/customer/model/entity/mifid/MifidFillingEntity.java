@@ -40,6 +40,7 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private Set<MifidResponseEntity> responses;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

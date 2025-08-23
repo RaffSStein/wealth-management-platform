@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 public class MifidResponse {
 
+    private Long id;
     private MifidQuestion question;
     private MifidAnswerOption answerOption;
     private String freeText;

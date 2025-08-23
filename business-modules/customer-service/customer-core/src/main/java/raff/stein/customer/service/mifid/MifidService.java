@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openapitools.model.MifidFillingDTO;
 import org.springframework.stereotype.Service;
-import raff.stein.customer.controller.mapper.MifidFillingToMifidFillingDTOMapper;
+import raff.stein.customer.controller.mapper.mifid.MifidFillingToMifidFillingDTOMapper;
 import raff.stein.customer.exception.CustomerException;
 import raff.stein.customer.model.bo.mifid.config.MifidQuestionnaireConfig;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;

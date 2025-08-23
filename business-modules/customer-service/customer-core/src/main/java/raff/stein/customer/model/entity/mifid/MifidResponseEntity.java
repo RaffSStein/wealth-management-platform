@@ -26,6 +26,7 @@ public class MifidResponseEntity extends BaseEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private MifidAnswerOptionEntity answerOption;
 
     @Column(name = "answer_option_id", nullable = false)
@@ -37,6 +38,7 @@ public class MifidResponseEntity extends BaseEntity<Long> {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonIgnore
+    @Setter
     private MifidQuestionEntity question;
 
     @Column(name = "question_id", nullable = false)

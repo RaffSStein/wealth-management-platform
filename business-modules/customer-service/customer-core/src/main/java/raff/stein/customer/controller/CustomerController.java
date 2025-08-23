@@ -8,7 +8,7 @@ import org.openapitools.model.CustomerFinancialDTO;
 import org.openapitools.model.CustomerGoalDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import raff.stein.customer.controller.mapper.CustomerDTOToCustomerMapper;
+import raff.stein.customer.controller.mapper.customer.CustomerDTOToCustomerMapper;
 import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.bo.customer.CustomerFinancials;
 import raff.stein.customer.model.bo.customer.CustomerGoals;

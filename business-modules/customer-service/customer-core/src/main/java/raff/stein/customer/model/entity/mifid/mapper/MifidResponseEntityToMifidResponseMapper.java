@@ -7,7 +7,10 @@ import raff.stein.customer.model.bo.mifid.filling.MifidResponse;
 import raff.stein.customer.model.entity.mapper.CustomerEntityCommonMapperConfig;
 import raff.stein.customer.model.entity.mifid.MifidResponseEntity;
 
-@Mapper(config = CustomerEntityCommonMapperConfig.class)
+@Mapper(
+        config = CustomerEntityCommonMapperConfig.class,
+        uses = {MifidQuestionEntityToMifidQuestionMapper.class}
+)
 public interface MifidResponseEntityToMifidResponseMapper {
 
     MifidResponseEntityToMifidResponseMapper MAPPER = Mappers.getMapper(MifidResponseEntityToMifidResponseMapper.class);

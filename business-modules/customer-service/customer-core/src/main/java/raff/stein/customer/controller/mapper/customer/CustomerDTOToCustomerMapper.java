@@ -1,10 +1,13 @@
-package raff.stein.customer.controller.mapper;
+package raff.stein.customer.controller.mapper.customer;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.openapitools.model.CustomerDTO;
 import org.openapitools.model.CustomerFinancialDTO;
 import org.openapitools.model.CustomerGoalDTO;
+import raff.stein.customer.controller.mapper.CustomerControllerCommonMapperConfig;
+import raff.stein.customer.controller.mapper.financial.FinancialTypeDTOToFinancialType;
+import raff.stein.customer.controller.mapper.goal.GoalTypeDTOToGoalTypeMapper;
 import raff.stein.customer.model.bo.customer.Customer;
 import raff.stein.customer.model.bo.customer.CustomerFinancials;
 import raff.stein.customer.model.bo.customer.CustomerGoals;

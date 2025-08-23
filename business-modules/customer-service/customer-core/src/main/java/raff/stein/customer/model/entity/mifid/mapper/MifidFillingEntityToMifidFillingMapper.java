@@ -14,11 +14,10 @@ public interface MifidFillingEntityToMifidFillingMapper {
 
     MifidFillingEntityToMifidFillingMapper MAPPER = Mappers.getMapper(MifidFillingEntityToMifidFillingMapper.class);
 
-    // Define mapping methods here
+    @Mapping(target = "fillingId", source = "id")
     MifidFilling toMifidFilling(MifidFillingEntity mifidFillingEntity);
 
-    @Mapping(target = "responses", source = "responses", defaultExpression = "java(new HashSet<>())")
-    @Mapping(target = "responses.filling", ignore = true)
+    @Mapping(target = "responses", ignore = true)
     @Mapping(target = "calculatedRiskProfile", source = "customerRiskProfile.calculatedRiskProfile")
     MifidFillingEntity toMifidFillingEntity(MifidFilling mifidFilling);
 }

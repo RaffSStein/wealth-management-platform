@@ -530,9 +530,6 @@ components:
             - SUBMITTED
             - DEPRECATED
           description: Status of the MIFID questionnaire filling
-        isValid:
-          type: boolean
-          description: Indicates if the filling is the latest valid one
         responses:
           type: array
           items:
@@ -546,6 +543,9 @@ components:
         - question
         - answerOption
       properties:
+        id:
+          type: integer
+          format: int64
         question:
           $ref: '#/components/schemas/MifidQuestionDTO'
         answerOption:

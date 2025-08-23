@@ -24,7 +24,10 @@ INSERT INTO mifid_question (text, question_type, is_required, order_index, code,
 VALUES ('What is your highest level of education?', 'SINGLE', true, 3, 'PI-003', (SELECT id FROM mifid_section WHERE title = 'Personal Information'));
 
 -- answer options for Personal Information
--- PI-001 (numeric free value, does not need predefined options)
+-- PI-001 (numeric free value)
+INSERT INTO mifid_answer_option (option_text, score, order_index, code, question_id)
+VALUES ('Free numeric value', 5, 1, 'PI-001-OPT1', (SELECT id FROM mifid_question WHERE code = 'PI-001'));
+
 -- PI-002
 INSERT INTO mifid_answer_option (option_text, score, order_index, code, question_id)
 VALUES ('Employed full-time', 10, 1, 'PI-002-OPT1', (SELECT id FROM mifid_question WHERE code = 'PI-002'));
