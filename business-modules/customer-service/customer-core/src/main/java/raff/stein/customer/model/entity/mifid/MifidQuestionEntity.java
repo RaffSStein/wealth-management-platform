@@ -45,6 +45,8 @@ public class MifidQuestionEntity extends BaseEntity<Long> {
     private Set<MifidResponseEntity> responses;
 
     // Fields
+    @Column(nullable = false)
+    private String code;
 
     @Column(nullable = false, length = 1000)
     private String text;

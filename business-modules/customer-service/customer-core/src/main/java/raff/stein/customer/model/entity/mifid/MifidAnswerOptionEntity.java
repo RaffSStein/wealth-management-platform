@@ -38,6 +38,8 @@ public class MifidAnswerOptionEntity extends BaseEntity<Long> {
     private Set<MifidResponseEntity> responses;
 
     // Fields
+    @Column(nullable = false)
+    private String code;
 
     @Column(nullable = false, length = 500)
     private String optionText;
