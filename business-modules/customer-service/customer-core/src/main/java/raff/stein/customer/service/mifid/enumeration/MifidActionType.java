@@ -1,4 +1,4 @@
-package raff.stein.customer.service.mifid.command;
+package raff.stein.customer.service.mifid.enumeration;
 
 public enum MifidActionType {
     GET,

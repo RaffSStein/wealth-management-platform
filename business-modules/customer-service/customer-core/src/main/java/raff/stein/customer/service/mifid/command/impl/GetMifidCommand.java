@@ -9,7 +9,7 @@ import raff.stein.customer.model.entity.mifid.MifidFillingEntity;
 import raff.stein.customer.model.entity.mifid.enumeration.MifidFillingStatus;
 import raff.stein.customer.model.entity.mifid.mapper.MifidFillingEntityToMifidFillingMapper;
 import raff.stein.customer.repository.mifid.MifidFillingRepository;
-import raff.stein.customer.service.mifid.command.MifidActionType;
+import raff.stein.customer.service.mifid.enumeration.MifidActionType;
 import raff.stein.customer.service.mifid.command.MifidCommand;
 
 import java.util.Optional;

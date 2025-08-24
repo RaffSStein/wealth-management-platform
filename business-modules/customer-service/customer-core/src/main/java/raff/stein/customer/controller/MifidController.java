@@ -11,7 +11,7 @@ import raff.stein.customer.controller.mapper.mifid.MifidFillingToMifidFillingDTO
 import raff.stein.customer.model.bo.mifid.config.MifidQuestionnaireConfig;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 import raff.stein.customer.service.mifid.MifidService;
-import raff.stein.customer.service.mifid.command.MifidActionType;
+import raff.stein.customer.service.mifid.enumeration.MifidActionType;
 
 import java.util.UUID;
 

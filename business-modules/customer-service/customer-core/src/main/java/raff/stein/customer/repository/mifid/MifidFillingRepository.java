@@ -22,4 +22,5 @@ public interface MifidFillingRepository extends JpaRepository<MifidFillingEntity
             "responses.answerOption"
     })
     Optional<MifidFillingEntity> findTopByCustomerIdAndStatusNotOrderByFillingDateDesc(UUID customerId, MifidFillingStatus status);
+
 }

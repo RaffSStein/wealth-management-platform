@@ -3,6 +3,7 @@ package raff.stein.customer.service.mifid.command.impl;
 import jakarta.annotation.Nullable;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import raff.stein.customer.model.bo.mifid.filling.MifidFilling;
 import raff.stein.customer.model.bo.mifid.filling.MifidResponse;
@@ -16,7 +17,7 @@ import raff.stein.customer.repository.mifid.MifidAnswerOptionRepository;
 import raff.stein.customer.repository.mifid.MifidFillingRepository;
 import raff.stein.customer.repository.mifid.MifidQuestionRepository;
 import raff.stein.customer.repository.mifid.MifidResponseRepository;
-import raff.stein.customer.service.mifid.command.MifidActionType;
+import raff.stein.customer.service.mifid.enumeration.MifidActionType;
 import raff.stein.customer.service.mifid.command.MifidCommand;
 
 import java.util.*;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class SaveMifidCommand implements MifidCommand {
 
     private final MifidFillingRepository mifidFillingRepository;
@@ -41,9 +43,12 @@ public class SaveMifidCommand implements MifidCommand {
         return MifidActionType.SAVE;
     }
 
+    //TODO: probably to refactor. Remove saving logics were possible, since the whole process is transactional
+    // the filling status is set in posthooks of the workflow
     @Override
     public MifidFilling execute(@NonNull UUID customerId, @Nullable MifidFilling mifidFilling) {
         if(mifidFilling == null) {
+            log.warn("Mifid filling is null, cannot save");
             return null;
         }
         // save operation is meant to be executed once per filling instance

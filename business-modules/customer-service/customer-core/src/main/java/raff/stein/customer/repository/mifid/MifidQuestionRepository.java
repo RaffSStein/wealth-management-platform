@@ -10,4 +10,5 @@ import java.util.List;
 public interface MifidQuestionRepository extends JpaRepository<MifidQuestionEntity, Long> {
 
     List<MifidQuestionEntity> findByIdIn(List<Long> ids);
+
 }

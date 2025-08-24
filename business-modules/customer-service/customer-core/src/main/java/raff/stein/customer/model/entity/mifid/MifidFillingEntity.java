@@ -73,5 +73,10 @@ public class MifidFillingEntity extends BaseDateEntity<Long> {
         this.status = MifidFillingStatus.DRAFT;
     }
 
+    public void updateMifidFields(MifidFillingStatus newStatus) {
+        this.fillingDate = LocalDateTime.now();
+        this.status = newStatus;
+    }
+
 
 }
